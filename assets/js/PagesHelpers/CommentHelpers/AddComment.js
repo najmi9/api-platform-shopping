@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CommentAPI from '../../Services/CommentAPI';
 import { toast } from 'react-toastify';
 import ProductAPI from '../../Services/ProductAPI';
-import $ from 'jquery';
+import { API_URL } from "../../Services/Config";
 
 
 const AddComment = ({ productId, setStateAfterAddComment }) =>{
@@ -23,22 +23,19 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
  	setComment({...comment, [name]:value})
  }
 
- const handleSubmit = (e) => {
- handleCancel();
- 	e.preventDefault();
- 	console.log(comment)
- 	try {
- 		CommentAPI.createComment({
- 			"content": comment.content,
- 			"product":"http://lcoalhost:8000/api/products/"+productId
- 		})
- 		toast.success("Votre commentaire  à été bien ajouté ");
-    setStateAfterAddComment();
- 	} catch(e) {
- 		toast.error("Une erreur est servenue essayer plustard !");
- 		console.log(e);
- 	}
- 	
+ const handleSubmit = async (e) => {
+      handleCancel();
+ 	    e.preventDefault();
+ 	    try {
+ 		 await CommentAPI.createComment({
+ 			  "content": comment.content,
+ 			  "product":API_URL+"/products/"+productId
+ 		 })
+ 		 toast.success("Votre commentaire  à été bien ajouté ");
+     setStateAfterAddComment();
+ 	  } catch(e) {
+ 		 toast.error("Une erreur est servenue essayer plustard !");
+ 	  }	
  }
  
 
@@ -46,20 +43,22 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
   }, [])
 
 
-	return <form onSubmit={handleSubmit}>
-	 <div className="form-group">
-        <textarea className="form-control" name="content" 
-        defaultValue={comment ? comment.content : " "}
-        placeholder="Votre commentaire..." onChange={handleChange} ></textarea>
-	 </div>
-	 <button type="submit" className="btn btn-outline-warning">
-	 Commenter !
-	 </button>
-	 <a id="cancel-comment" className="btn btn-danger" 
-	 onClick={handleCancel}>
-	<i className="fas fa-times"></i>
-	 </a>
-	</form>
+	return <form onSubmit={handleSubmit} className="comment-form p-5 m-2">
+	        <div className="form-group">
+            <textarea className="form-control" name="content" 
+            defaultValue={comment ? comment.content : " "}
+            placeholder="Votre commentaire..." onChange={handleChange} ></textarea>
+	        </div>
+          <div className="form-group text-center">
+	          <button type="submit" className="btn btn-warning">
+	            Commenter !
+	          </button>
+	          <a id="cancel-comment" className="btn btn-danger btn-xl" 
+	          onClick={handleCancel}>
+	            <i className="fas fa-times"></i> quitter
+	          </a>
+          </div>
+        </form>
 
 }
 export default AddComment;

@@ -26,28 +26,45 @@ useEffect(()=>{
 }, [])
 
 	return (
-       <div id="component">
-       {console.log(orders)}
-        <h1> Mes Orderes : </h1>
+       <div className="comments">
+        <h5 className="text-center"> Mes Orderes : </h5>
+        <div className="orders">
         {loading && (orders.map(o=>(
-           <div className="card" key={o.id} >
+          <div className="card" key={o.id} >
              <div className="card-title">
-               <h1> l'état de paiment : {o.paid?(<h1 className="text-primary"> Payé</h1>):(<h1>Non Payé</h1>)} 
-               <small> { o.createdAt} </small> </h1>
-               <h5>ID de Paiement : {o.paymentId} </h5>
-               <h6><i className="fas fa-truck"></i> Adress de livrasion : {o.country}-{o.city}-{o.linel}-{o.zip} <i className="fas fa-truck-container"></i> </h6>
-               <h4> Nom de Récipaint : <strong>{o.name}</strong> qui achter le produit. </h4>
-               <h4> Nom de l'utilisateur : <strong>{o.user.username} </strong> lièe à l'order. </h4>
+               <h5> l'état de paiment :
+
+                { o.paid?(<h2 className="text-primary"> 
+                     <i className="fas fa-checked"></i> Payé</h2>):
+                     (<h2 className="text-danger"> 
+                     <i className="fas fa-times"></i>Non Payé</h2>)
+                } 
+               <small className="text-muted text-italic" > {o.createdAt } </small> </h5>
+               <p className="text-muted text-italic" >ID de Paiement :<strong> {o.paymentId} </strong></p>
+               <p className="bg-light" ><i className="fas fa-truck"></i> Adress de livrasion : 
+                 <strong>{o.country}-{o.city}-{o.linel}-{o.zip} </strong></p>
+               <p> Nom de Récipaint : <strong className="text-success" >{o.name}</strong>  </p>
              </div>
              <div className="card-body">
-              <div> <img src={o.product.picture} width="200px" height="128px"
-               /> </div>
-              <h5> le prix :{o.product.price} Dhs</h5> 
-              <p> {o.product.title} </p>
+               <h4> Les produits </h4>
+               { o.carts.map(cart=>(
+                  <div className="prod-order" key={cart.id}>
+                    <img src={cart.product.picture} alt={cart.product.title} height = '100px' width="100px" style={{ "flaot":"left" }} /> 
+                    <h5> 
+                      le prix : 
+                      <span className="badge badge-primay">
+                        {cart.product.price} Dhs
+                      </span> 
+                    </h5> 
+                    <p className="text-center border" > {cart.product.title} </p>
+                  </div>
+                ))
+               }
              </div>
           </div>              
         	)))
         }
+        </div>
        </div>
 		)
 }

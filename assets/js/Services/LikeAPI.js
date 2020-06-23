@@ -1,9 +1,9 @@
 import axios from 'axios';
 import UserInfo  from '../Components/UserInfo';
 import Cache from "./Cache";
+import {API_URL} from './Config';
 
 
-const API_URL = "http://localhost:8000/api";
 const LIKE_URL = API_URL + "/likes";
 
 const deleteLike = async (productId) =>{
@@ -24,11 +24,12 @@ const createLike = async like =>{
 
 const getLikesForUser = async id =>{
 
-  const cachedLikes = Cache.get("likes");
-  
+  const cachedLikes = await Cache.get("likes");
+  if (cachedLikes) {
+    return await cachedLikes;
+  }
   const res = await axios.get(LIKE_URL+"?user="+id);
-  console.log(LIKE_URL+"?user="+5)
-  Cache.set("likes", res.data["hydra:member"]);
+  Cache.set("likes", await res.data["hydra:member"]);
   return await res.data["hydra:member"];
 }
 

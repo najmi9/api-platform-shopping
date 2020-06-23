@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './Config';
+import Cache from "./Cache";
+
 
 const ORDER_URL = API_URL+"/orders";
 
@@ -9,7 +11,12 @@ const createOrder = async data =>{
 } 
 
 const fetchOrdersForThisUser = async (id) =>{
+	const cachedOrders = await Cache.get("souk-sidi-el-mokhtar-orders");
+	if (cachedOrders) {
+		return await cachedOrders;
+	}
 	const res = await axios.get(ORDER_URL+"?user="+id);
+	Cache.set("souk-sidi-el-mokhtar-orders", await res.data["hydra:member"])
 	return await res.data["hydra:member"]; 
 }
 

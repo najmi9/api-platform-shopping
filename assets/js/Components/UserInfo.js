@@ -1,6 +1,5 @@
 import LikeAPI from "../Services/LikeAPI";
 import jwtDecode from "jwt-decode";
-import {toast} from 'react-toastify'
 
 function parseJwt () {
    const token = localStorage.getItem("authToken");

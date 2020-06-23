@@ -10,6 +10,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CartRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -34,12 +35,14 @@ class Cart
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({ "all-cart:read" })
+     * @Groups({"order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({ "all-cart:read" })
+     * @Groups({"order:read"})
      * 
      */
     private $quantity;
@@ -47,12 +50,14 @@ class Cart
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="carts")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"order:read"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="carts")
      * @Groups({ "all-cart:read" })
+     * @Groups({"order:read"})
      */
     private $product;
 

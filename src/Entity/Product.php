@@ -52,6 +52,7 @@ class Product
      * @Groups({"comment:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read" })
+     * @Groups({"order:read"})
      * 
      */
     private $title;
@@ -73,6 +74,8 @@ class Product
      * @Groups({"comment:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read"  })
+     * @Groups({"order:read"})
+     * 
      */
     private $picture;
 
@@ -85,6 +88,8 @@ class Product
      * 
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read" })
+     * @Groups({"order:read"})
+     * 
      */
     private $price;
 

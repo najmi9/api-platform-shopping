@@ -19,42 +19,53 @@ useEffect(()=>{
 	fetchCategories();
 }, [])
  
- return<div style={{ "position":"sticky" }} >      
-            <h4>Les produits : </h4>   
+ return<>      
+           
           <form className="form-search"  style={{ "margin": 20+ "px" }}>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                 <span className="input-group-text" id="basic-addon1">
+                   <i className="fas fa-search"></i>
+                  </span>
+              </div>          
               <input name="q" className="form-control" 
-              placeholder="Chercher une produit" onChange={handleSearchChange} />             
+              placeholder="Chercher une produit" onChange={handleSearchChange} 
+              aria-describedby="basic-addon1" aria-label="search"/>  
+            </div>           
           </form>
           <form>
-          <div className="text-left">
-          <h4> Les categories : </h4>
-           {!loading && (<div className="spinner-border m-5" role="status">
+          <div className="text-left mb-4">
+          <h6 className="text-muted text-italic bg-light mt-5"> Les categories : </h6>
+           {!loading && (<div className="d-flex justify-content-center text-success" 
+           role="status" id="spinner">
+           <div className="spinner-border" role="status" style={{"width": 3+"rem", "height": 3+"rem", "margin": 40+"px"}} >
               <span className="sr-only">Loading...</span>
+           </div>
               </div>)
             }
 
            {loading && (categories.map(c=>(
-           <div className="form-group form-check" key={c.id}>
+           <div className="form-group form-check" key={c.id} id="search-category">
              
-             <label className="form-check-label js-categories" htmlFor={c.id}>
+             <label className="form-check-label js-categories search-category" htmlFor={c.id}>
                 <input type="radio" name="c" className="form-check-input"
                  id={c.id} onChange={()=>handleCategoryChange(c.id)} value={c.title} />
              {c.title}
              </label>
            </div>
            	)))}
-           <div className="form-group form-check">
-            <label htmlFor="all"> 
-           <input type="radio" name="c" onChange={()=>handleCategoryChange(null, true)} id="all" />
-            {"  "}
-           voir tout les produits
-           </label>
-           </div>
+           {loading && (<div className="form-group form-check">
+                                  <label htmlFor="all"> 
+                                 <input type="radio" name="c" onChange={()=>handleCategoryChange(null, true)} id="all" />
+                                  {"  "}
+                                 voir tout les produits
+                                 </label>
+                                 </div>)}
           </div>
           
           </form>
      
-       </div>
+       </>
 
 }
 

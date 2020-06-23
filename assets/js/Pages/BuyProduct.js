@@ -6,50 +6,92 @@ import TableLoader from '../Components/Loaders/TableLoader';
 import Comments from '../Components/Comments';
 import AuthContext from '../contexts/AuthContext';
 import Paypal from './Paypal';
+import CartAPI from '../Services/CartAPI';
+import { API_URL } from '../Services/Config';
+import '../Style/Product.css'
 
 const BuyProduct = ({ match, history }) =>{
   const { productId } = match.params;
-  const { isAuthenticated } = useContext(AuthContext);
-  const [product, setProduct] = useState({});
+  const { isAuthenticated, setPrice, setCarts, setProduct } = useContext(AuthContext);
+  const [product, setProducte] = useState({});
   const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
+  const handleAddQuantity = () =>{
+    setQuantity(quantity+1);
+  }
 
+  const handleRetrieveQuantity = () =>{
+    if (quantity>1) {
+      setQuantity(quantity-1);
+    }
+  }
 
    const fetchProduct = async (productId) =>{
-    setProduct(await ProductAPI.fetchProduct(productId));
+    setProducte(await ProductAPI.fetchProduct(productId));
     setLoading(true);
+   }
+
+   const handleBuyProduct = async (id) =>{
+      const res = await CartAPI.createCart({
+        'product':API_URL+"/products/"+id,
+        'quantity':quantity
+      })
+        const cart = await res.data;
+        setPrice(parseInt(product.price)*quantity);
+        setCarts([cart]);
+        setProduct(true);
    }
 
 useEffect(()=>{
   fetchProduct(productId);
 }, [productId])
   
-     return  <div className="container">
-    { !loading && (<TableLoader />) }
+     return  <div className="product">
+
+    { !loading && (<div className="loader"><TableLoader /></div>) }
     { loading && (
-      <div className="p-5 text-center">
-        <div className="text-center p-4">
+    <div className="product-content">
+      <div className="product-body">
+        <div className="product-img ">
           <img src={ product.picture } />
         </div>
-        <h1>Prix : <span className="badge badge-primary">
-                       {product.price} Dh
-                   </span>
-        </h1>
-        <h4> { product.title } </h4>
-        <div>
-          <p className="bg-secondary text-light">
-            {product.description}
-          </p>
-        </div>
+        <div className="right-side" >
+        <h6> { product.title } </h6>
+    
+        <p className="bg-secondary text-light">
+          {product.description}
+        </p>
+        <h4>
+          Prix : 
+          <span className="badge badge-primary">
+            {product.price} Dh
+          </span>
+        </h4>
+        <p>
+        <strong> La quantitié disponible : </strong> {Math.floor(Math.random()*20) }
+        </p>
+        <p>
+          <button className="btn btn-sm btn-q" onClick={handleAddQuantity} >+</button>
+          <button className="btn btn-sm btn-q"> {quantity} </button>
+          <button className="btn btn-sm btn-q" onClick={handleRetrieveQuantity}>-</button>
+          <button className="btn"> Total : {quantity * parseInt(product.price)} Dhs</button>         
+        </p>
+        <p>
+        <i className="fas fa-truck"></i> : free shipping in Morrocco.
+        </p>
         <p> 
           <Link to="/" className="btn btn-danger mr-5">Retour à la liste des produits </Link> 
           
-         <Paypal  price={parseInt(product.price)} productId={productId} />
+         <Link className="btn btn-warning" onClick={()=>handleBuyProduct(productId)} to="/product/buy/end" >
+            <i className="fas fa-dollar"></i> Finaliser le paiement
+         </Link>
         </p>
-
-        <div className="comments">
+      </div>
+      </div>
+      <div className="comments">
         <Comments commentsPart={product.comments} productId={productId} />   
-        </div>
+      </div>
 
       </div>)
     }

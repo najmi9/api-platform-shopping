@@ -10,11 +10,13 @@ use APiPlatform\Core\Annotation\APiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @APiResource(
- *   normalizationContext={"groups"="order:read"}
+ *   itemOperations={"GET"},
+ *   collectionOperations={"POST", "GET"},
+ *   normalizationContext={"groups"="order:read"},
  * )
  * @ApiFilter(SearchFilter::class, properties={"paid": "true", "user": "exact"})
  * @ORM\Entity(repositoryClass=OrderRepository::class)
@@ -33,30 +35,38 @@ class Order
     /**
      * @ORM\Column(type="string", length=500)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="payerId ne peut pas être vide !")
      */
     private $payerId;
 
     /**
      * @ORM\Column(type="string", length=500)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="paymentId ne peut pas être vide !")
      */
     private $paymentId;
 
     /**
      * @ORM\Column(type="string", length=500)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="token ne peut pas être vide !")
      */
     private $token;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="payerId ne peut pas être vide !")
+     * @Assert\Email(message="email n'est pas valid !")
      */
     private $email;
 
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="paid ne peut pas être vide !")
+     * @Assert\Type(type="boolean", message="paid doit être boolean !")
+     * 
      */
     private $paid;
 
@@ -64,30 +74,35 @@ class Order
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="country ne peut pas être vide !")
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="city ne peut pas être vide !")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="linel ne peut pas être vide !")
      */
     private $linel;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="zip ne peut pas être vide !")
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="state ne peut pas être vide !")
      */
     private $state;
 
@@ -100,6 +115,7 @@ class Order
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"order:read"})
+     * @Assert\NotBlank(message="name ne peut pas être vide !")
      */
     private $name;
 
@@ -111,6 +127,7 @@ class Order
 
     /**
      * @ORM\ManyToMany(targetEntity=Cart::class, inversedBy="orders")
+     * @Groups({"order:read"})
      */
     private $carts;
 

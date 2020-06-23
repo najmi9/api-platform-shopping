@@ -32,7 +32,6 @@ const fetchCommentsForThisProduct = async id =>{
 
 const fetchCommentsForThisUser = async  id =>{
 	const res = await axios.get(COMMENT_API+"?user="+id); 
-	console.log(await res.data["hydra:member"])
 	return await res.data["hydra:member"];
 }
 

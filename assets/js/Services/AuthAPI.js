@@ -1,18 +1,23 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-//import { LOGIN_API } from "../config";
+import { API_URL, URL } from "./Config";
 
-const API_URL = "http://localhost:8000/api";
 const LOGIN_API = API_URL+"/login_check";
 const REGISTER_URL = API_URL + "/users";
 
-const getUser = () =>{
-  
+const activate = async (id, acode) => {
+   const response = await axios.post(API_URL+"/users/"+id+"/activation", {"activationCode":acode});
+   return await response
+}
+
+const sendEmailToUpdatePassword = async (userEmail) =>{
+   const response = await axios.post(URL+"/forgotten-password", {"userEmail": userEmail});
+   return await response.data;
 }
 
 const register = async (user) => {
   const res = await axios.post(REGISTER_URL, user);
-  return await res.data['hydra:member'];
+  return await res.data;
 }
 /**
  * Déconnexion (suppression du token du localStorage et sur Axios)
@@ -86,5 +91,6 @@ export default {
   logout,
   setup,
   isAuthenticated,
-  getUser,
+  sendEmailToUpdatePassword,
+  activate
 };

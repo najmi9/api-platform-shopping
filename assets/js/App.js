@@ -1,4 +1,5 @@
 import './App.css';
+import './Style/MobileStyle.css';
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import  store  from './redux/store/store';
@@ -11,11 +12,14 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Navbar from './Components/Navbar'
+import Footer from './Components/Footer'
+import ToTop from './Components/ToTop'
 import Home from './Pages/Home';
 import Contact from './Pages/Contact';
 import Contacts from './Pages/Contacts';
 import Product from './Pages/Product';
 import Paypal from './Pages/Paypal';
+import Activation from './Pages/Activation';
 import Cart from './Pages/Cart';
 import LoginModal from './Pages/LoginModal';
 import Register from './Pages/Register';
@@ -25,6 +29,7 @@ import { ToastContainer, toast } from "react-toastify";
 import AuthAPI from "./Services/AuthAPI";
 import PrivateRoute from './Components/PrivateRoute';
 import Orders from './Pages/Orders';
+import Sidebar from './Components/Sidebar';
 
 
 
@@ -36,6 +41,8 @@ function App({cartItems}) {
    const [isAuthenticated, setIsAuthenticated] = useState(AuthAPI.isAuthenticated())
    const [price, setPrice] = useState(0);
    const [carts, setCarts] = useState([]);
+   const [product, setProduct] = useState(false);
+   const [code, setCode] = useState(0);
 
    const NavbarWithRouter = withRouter(Navbar);
 
@@ -48,16 +55,22 @@ function App({cartItems}) {
         price,
         setPrice,
         carts,
-        setCarts
+        setCarts,
+        product,
+        setProduct,
+        code,
+        setCode
       }}
     >
    <Router>
    <NavbarWithRouter />
+   <Sidebar />
       <Switch>
       <Route path="/login" component={ LoginModal } exact/>
       <Route path="/register" component={ Register } exact/>
-      <Route path="/product/buy/end" component={ Paypal } exact/>
+      <PrivateRoute path="/product/buy/end" component={ Paypal } exact/>
       <Route path="/" component= { Home} exact />
+      <Route path="/user/activation/:id" component= { Activation} exact />
       <Route path="/test" component= { Test} exact />
       <Route path="/cart" component= { Cart } exact />
       <Route path="/contact/new" component= { Contact } exact />
@@ -68,6 +81,9 @@ function App({cartItems}) {
       <PrivateRoute path="/product/new" component= { Product } exact />
       <Route path="/product/buy/:productId" component= { BuyProduct } exact />
      </Switch>
+     <ToTop />
+     
+     <Footer />
    </Router>
     <ToastContainer position={toast.POSITION.TOP_RIGHT} />
       </AuthContext.Provider>

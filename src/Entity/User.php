@@ -8,16 +8,55 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Controller\ApiActivation;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *    itemOperations={"GET","DELETE","PUT"},
- *    collectionOperations={"GET", "POST"},
+ *    itemOperations={
+ *      "GET" = {
+ *          "security"="is_granted('ROLE_ADMIN') or (
+             is_granted('ROLE_USER') and object === user)",
+            "security_message"="Vous ne pouvez pas voir le compte 
+             de quelqu'un d'autre que vous ne possédez pas !."
+ *         },
+ *       
+ *         
+ *      "DELETE" = {
+ *         "security"="is_granted('ROLE_ADMIN') or (
+            is_granted('ROLE_USER') and object === user)",
+           "security_message"="Vous ne pouvez pas supprimer le compte 
+            de quelqu'un d'autre que vous ne possédez pas !."
+ *         },
+ *          "activation_user" = {
+ *          "method": "POST",
+ *          "path":"/users/{id}/activation",
+ *          "controller":ApiActivation::class
+ *        },
+ *         
+ *      "PUT" = {
+ *         "security"="is_granted('ROLE_ADMIN') or (
+            is_granted('ROLE_USER') and object === user)",
+           "security_message"="Vous ne pouvez pas modifier le compte 
+            de quelqu'un d'autre que vous ne possédez pas !."
+ *         },
+ *    },
+ *    collectionOperations={
+ *      "GET"={
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="juste les admins peuvent avoir les utilisateurs !."
+ *      },
+ *      "POST"={},
+ *     
+ *     },
  *    normalizationContext={"groups"={"user:read"}},
  *    denormalizationContext={"groups"={"user:write"}}
  * )
+ * @UniqueEntity("email", message="Désolé, cet email déja exist !")
  */
 class User implements UserInterface
 {
@@ -25,33 +64,38 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-      * @Groups({"user:write", "user:read"})
-     * @Groups({"comment:read", "comment-write"})
-     * @Groups({"product-comment:read", "order:read"})
+     * @Groups({"user:write", "user:read", "comment:read", "comment-write", "product-comment:read", "order:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:write", "user:read"})
-     * @Groups({"comment:read"})
-     * @Groups({"product-comment:read", "order:read"})
+     * @Groups({"comment:read", "order:read", "product-comment:read", "order:read"})
+     * @Assert\NotBlank(message="username ne peut pas être vide !")
+     * @Assert\Length(min=3, minMessage="le nombre de caractère de ce champ doit être superieur à 3!")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
-      * @Groups({"user:write", "user:read"})
-     * 
+     * @Groups({"user:write", "user:read"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-      * @Groups({"user:write"})
+     * @Groups({"user:write"})
+     * @Assert\NotBlank(message="password ne peut pas être vide !") 
+     * @Assert\Length(min=6, minMessage="le nombre de caractère de ce champ doit  être superieur à 6!")
      */
     private $password;
+    /**
+     * @Groups({"user:write"})
+     * @Assert\EqualTo(propertyPath="password", message="les password sont différentes !")
+     */
+    public $passwordConfirm;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
@@ -65,9 +109,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-      * @Groups({"user:write", "user:read", "order:read"})
+     * @Groups({"user:write", "user:read", "order:read"})
+     * @Assert\NotBlank(message="email ne peut pas être vide !")
+     * @Assert\Email(message="l'email n'est pas valid !")
      */
     private $email;
+    
 
     /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="user", orphanRemoval=true)
@@ -83,6 +130,19 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity=CancledOrder::class, mappedBy="user")
      */
     private $cancledOrders;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:write", "user:read"})
+     */
+    private $resetActivationToken;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"user:write", "user:read"})
+     */
+    private $activationCode;
+    
 
 
 
@@ -328,6 +388,42 @@ class User implements UserInterface
             $this->cancledOrders->removeElement($cancledOrder);
             $cancledOrder->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken(?string $activationToken): self
+    {
+        $this->activationToken = $activationToken;
+
+        return $this;
+    }
+
+    public function getResetActivationToken(): ?string
+    {
+        return $this->resetActivationToken;
+    }
+
+    public function setResetActivationToken(?string $resetActivationToken): self
+    {
+        $this->resetActivationToken = $resetActivationToken;
+
+        return $this;
+    }
+
+    public function getActivationCode(): ?int
+    {
+        return $this->activationCode;
+    }
+
+    public function setActivationCode(?int $activationCode): self
+    {
+        $this->activationCode = $activationCode;
 
         return $this;
     }

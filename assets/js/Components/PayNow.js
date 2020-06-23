@@ -8,20 +8,10 @@ import AuthContext from "../contexts/AuthContext";
  
  const PayNow = ()=>{
 
- const { carts, price } = useContext(AuthContext);
-
-       console.log(JSON.parse(localStorage.getItem("oldCarts")), carts)
-       const createOrder = async (payment) =>{
-        const allCarts = JSON.parse(localStorage.getItem("oldCarts"));
-        var selectedCarts = [];
-        carts.forEach(element=>{
-            const x = allCarts.filter(c=>c.product.id===element.product.id);
-            if (x[0]) {
-            selectedCarts.push(x[0]);
-            }
-        })
-        console.log(selectedCarts);
-        try {
+ const { carts, price, product } = useContext(AuthContext);
+ 
+        const orderHelper = async (tableOfCarts, payment) =>{
+            try {
               await OrderAPI.createOrder({
                 "payer_id":payment.payerID,
                 "payment_id"    :payment.paymentID,
@@ -34,30 +24,49 @@ import AuthContext from "../contexts/AuthContext";
                 "linel"    :payment.address.line1,
                 "zip"   :payment.address.postal_code,
                 "state"  :payment.address.state,
-                "carts": selectedCarts.map(c=>(API_URL+"/carts/"+c.id))
+                "carts": tableOfCarts.map(c=>(API_URL+"/carts/"+c.id))
               });
             toast.success('votre paiement à été bien passer !');
             } catch(e) {
                 toast.error("votre paiment est bien passer, mais il y a une erreur de notre côte, on va l evérifier plustard")
                 console.log(e);
             }
+        }
+        
+        const createOrder = async (payment) =>{
+        const allCarts = JSON.parse(localStorage.getItem("oldCarts"));
+        var selectedCarts = [];
+        carts.forEach(element=>{
+            const x = allCarts.filter(c=>c.product.id===element.product.id);
+            if (x[0]) {
+            selectedCarts.push(x[0]);
+            }
+        });
+          orderHelper(selectedCarts, payment);
        }
 
         const ID = "AWPUlrMIpJfZeL-DlTtiisy4JdIn8EME5yU8IoAdWb2tB7DcwzqUPC_jUTLjN0flRkqR3kS8KWvTI_7v";
         const SECRET = "EEMEC_w4pXuJWI0B8wKgVaqVyek03YG5ZbCBsD-Dsc5xCYEskiwrwBWjr5ap5fMQtOsRGubc6S77jwTP"
      
-        const onSuccess =async (payment) => {          
-         createOrder(payment);
-         console.log(payment)
+        const onSuccess =async (payment) => { 
+        if (product) {
+             orderHelper(carts, payment)
+        }else {
+         createOrder(payment); 
+        }         
         }
  
         const onCancel = (data) => {
-            OrderAPI.canceledOrder({
+            const orderCreater = async data =>{
+                 await OrderAPI.canceledOrder({
                 "billingID": data.billingID,
                 "intent": data.intent,
                 "paymentID": data.paymentID,
                 "paymentToken":data.paymentToken
              });
+            }
+            orderCreater(data);
+           
         }
  
         const onError = (err) => {
@@ -73,7 +82,6 @@ import AuthContext from "../contexts/AuthContext";
             sandbox: ID,
             production: ID,
         }
-        console.log(price);
 
         return (<div style={{"marginTop": 100+"px"}}>
             <PaypalExpressBtn env={env} client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />

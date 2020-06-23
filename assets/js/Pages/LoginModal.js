@@ -6,17 +6,21 @@ import  ApiCart from '../Pages/ApiCarts';
 import CartAPI from '../Services/CartAPI';
 import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
+import PasswordForgotten from '../Components/PasswordForgotten';
+import { Link } from 'react-router';
 
-const LoginModal = ({ history, cartItems, addToCart }) => {
+const LoginModal = ({ history, cartItems, addToCart}) => {
   const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
-
  const [credentials, setCredentials] = useState({
   'email': '',
   'password': ''
  })
- const [error, setError] = useState("");
+   const [error, setError] = useState("");
+
  const [oldCarts, setOldCarts] = useState([]);
  const [loading, setLoading] =useState(false);
+
+ const apiErrors = {};
  
   const handleChange = ({ currentTarget })=>{
     const {name, value } = currentTarget;
@@ -40,6 +44,7 @@ const LoginModal = ({ history, cartItems, addToCart }) => {
     }
 
   const handleSubmit =async  e =>{
+       setLoading(true);
     e.preventDefault();
     try {
 
@@ -47,14 +52,28 @@ const LoginModal = ({ history, cartItems, addToCart }) => {
       setIsAuthenticated(true); 
       await fetchCarts();
       toast.success('Votre connexion a été bien fait');
+        setLoading(false);
+    } catch(error) {
+      setLoading(false);
 
-    } catch(e) {
+      setError(error.response.data.message )
+      toast.error(error.response.data.message )
     }
-
   }
-	return <div id="js-action-login">
+	return <div className="container p-5 mt-5">
       <h5 className="text-center"> Connexion au site</h5>
-      <div className="bt-light text-center p-5 mt-5">
+
+     <div className="invalid-feedback is-invalid"> {error} </div>
+
+      {loading && (<div className="d-flex justify-content-center text-success" 
+           role="status" id="spinner">
+           <div className="spinner-border" role="status" style={{"width": 3+"rem", "height": 3+"rem", "margin": 40+"px"}} >
+              <span className="sr-only">Loading...</span>
+           </div>
+              </div>)
+            }
+
+      {!loading && (<div className="bt-light text-center">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-group mb-2">
@@ -79,13 +98,20 @@ const LoginModal = ({ history, cartItems, addToCart }) => {
             onChange={handleChange}  value={credentials.password} />
           </div>
         </div>
-        
-       
          <button type="submit" 
-          className="btn btn-primary"> Connexion ! </button>
+          className="btn btn-primary"> Connexion ! 
+          </button>
 
         </form>
-      </div>
+         <div className="m-3">
+        <button type="button" className="btn" data-toggle="modal" data-target="#exampleModal">
+ J'ai oublié le mot de passe ?
+</button>
+
+  <PasswordForgotten />
+
+        </div>
+      </div>)}
   </div> 
 }
 

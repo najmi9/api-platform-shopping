@@ -5,8 +5,6 @@ import TableLoader from '../Components/Loaders/TableLoader';
 import Pagination from '../Components/Pagination'
 import Product from '../Components/Product';
 import SearchHelper from '../PagesHelpers/SearchHelper';
-import noUiSlider from 'nouislider';
-
 
 const Home = () =>{
   const [data, setData] = useState([]);
@@ -17,85 +15,74 @@ const Home = () =>{
 
 
   const handlePageChange = page => setCurrentPage(page);
-  const itemsPerPage = 3;
+  const itemsPerPage = 5;
  
    
 
    const handleCategoryChange = (value, cancel=false) =>{
-         var y = [];   
-   
-        y.push(...data.filter(product=>product.category.id == value))
-
-        setResults(y); 
-
+         var prods = [];  
+         prods.push(...data.filter(product=>product.category.id == value)) 
+         setResults(prods); 
         if (cancel) {
         setResults([]);   
-        }        
+        }   
+        console.log(results)     
   }
-        const filteredItems = (data, value="") => data.filter(
+  const filteredItems = (data, value="") => data.filter(
        c =>
        c.title.toLowerCase().includes(value.toLowerCase()) ||
-      c.description.toLowerCase().includes(value.toLowerCase()) ||
-      c.category.title.toLowerCase().includes(value.toLowerCase())
-    );
+       c.description.toLowerCase().includes(value.toLowerCase()) ||
+       c.category.title.toLowerCase().includes(value.toLowerCase())
+  );
 
 
-     const handleSearchChange = ({currentTarget}) =>{
-        if (results.length>0) {
-         setSearched(filteredItems(results, currentTarget.value));
-        }else{
-          setSearched(filteredItems(data, currentTarget.value));
-        }
-      }
+  const handleSearchChange = ({currentTarget}) =>{
+       setSearched(filteredItems(data, currentTarget.value));       
+  }
    
-   const fetchProducts = async () =>{
+  const fetchProducts = async () =>{
        setData(await ProductAPI.fetchProducts());
        setLoading(false);
-   }
+  }
 
   
 
-   useEffect(()=>{
-   	fetchProducts();
-
-   }, []);
+  useEffect(()=>{
+   	   fetchProducts();
+  }, []);
   
   const renderMe = (data) =>{
-    return ( <div className="col-md-4">
-      {  Pagination.getData(
-    data,
-    currentPage,
-    itemsPerPage
-  ).map(product=>(<Product product={product} key={product.id} /> )) } 
-     
-        {itemsPerPage < data.length && (
+    return (
+      <>
+      { Pagination.getData(
+         data,
+         currentPage,
+         itemsPerPage
+         ).map(product=>(<Product product={product} key={product.id} /> )) } 
+      
+       {itemsPerPage < data.length && (
         <Pagination
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           length={data.length}
-          onPageChanged={handlePageChange}
-        />
+          onPageChanged={handlePageChange} />
       )}
-
-      </div> );
+       </> );
   }
 
-	return <section id="main" className="row" >
-
-   <div className="col-md-4" style={{"position":"sticky"}}>
-      <SearchHelper handleSearchChange={handleSearchChange}
-        handleCategoryChange={handleCategoryChange} data={data} />
-   </div>
-
-	      { loading && (<div className="text-center col-md-12 "><TableLoader /></div>) }
-      
-        { searched.length>0 && results.length==0 && renderMe(searched) }
-        { results.length>0  && renderMe(results) }
-        {!loading && results.length===0 && searched.length == 0&& renderMe(data) }
-          
+	return  (
+  <section> 
+        <div className="search-component">
+            <SearchHelper handleSearchChange={handleSearchChange}
+            handleCategoryChange={handleCategoryChange} data={data} />
+        </div>
+  
+        { loading && (<div className="text-center loader-child "><TableLoader /></div>) }
         
-       
-
-	  </section>	
+        { searched.length>0 && renderMe(searched) }
+        { results.length>0  && renderMe(results) }
+        {!loading && results.length===0 && searched.length === 0&& renderMe(data) }
+      </section>)
+    
 }
 export default Home;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AuthContext from "../contexts/AuthContext"; 
@@ -7,6 +7,7 @@ import UserInfo from '../Components/UserInfo';
 import CartItem from '../Components/CartItem';
 import { toast } from 'react-toastify';
 import Paypal from './Paypal';
+import '../Style/Card.css'
 
 
 const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity })=> {
@@ -27,6 +28,20 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
   setSelectionnedTotal(selectionnedTotal);
   setPrice(selectionnedTotal);
   setCarts(selectionnedCarts); 
+ }
+
+ const handleCheckAll = ({currentTarget}) =>{
+    if (currentTarget.checked) {
+      document.querySelectorAll("input#js-selectionned-item").forEach(e=>{e.checked=true})
+        setSelectionnedTotal(total);
+        setPrice(total);
+        setCarts(cartItems); 
+    }else {
+           document.querySelectorAll("input#js-selectionned-item").forEach(e=>{e.checked=false})
+           setSelectionnedTotal(0);
+           setPrice(0);
+          setCarts([]); 
+    }
  }
 
  const updateCartState = async () =>{
@@ -57,77 +72,69 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
 
    }
 
-    useEffect(()=>{
-   // fetchCarts();
-   // setLoading(true);
- },[])
-
-  const renderCart = (data)=>(
-     <table className="table  table-striped">  
-         <thead>
-         <tr>
-         <th> </th>
-         <th> date : </th>
-           <th> ID :</th>
-           <th>Image :</th>
-           <th>Titre</th>
-           <th>Prix :</th>
-           <th>Quantité :</th>
-           <th> Somme en Dh: </th>
-         </tr>
-         </thead>
-         <tbody>
-            {(data.map((item, index)=>( <tr key={index}>
-              <CartItem old={false} item={item} index={index} handleChange={()=>handleChange(item)} />
-               { (<td>   <button onClick={()=>handleDeleteProduct(index, item)} className="btn btn-danger btn-small">
-                    <i className="fas fa-trash"></i>
-                  </button></td>)} 
-                
-
-             </tr>)))}           
-         </tbody>
+  return (<div>
+ 
+        <table className="table price-table">
+          <thead>
+            <tr>
+              <th> total de cart: {total} Dhs </th>
+              <th>
+               total Séléctionné :  { selectionnedTotal } Dhs
+              </th>
+            </tr>
+          </thead>
         </table>
-  );
 
- return <div className="container mt-5">
- <div className="mt-10 text-center" style={{'marginTop':50+'px'}}>
- Bienvenue dans de votre cart :
- </div>
-  <div className="mb-5">    
-  <table className="table" style={{'position':'sticky', 'top':100 + 'px', 'background':'black', 'color':'white'}}>
-
-  <tr>
-    <th> total de cart: {total} Dhs </th>
-    <th className="text-right"> total des produits Séléctionnés : { selectionnedTotal } Dhs</th>
-  </tr>
-
-  </table>
-   {cartItems.length>0 && (<>
-     <h1 className="mt-5"> Les nouveaux produites : </h1>
-     {  renderCart(cartItems) }
-     <div>
-
-      {selectionnedTotal>0 && (  <Link className="text-center btn-success" onClick={updateCartState} to="/product/buy/end" >
-           finaliser les paiement !
-        </Link>)}
-      </div>
-      </>
-    )}
-
-    <div>
-      <h1> Séléctionnez les produits pour les achter  ! </h1>
-    </div>
-
-
-        { cartItems.length=== 0 && (<div>
-          <div className="cart-move">
-          <i className="fas fa-shopping-cart fa-10x"></i>
-          </div>
-          <h1 className="text-center"> Il n'y a pas ecncore des produits dans le pannier ! </h1>
+        { cartItems.length>0 && (<div className="carts">
+          { (cartItems.map((item, index)=>( <div key={index}>
+              <CartItem 
+                  item={item} 
+                  index={index} 
+                  handleChange={()=>handleChange(item)} 
+                  handleDeleteProduct={()=>handleDeleteProduct(index, item)}
+              />                              
+            </div>)))
+          }
           </div>)
         }
-      </div>
+
+        <div className="payment-btn" >
+            { selectionnedTotal>0 && (<div className="pay"> 
+                <Link className="text-center btn btn-warning" 
+                onClick={updateCartState} to="/product/buy/end" >
+                  <i className="fas fa-dollar-sign"></i>
+                  finaliser les paiement ! 
+                </Link>
+                <button className="btn">
+                 {selectionnedTotal}
+                </button> dhs.
+              </div>)
+            }
+
+            <div className="payment-btn" >
+              <label htmlFor="checkAll">
+                 <input type="checkbox" id="checkAll" onChange={handleCheckAll} />
+                 Tout Couché 
+              </label>
+
+              {selectionnedCarts.length ===0 && (<div className="select-me"> 
+                                           <i className="fas fa-check"></i>
+                                           Séléctionner les produits qui tu veux acheter maintenant !
+                                          </div>)}
+            </div>
+        </div>
+
+        { cartItems.length=== 0 && (<div className="border mt-5 p-5 text-secondary">
+          <div className="text-center">
+          <i className="fas fa-shopping-cart fa-8x"></i>
+          </div>
+          <h1 className="text-center"> 
+            Il n'y a pas ecncore des produits dans le panier ! 
+          </h1>
+          </div>)
+        }
      </div>
+);
 }
 
 const mapStateToProps = (state) =>{

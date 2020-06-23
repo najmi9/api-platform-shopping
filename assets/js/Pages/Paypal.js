@@ -9,20 +9,20 @@ import PayNow from '../Components/PayNow'
 const Paypal = () =>{
  const { isAuthenticated, setIsAuthenticated, price} = useContext(AuthContext);
 
-	return <div className="container mt-5 p-5" id="component">
-	   <h1 className="text-center bg-primary text-light ">
+	return <div className="container p-5" id="component">
+	   <h4 className="text-center">
       { price } Dhs à payer.
-      </h1>
+      </h4>
              { isAuthenticated && (
-              <PayNow />) }
+              <PayNow  />) }
 		{!isAuthenticated && (
               <div>
             
                        <LoginModal />
-                      <h1>
-                          Vous n'avez pas un compte !
+                      <h6>
+                          Si vous n'avez pas un compte encore !
                            Essayer de crée un c'est très facile ! 
-                      </h1>
+                      </h6>
                    
                       <Register />
                     

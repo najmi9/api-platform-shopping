@@ -10,9 +10,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
-  * @ApiResource(
-  * 
- * )
+ * @ApiResource()
  * @ApiFilter(SearchFilter::class, properties={"user": "exact", "product": "exact"})
  * @ORM\Entity(repositoryClass=LikeRepository::class)
  * @ORM\Table(name="`like`")

@@ -1,0 +1,81 @@
+.price-table{
+	background-color: black;
+	color: magenta;
+	z-index: 2;
+	opacity: 0.9;
+}
+.price-table th{
+	text-align: center;
+}
+
+#js-selectionned-item{
+	position: absolute;
+	right: 0;
+	top:0;
+	width: 30px;
+	height: 30px;
+	background-color: green;
+}
+.pay{
+	text-align: center;
+	padding: 10px;
+	font-weight: bold;
+	color: magenta;
+	transition: transform 0.5s;
+}
+.pay:hover{
+	transform: scale(1.1);
+}
+.carts, .orders{
+
+	margin-top: 10px;
+	display: grid;
+}
+.select-me{
+	font-size: 25px;
+	font-weight: bold;
+	font-family: cursive;
+	text-align: center;
+	border-bottom: 2px solid red;
+}
+
+/**
+ * le médias
+ */
+@media (min-width:1200px) {
+.carts, .orders{
+	grid-template-columns: repeat(4,1fr);
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+}
+
+  
+}
+@media (min-width: 937px) and (max-width:1199px){
+ .carts, .orders{
+	grid-template-columns: repeat(3,1fr);
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+
+  }
+}
+
+@media (min-width:628px) and (max-width: 937px){
+	.carts, .orders{
+	grid-template-columns: repeat(2,1fr);
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+}
+}
+
+@media (max-width:328px){
+	.carts, .orders{
+	grid-template-columns: repeat(1,1fr);
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+}
+
+.card-img{
+	height:200px; 
+}
+}

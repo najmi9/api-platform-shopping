@@ -64,8 +64,9 @@ const CommentItem = ({commentElement,productId, setState }) =>{
 return  <div className="container p-4 card" id="comment">
           
             <div className="card-title">               
-                <h6 className="bg-info text-light"> 
-                    {comment.user.username} 
+                <h6> 
+                    <i className="fas fa-user"></i> {"  "} {"  "}
+                    {comment.user.username} {" "}
                     <small> commenter à {"  "}
         { moment(comment.createdAt , "YYYYMMDD").fromNow()}
                      </small>

@@ -23,7 +23,7 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
     //history.push("/");
   };
 
-	return <nav className="navbar navbar-expand-lg  fixed-top navbar-light bg-light navbar-prod">
+	return <nav className="navbar navbar-expand-md navbar-light bg-light navbar-prod w-100">
    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
   </button>

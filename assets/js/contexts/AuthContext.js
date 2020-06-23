@@ -6,5 +6,9 @@ export default React.createContext({
   price: 0,
   setPrice: value=> {},
   carts : [],
-  setCarts : value=>{}
+  setCarts : value=>{},
+  product: false,
+  setProduct: value=>{},
+  code: 0,
+  setCode: value=>{}
 });

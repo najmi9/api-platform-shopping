@@ -28,14 +28,14 @@ const Comments = ({commentsPart, productId}) =>{
      return (
       <>
        {!isAuthenticated && (
-        <h2> 
+        <h5> 
           Se connecter pour commenter!!
           <Link to="/login" className="btn btn-warning">
             se connecter
           </Link>
-        </h2>) }
-        {comments.length > 0 && (<h2> {comments.length} Commentaires.</h2>)} 
-        {comments.length == 0 && (<h2> Il  n'a pas encore des ommentaires sur ce produit.</h2>)} 
+        </h5>) }
+        {comments.length > 0 && (<h4> {comments.length} Commentaires.</h4>)} 
+        {comments.length == 0 && (<h4 className="text-center" > Il  n'a pas encore des ommentaires sur ce produit.</h4>)} 
         { isAuthenticated && (
           <button
           className="btn btn-outline-primary btn-sm"
@@ -46,6 +46,7 @@ const Comments = ({commentsPart, productId}) =>{
         <div id="js-add-comment" className="hide-comment">
           <AddComment productId={productId} setStateAfterAddComment={setStateAfterAddComment} />             
         </div>
+        <section className="commentaires">
         { comments.length>0 && ( 
             <div id="comments"> 
               { comments.map(comment=>(
@@ -54,6 +55,7 @@ const Comments = ({commentsPart, productId}) =>{
               } 
             </div>)
         }
+        </section>
       </>)
 }
 

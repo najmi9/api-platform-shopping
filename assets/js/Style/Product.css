@@ -1,0 +1,56 @@
+.comments{
+	border-top: 1px solid gray;
+	margin: 10px
+}
+.product{
+}
+
+.btn-comment{
+	text-align: center;
+}
+section .commentaires{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.comment-form{
+max-width: 70%;
+}
+
+.loader{
+
+}
+.product-content{
+
+}
+@media (min-width:847px){
+  .product-body{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 20px;
+}	
+}
+
+@media (max-width:740px){
+	.product-body{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-row-gap: 20px;
+}	
+}
+
+
+
+.comment-form{
+
+}
+.btn-q{
+	border-radius: 50%;
+	background: transparent;
+	margin: 20px;
+	border:1px solid blue;
+}
+
+.right-side{
+	margin: 20px;
+}

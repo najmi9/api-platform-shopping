@@ -18,6 +18,7 @@ security:
         login:
             # pattern:  ^/api/login
              anonymous: true
+             user_checker: App\Security\UserChecker
              json_login:
                 check_path: /api/login_check
                 username_path: email
@@ -28,6 +29,7 @@ security:
             pattern: ^/api/
             anonymous: true
             provider: app_user_provider
+            user_checker: App\Security\UserChecker
             stateless: true
             guard:
                 authenticators:
@@ -36,9 +38,10 @@ security:
     access_control:
            - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/api/categories, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-           - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST]}
-         
+           - { path: ^/api/users/email/confirmation, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }    
+           - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
            

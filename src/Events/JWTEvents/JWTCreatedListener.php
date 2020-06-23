@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\JWTEvents;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
+use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 
 /**
  * 
@@ -34,13 +36,14 @@ public function __construct(RequestStack $requestStack, Security $security)
  */
 public function onJWTCreated(JWTCreatedEvent $event)
 {
+	$user = $this->security->getUser();
     $request = $this->requestStack->getCurrentRequest();
-    $user = $this->security->getUser();
-   // dd($user, $event);
+   
     $payload       = $event->getData();
     $payload['ip'] = $request->getClientIp();
     $payload['userId'] = $user->getId();
-
+    
     $event->setData($payload);
+     
 }
 }

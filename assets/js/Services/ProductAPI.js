@@ -1,12 +1,10 @@
-//import PRODUCT_URL from './Config';
+import {API_URL} from './Config';
 import Cache from "./Cache";
 import axios from 'axios';
 
-const API_URL = "http://localhost:8000/api";
 const PRODUCT_URL = API_URL + "/products";
 
 const fetchProducts = async () => {
-  //Cache.invalidate('products');
   const cachedProducts = await Cache.get("products");
 if (cachedProducts) {return cachedProducts}
    const res = await axios.get(PRODUCT_URL);
@@ -40,12 +38,12 @@ const createProduct = async (data) =>{
 }
 
 const fetchCategories = async () =>{
-  const cachedCategories = Cache.get('categories');
-  //if (cachedCategories) {
-  //  return cachedCategories
-  //}
+  const cachedCategories =await  Cache.get('categoriesforproducts');
+  if (cachedCategories) {
+    return cachedCategories
+  }
    const res = await axios .get(API_URL+"/categories")
-   Cache.set('categories',res.data['hydra:member'] );
+   Cache.set('categoriesforproducts',await res.data['hydra:member'] );
      return res.data['hydra:member'];
 }
 

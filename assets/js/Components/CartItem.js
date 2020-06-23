@@ -5,37 +5,45 @@ import moment from 'moment';
 
 
 
-const CartItem = ({ old, item, index, removeFromCart,  addToCart, cartItems,handleChange }) =>{
+const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart, cartItems,handleChange }) =>{
 
 
 
-	return (<>    
-                <td> <input type="checkbox" onChange={()=>handleChange(item) } value={item.product.price * item.quantity} id="js-selectionned-item" /> </td>
-                <td>  { moment(item.createdAt , "YYYYMMDD").fromNow()}  </td>      
-                <td>  { item.product.id } </td>
-                <td> <img alt={item.product.picture} src={ item.product.picture } width="90px" height = "90px" /> </td>
-                <td className="text-center" style={{ maxWidth:200 +'px' }}> { item.product.title } </td>
-                <td> { item.product.price } Dh </td>
-                <td> 
-                   {!old && (<button className="btn btn-sm btn-primary mr-2"
-                      onClick={()=>addToCart(item.product)}>+</button>) }
-                 
-                     
+	return (    <div className="card">
+                 <div className="card-title">
+                    <p> 
+                      <span className="text-left text-primary" style={{"fontSize":25+"px"}} > { item.product.price } Dhs</span>
+                      <input type="checkbox" onChange={()=>handleChange(item) }
+                      value={item.product.price * item.quantity} id="js-selectionned-item" 
+                     /> 
+                    </p>  
+                 </div>
+                 <div className="card-body">   
+                    <p className="card-img"> 
+                      <img alt={item.product.picture} src={ item.product.picture } className="card-img" /> 
+                    </p>
+                   <p className="text-center"> { item.product.title } </p>
+                   <p className="text-center"> 
+                     <button className="btn btn-sm btn-primary mr-2"
+                     onClick={()=>addToCart(item.product)}>+</button>
 
                       <span id="js-qts">
-                     { item.quantity } 
-                     </span>
+                        { item.quantity } 
+                      </span>
 
-                     {!old && (<button className="btn btn-sm btn-primary ml-2" 
-                      onClick={()=>removeFromCart(index)}>-</button>)}
-                </td>
-                <td>
-                 { item.product.price *  item.quantity}
-               
-                </td>
-              
-
-       </>)
+                      <button className="btn btn-sm btn-primary ml-2" 
+                      onClick={()=>removeFromCart(index)}>-</button>
+                      {"  "}
+                      <button className="btn btn-success m-3">
+                        { item.product.price *  item.quantity} Dhs
+                      </button>
+                      <button onClick={()=>handleDeleteProduct(index, item)} 
+                      className="btn btn-danger btn-small m-2">
+                        <i className="fas fa-trash"></i>
+                      </button>
+                   </p>
+                </div>
+              </div>)
 }
 
 const mapStateToProps = (state) =>{
