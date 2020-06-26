@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { API_URL, URL } from "./Config";
+import { API_URL} from "./Config";
 
 const LOGIN_API = API_URL+"/login_check";
 const REGISTER_URL = API_URL + "/users";

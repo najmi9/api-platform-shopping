@@ -1,7 +1,6 @@
-//import PRODUCT_URL from './Config';
+import { API_URL} from "./Config";
 import axios from 'axios';
 
-const API_URL = "http://localhost:8000/api";
 const CONTACT_API = API_URL + '/contacts';
 
 const fetchContacts = async () =>{
