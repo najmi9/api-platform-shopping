@@ -1,0 +1,3 @@
+gesdinet_jwt_refresh_token:
+    ttl: 3600000
+    user_identity_field: email

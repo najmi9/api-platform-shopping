@@ -6,8 +6,7 @@ import  ApiCart from '../Pages/ApiCarts';
 import CartAPI from '../Services/CartAPI';
 import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
-import PasswordForgotten from '../Components/PasswordForgotten';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const LoginModal = ({ history, cartItems, addToCart}) => {
   const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
@@ -30,17 +29,18 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
      const fetchCarts = async () =>{
       const user = UserInfo.parseJwt();    
       if (user) {
-      const cs = await CartAPI.fetchCartsOfUser(user.userId);
-      if (cs.length>0) {
-        localStorage.setItem('oldCarts', JSON.stringify(cs))
+      setIsAuthenticated(true); 
+      const carts = await CartAPI.fetchCartsOfUser(user.userId);
+      if (carts.length>0) {
+        localStorage.setItem('oldCarts', JSON.stringify(carts))
       }
-      cs.map(c=>{
+      carts.map(c=>{
         addToCart(c.product);
       });
-      }  
        await  CartAPI.updateCartsOfUser(cartItems);
        const cs = await CartAPI.fetchCartsOfUser(UserInfo.parseJwt().userId);
-       localStorage.setItem('oldCarts', JSON.stringify(cs));  
+       localStorage.setItem('oldCarts', JSON.stringify(cs)); 
+      }        
     }
 
   const handleSubmit =async  e =>{
@@ -48,16 +48,18 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
     e.preventDefault();
     try {
 
-      await AuthAPI.authenticate(credentials);
-      setIsAuthenticated(true); 
+     const response = await AuthAPI.authenticate(credentials);
+     console.log(await response)
       await fetchCarts();
       toast.success('Votre connexion a été bien fait');
         setLoading(false);
     } catch(error) {
       setLoading(false);
-
-      setError(error.response.data.message )
+       if (error.response) {
+        setError(error.response.data.message )
       toast.error(error.response.data.message )
+       }
+      
     }
   }
 	return <div className="container p-5 mt-5">
@@ -104,11 +106,9 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
 
         </form>
          <div className="m-3">
-        <button type="button" className="btn" data-toggle="modal" data-target="#exampleModal">
- J'ai oublié le mot de passe ?
-</button>
-
-  <PasswordForgotten />
+        <Link to="/reset-password-request" className="btn">
+         J'ai oublié le mot de passe ?
+          </Link>
 
         </div>
       </div>)}

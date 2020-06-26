@@ -14,8 +14,10 @@ function parseJwt () {
 
     return JSON.parse(jsonPayload);
     }
-  }
+  }else{
+return null;
 
+  }
   
 };
 

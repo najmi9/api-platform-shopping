@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
+        "gesdinet/jwt-refresh-token-bundle": "^0.9.1",
         "lexik/jwt-authentication-bundle": "^2.6",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.0.*",
@@ -18,7 +19,6 @@
         "symfony/http-client": "5.0.*",
         "symfony/intl": "5.0.*",
         "symfony/mailer": "5.0.*",
-        "symfony/mercure-bundle": "^0.2.3",
         "symfony/messenger": "5.0.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.0.*",
@@ -78,6 +78,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile":[
+            "php bin/console doctrine:schema:update --force"
         ]
     },
     "conflict": {

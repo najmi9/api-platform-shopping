@@ -21,20 +21,18 @@ const Activation = ( { match, history } ) => {
    const handleSubmit = async (e) =>{
 
       e.preventDefault();
-
-     if (code === parseInt(acode)) {
       try {
-          const response = await AuthAPI.activate(id, parseInt(acode));
-          if (response.status === 201) {
-            toast.success("votre compte est bien activé !")
+          const response = await AuthAPI.activate(parseInt(acode));
+          if (response.data.status === 200) {
+            toast.success(response.data.message)
             history.push("/login")
           }
       } catch(e) {
         toast.error("une erreur est servenue, raysser plustard !")
       }
-     }else{
+    
       toast.warning("le code d'activation est incorrect !");
-     } 
+    
    	  }
 
     return (<div className="container p-5 m-4">

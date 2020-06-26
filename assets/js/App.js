@@ -14,9 +14,11 @@ import './App.css';
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
 import ToTop from './Components/ToTop'
+import PasswordForgotten from './Components/PasswordForgotten'
 import Home from './Pages/Home';
 import Contact from './Pages/Contact';
 import Contacts from './Pages/Contacts';
+import ResetPassword from './Pages/ResetPassword';
 import Product from './Pages/Product';
 import Paypal from './Pages/Paypal';
 import Activation from './Pages/Activation';
@@ -42,7 +44,8 @@ function App({cartItems}) {
    const [price, setPrice] = useState(0);
    const [carts, setCarts] = useState([]);
    const [product, setProduct] = useState(false);
-   const [code, setCode] = useState(0);
+   const [code, setCode] = useState(parseInt(localStorage.getItem("Code")));
+   const [resetPasswordCode, setResetPasswordCode] = useState(parseInt(localStorage.getItem("newPasswordCode")));
 
    const NavbarWithRouter = withRouter(Navbar);
 
@@ -59,7 +62,9 @@ function App({cartItems}) {
         product,
         setProduct,
         code,
-        setCode
+        setCode,
+        resetPasswordCode,
+        setResetPasswordCode
       }}
     >
    <Router>
@@ -69,6 +74,8 @@ function App({cartItems}) {
       <Route path="/login" component={ LoginModal } exact/>
       <Route path="/register" component={ Register } exact/>
       <PrivateRoute path="/product/buy/end" component={ Paypal } exact/>
+      <Route path="/reset-password-request" component= { PasswordForgotten} exact />
+      <Route path="/user/new-password/:id" component= { ResetPassword} exact />
       <Route path="/" component= { Home} exact />
       <Route path="/user/activation/:id" component= { Activation} exact />
       <Route path="/test" component= { Test} exact />

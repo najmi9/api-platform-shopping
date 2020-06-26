@@ -8,11 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Controller\ApiActivation;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -32,11 +30,6 @@ use App\Controller\ApiActivation;
            "security_message"="Vous ne pouvez pas supprimer le compte 
             de quelqu'un d'autre que vous ne possédez pas !."
  *         },
- *          "activation_user" = {
- *          "method": "POST",
- *          "path":"/users/{id}/activation",
- *          "controller":ApiActivation::class
- *        },
  *         
  *      "PUT" = {
  *         "security"="is_granted('ROLE_ADMIN') or (
@@ -51,12 +44,12 @@ use App\Controller\ApiActivation;
  *         "security_message"="juste les admins peuvent avoir les utilisateurs !."
  *      },
  *      "POST"={},
- *     
  *     },
  *    normalizationContext={"groups"={"user:read"}},
  *    denormalizationContext={"groups"={"user:write"}}
  * )
  * @UniqueEntity("email", message="Désolé, cet email déja exist !")
+ * @UniqueEntity("username", message="Désolé, cet username déja exist !")
  */
 class User implements UserInterface
 {
@@ -132,16 +125,14 @@ class User implements UserInterface
     private $cancledOrders;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user:write", "user:read"})
-     */
-    private $resetActivationToken;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"user:write", "user:read"})
      */
     private $activationCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPasswordCode;
     
 
 
@@ -392,30 +383,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getActivationToken(): ?string
-    {
-        return $this->activationToken;
-    }
-
-    public function setActivationToken(?string $activationToken): self
-    {
-        $this->activationToken = $activationToken;
-
-        return $this;
-    }
-
-    public function getResetActivationToken(): ?string
-    {
-        return $this->resetActivationToken;
-    }
-
-    public function setResetActivationToken(?string $resetActivationToken): self
-    {
-        $this->resetActivationToken = $resetActivationToken;
-
-        return $this;
-    }
-
     public function getActivationCode(): ?int
     {
         return $this->activationCode;
@@ -424,6 +391,18 @@ class User implements UserInterface
     public function setActivationCode(?int $activationCode): self
     {
         $this->activationCode = $activationCode;
+
+        return $this;
+    }
+
+    public function getResetPasswordCode(): ?string
+    {
+        return $this->resetPasswordCode;
+    }
+
+    public function setResetPasswordCode(?string $resetPasswordCode): self
+    {
+        $this->resetPasswordCode = $resetPasswordCode;
 
         return $this;
     }

@@ -10,5 +10,7 @@ export default React.createContext({
   product: false,
   setProduct: value=>{},
   code: 0,
-  setCode: value=>{}
+  setCode: value=>{},
+  resetPasswordCode:0,
+  setResetPasswordCode: value =>{}
 });

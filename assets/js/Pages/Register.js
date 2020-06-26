@@ -38,9 +38,8 @@ const Register = ({ history }) =>{
       console.log(await data)
       setCode(await +data.activationCode)
        setErrors({});
-   		 toast.success('Votre compte à été bien crée !, se connecter maintenant')
+   		 toast.success("Votre compte à été bien crée !, il reste juste que t'activer.")
        document.getElementById('js-action').style.display="none";
-       console.log(await data.id)
        history.push("/user/activation/"+data.id);
 
    	} catch(error) {

@@ -1,8 +1,3 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
 services:
@@ -34,10 +29,16 @@ services:
     App\Events\DoctrineEvents\UserConfurmationEmailListener:
         tags:
             -
-                # these are the basic options that define the entity listener
                 name: 'doctrine.orm.entity_listener'
                 event: 'postPersist'
                 entity: 'App\Entity\User'
 
                 # set the 'lazy' option to TRUE to only instantiate listeners when they are used
                 lazy: true
+    'App\Doctrine\CurrentUserExtension':
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection }
+            - { name: api_platform.doctrine.orm.query_extension.item }
+    'App\Dto\ForgotPasswordRequest': ~
+            
+    

@@ -23,25 +23,14 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     }
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
-    {
-        // 1. Obtenir l'utilisateur connecté
-        $user = $this->security->getUser();
-
-        // 2. Si on demande des invoices ou des customers alors, agir sur la requête pour qu'elle tienne compte de l'utilisateur connecté
-        if (
-            ($resourceClass === Cart::class)
-            &&
-            !$this->auth->isGranted('ROLE_ADMIN')
-            &&
-            $user instanceof User
-        ) {
-            $rootAlias = $queryBuilder->getRootAliases()[0];
-
-            if ($resourceClass === Cart::class) {
-                $queryBuilder->andWhere("$rootAlias.user = :user");
-            }
-            $queryBuilder->setParameter("user", $user);
-        }
+    {    
+   // dd($queryBuilder, $resourceClass); 
+      /* $user = $this->security->getUser();   
+        if ($user instanceof User && $resourceClass === User::class) {
+           $rootAlias = $queryBuilder->getRootAliases()[0];
+           $queryBuilder->andWhere("$rootAlias.activationCode = :value");
+           $queryBuilder->setParameter("value", null);        
+        }  */
     }
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\UserSecurityEvents;
 
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use ApiPlatform\Core\EventListener\EventPriorities;
@@ -16,11 +15,9 @@ class PasswordEncoderSubscriber implements EventSubscriberInterface
     /** @var UserPasswordEncoderInterface */
     private $encoder, $tokenGenerator;
 
-    public function __construct(UserPasswordEncoderInterface $encoder,
-    TokenGeneratorInterface $tokenGenerator )
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
-        $this->tokenGenerator = $tokenGenerator;
     }
 
     public static function getSubscribedEvents()
@@ -34,13 +31,12 @@ class PasswordEncoderSubscriber implements EventSubscriberInterface
     {
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod(); // POST, GET, PUT, ...
-
-        if ($user instanceof User && $method === "POST") {
+        $routeName = $event->getRequest()->attributes->get('_route');
+        if ($method === "POST" && $routeName ==="api_users_POST_collection")
+       {
             $code = mt_rand(100000, 999999);
-            $token = $this->tokenGenerator->generateToken();
             $hash = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash)
-                 ->setActivationToken($token)
                  ->setActivationCode($code)
             ;
         }

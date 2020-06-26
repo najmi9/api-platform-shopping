@@ -38,9 +38,9 @@ const createProduct = async (data) =>{
 }
 
 const fetchCategories = async () =>{
-  const cachedCategories =await  Cache.get('categoriesforproducts');
+  const cachedCategories = await  Cache.get('categoriesforproducts');
   if (cachedCategories) {
-    return cachedCategories
+   return cachedCategories;
   }
    const res = await axios .get(API_URL+"/categories")
    Cache.set('categoriesforproducts',await res.data['hydra:member'] );

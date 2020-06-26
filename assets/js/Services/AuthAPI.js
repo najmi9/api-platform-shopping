@@ -5,14 +5,16 @@ import { API_URL, URL } from "./Config";
 const LOGIN_API = API_URL+"/login_check";
 const REGISTER_URL = API_URL + "/users";
 
-const activate = async (id, acode) => {
-   const response = await axios.post(API_URL+"/users/"+id+"/activation", {"activationCode":acode});
-   return await response
+
+const resetPassword =async (id, data) =>{
+  const response = await axios.post(REGISTER_URL+"/new-password/"+id, data);
+  return await response;
 }
 
-const sendEmailToUpdatePassword = async (userEmail) =>{
-   const response = await axios.post(URL+"/forgotten-password", {"userEmail": userEmail});
-   return await response.data;
+
+const activate = async (acode) => {
+   const response = await axios.post(REGISTER_URL+"/account/activation", {"activationCode":acode});
+   return await response
 }
 
 const register = async (user) => {
@@ -36,11 +38,11 @@ function authenticate(credentials) {
     .post(LOGIN_API, credentials)
     .then(response => response.data.token)
     .then(token => {
-      console.log(token)
-      // Je stocke le token dans mon localStorage
-      window.localStorage.setItem("authToken", token);
-      // On prévient Axios qu'on a maintenant un header par défaut sur toutes nos futures requetes HTTP
-      setAxiosToken(token);
+      if (token) {
+         window.localStorage.setItem("authToken", token);
+         setAxiosToken(token);
+      }
+      return token;
     });
 }
 
@@ -61,6 +63,7 @@ function setup() {
   // 2. Si le token est encore valide
   if (token) {
     const { exp: expiration } = jwtDecode(token);
+
     if (expiration * 1000 > new Date().getTime()) {
       setAxiosToken(token);
     }
@@ -74,7 +77,6 @@ function setup() {
 function isAuthenticated() {
   // 1. Voir si on a un token ?
   const token = window.localStorage.getItem("authToken");
-  // 2. Si le token est encore valide
   if (token) {
     const { exp: expiration } = jwtDecode(token);
     if (expiration * 1000 > new Date().getTime()) {
@@ -85,12 +87,20 @@ function isAuthenticated() {
   return false;
 }
 
+
+const sendEmailToUpdatePassword = async (data) => {
+   const response = await axios.post(REGISTER_URL+"/forgot-password-request", {"email":data});
+    console.log(await response);
+   return await response
+}
+
 export default {
   register,
   authenticate,
   logout,
   setup,
   isAuthenticated,
-  sendEmailToUpdatePassword,
-  activate
+  activate,
+  resetPassword,
+  sendEmailToUpdatePassword
 };

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import AuthAPI from '../Services/AuthAPI';
+import AuthContext from '../contexts/AuthContext';
+import { toast } from "react-toastify";
 
-const PasswordForgotten = () => {
+
+const PasswordForgotten = ({history}) => {
+  const {setResetPasswordCode} = useContext(AuthContext);
 	const [credentials, setCredentials] = useState({
 		'userEmail':''
 	});
-  const [resultat, setResultat] = useState('');
   const [loading, setLoding] = useState(true);
-  const [responseLoaded, setResponseLoaded] = useState(true);
 	  const handleChange = ({ currentTarget })=>{
     const {name, value } = currentTarget;
     setCredentials({...credentials, [name]: value})
@@ -18,34 +20,32 @@ const PasswordForgotten = () => {
   	e.preventDefault();
   	try {
   		const resultat = await AuthAPI.sendEmailToUpdatePassword(credentials.userEmail);	  
-       if (resultat.status === 404) {
-          setResultat(resultat.message);
-          setLoding(true);            
+       if (resultat.data.status === 404) {
+          toast.error("utilisateur non trouvé !")
+          setLoding(true);
+          return;            
        }
-      setResultat(resultat.message);
-      setResponseLoaded(false);
+        if (resultat.status === 400) {
+          toast.error("email invalid !")
+          setLoding(true);
+          return;           
+       }
+      const id = await resultat.data.id
+      localStorage.setItem("newPasswordCode", await resultat.data.resetPasswordCode);
+      setResetPasswordCode(await resultat.data.resetPasswordCode);
+      history.push("/user/new-password/"+id);
   	} catch(e) {
       setLoding(true);
-      setResponseLoaded(false);
-  		toast.error("une erreur est servenu ressayer plus tard !")
-  		console.log(e);
+  		toast.error("Email Invalid!")
   	}
   }
     return (
-        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Mot de Passe Oublié</h5>
-        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <div className="container p-4 m-4 bg-light">
+      <div className="text-center">
+        <h5 className="text-success">Mot de Passe Oublié</h5>
       </div>
-      <div className="modal-body">
-
-      { !responseLoaded && (<h1 className="text-center text-secondary" > {resultat} </h1> ) }
-      
-      { !loading && responseLoaded && (<div className="d-flex justify-content-center text-danger" 
+      <div className="body">
+      { !loading && (<div className="d-flex justify-content-center text-danger" 
             role="status" id="spinner">
             <div className="spinner-border" role="status" style={{"width": 3+"rem", "height": 3+"rem", "margin": 40+"px"}} >
               <span className="sr-only">Loading...</span>
@@ -66,12 +66,7 @@ const PasswordForgotten = () => {
                   </form>)
       }
       </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
-  </div>
-</div>
     );
 };
 

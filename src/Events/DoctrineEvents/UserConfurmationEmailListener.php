@@ -5,9 +5,6 @@ namespace App\Events\DoctrineEvents;
 use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-
-
 
 class UserConfurmationEmailListener extends AbstractController
 {
@@ -15,11 +12,10 @@ class UserConfurmationEmailListener extends AbstractController
     // the entity instance and the lifecycle event
      
 
-     private $tokenGenerator, $mailer;
+     private $mailer;
 
-    function __construct(TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
+    function __construct(\Swift_Mailer $mailer)
     {
-    	$this->tokenGenerator = $tokenGenerator;
     	$this->mailer = $mailer;
     }
 
