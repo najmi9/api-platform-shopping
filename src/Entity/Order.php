@@ -14,9 +14,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @APiResource(
- *   itemOperations={"GET"},
- *   collectionOperations={"POST", "GET"},
+ * attributes={
+ *   "security"="is_granted('ROLE_USER')",
+ *  "security_message"="une authenfication est requise pour création  d'une cart"
+ *  },
+ *   itemOperations={
+ *       "GET"={},
+ *       "DELETE" = {
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *        "security_message"="juste l'admin peut supprimer cet order !"     
+ *       },
+ *       "PUT" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="juste l'admin peut modifer cet order !"
+ *       }
+ *   },
+ *   collectionOperations={
+ *      "POST" = {},
+ *       "GET"= {}
+ *       },
  *   normalizationContext={"groups"="order:read"},
+ *   denormalizationContext={"groups"="order:write"},
  * )
  * @ApiFilter(SearchFilter::class, properties={"paid": "true", "user": "exact"})
  * @ORM\Entity(repositoryClass=OrderRepository::class)
@@ -28,34 +46,35 @@ class Order
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write" })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=500)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write" })
      * @Assert\NotBlank(message="payerId ne peut pas être vide !")
      */
     private $payerId;
 
     /**
      * @ORM\Column(type="string", length=500)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write" })
      * @Assert\NotBlank(message="paymentId ne peut pas être vide !")
      */
     private $paymentId;
 
     /**
      * @ORM\Column(type="string", length=500)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write" })
+
      * @Assert\NotBlank(message="token ne peut pas être vide !")
      */
     private $token;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write" })
      * @Assert\NotBlank(message="payerId ne peut pas être vide !")
      * @Assert\Email(message="email n'est pas valid !")
      */
@@ -63,7 +82,7 @@ class Order
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="paid ne peut pas être vide !")
      * @Assert\Type(type="boolean", message="paid doit être boolean !")
      * 
@@ -73,61 +92,61 @@ class Order
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="country ne peut pas être vide !")
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="city ne peut pas être vide !")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="linel ne peut pas être vide !")
      */
     private $linel;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="zip ne peut pas être vide !")
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="state ne peut pas être vide !")
      */
     private $state;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      * @Assert\NotBlank(message="name ne peut pas être vide !")
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      */
     private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity=Cart::class, inversedBy="orders")
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      */
     private $carts;
 

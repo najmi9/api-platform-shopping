@@ -11,7 +11,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+@ApiResource(
+ *    itemOperations={
+ *      "GET" = {},
+ *      "DELETE" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas supprimer cette catégorie si vous êtez pas un admin."
+ *        },
+ *      "PUT" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas modifier cette catégoriesi vous êtez pas un admin."
+ *        }
+ *    },
+ *    collectionOperations={
+ *       "GET"={},
+ *       "POST"={
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas ajouter une nouveau produit si vous êtez pas un admin."
+ *        }
+ *    },
+ *    normalizationContext={"groups"={"category:read"}},
+ *    denormalizationContext={"groups"={"category:write"}},
+ *  
+ * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
@@ -21,6 +43,7 @@ class Category
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"product:write", "product:read"}) 
+     * @Groups({"category:read", "category:write"})
      */
     private $id;
 
@@ -31,6 +54,7 @@ class Category
      * @Assert\Length(min=4, minMessage="le titre doit avoir 4 caractères au minimum .")
      * @Groups({"product:read"})
      * @Groups({"product-comment:read"}) 
+     * @Groups({"category:read", "category:write"})
      */
     private $title;
 
@@ -38,6 +62,7 @@ class Category
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"product:write", "product:read"})
      * @Groups({"product-comment:read"}) 
+     * @Groups({"category:read", "category:write"})
      */
     private $description;
 

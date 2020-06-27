@@ -10,7 +10,24 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  itemOperations={
+ *     "DELETE"={
+ *             "security"="is_granted('ROLE_ADMIN') or
+ *             (is_granted('ROLE_USER') and object.user == user)",
+ *             "security_message"="vous avez pas le droit de supprimer ce like"
+ *      },
+ *      "GET"= { },
+ *    },
+ *    collectionOperations={
+ *       "GET" = {}, 
+ *       "POST"={
+ *            "security"="is_granted('ROLE_ADMIN')or
+ *             (is_granted('ROLE_USER'))",
+ *           "security_message"="vous avez pas le droit de créer une like !"
+ *      }
+ *    },
+ * )
  * @ApiFilter(SearchFilter::class, properties={"user": "exact", "product": "exact"})
  * @ORM\Entity(repositoryClass=LikeRepository::class)
  * @ORM\Table(name="`like`")
@@ -21,6 +38,7 @@ class Like
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"product-read"})
      */
     private $id;
 

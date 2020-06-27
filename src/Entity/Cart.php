@@ -14,14 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
+ * attributes={
+ *  "security"="is_granted('ROLE_USER')",
+ *  "security_message"="une authenfication est requise pour création  d'une cart"
+ *  },
  * collectionOperations={
- *     "get"={  },
- *     "post"={ },
+ *     "get"={},
+ *     "post"={},
  * },
  * itemOperations={
- *     "put"={  },
- *     "delete"={  },
- *     "get"={  },
+ *     "put"={},
+
+ *     "delete"={},
+
+ *     "get"={},
  * },
  * normalizationContext={"groups"={"all-cart:read"}},
  * )
@@ -35,15 +41,18 @@ class Cart
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({ "all-cart:read" })
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "order:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({ "all-cart:read" })
-     * @Groups({"order:read"})
-     * 
+     * @Groups({"all-cart:read"})
+     * @Groups({"order:read", "order:write"})
+     * @Assert\Type(type="integer", message="la quantité doit être un entier !")
+     * @Assert\GreaterThan(value=0, message="la quantité doit être positif non null !")
+     * @Assert\NotNull(message="la quantité ne peut pas être null.")
+     * @Assert\NotBlank(message="la quantité est invalid ")
      */
     private $quantity;
 

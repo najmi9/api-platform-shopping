@@ -14,6 +14,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         refresh:
             pattern:  ^/api/token/refresh
             stateless: true
@@ -38,13 +39,14 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+ 
+
    
     access_control:
-           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ GET]}
+           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
            - { path: ^/api/categories, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ GET] }
            - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST] }
            - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST]}
-           - { path: ^/api/users/email/confirmation, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET] }    
            - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
            - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

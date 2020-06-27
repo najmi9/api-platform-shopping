@@ -3,32 +3,45 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  *  @ApiResource(
- *    itemOperations={"GET" = { "normalization_context"={ 
- *         "groups" =  {"product-comment:read"} },
+ *    itemOperations={
+ *      "GET" = { 
+ *          "normalization_context"={ 
+ *          "groups" =  {"product-comment:read"} },
  *          "denormalization_context" = {
  *          "groups" = {"product-comment:write"}}
  *       },
- *      "DELETE",
- *      "PUT"
+ *      "DELETE" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas supprimer ce produit si vous êtez pas un admin."
+ *        },
+ *      "PUT" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas modifier ce produit si vous êtez pas un admin."
+ *        }
  *    },
- *    collectionOperations={"GET", "POST"},
+ *    collectionOperations={
+ *       "GET"={
+ *       },
+ *       "POST"={
+ *          "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
+ *        }
+ *    },
  *    normalizationContext={"groups"={"product:read"}},
  *    denormalizationContext={"groups"={"product:write"}},
  *  
  * )
- * @ApiFilter(SearchFilter::class, properties={"user": "exact", "product": "exact"})
  * 
  */
 class Product
@@ -46,13 +59,12 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"product:write", "product:read"})
      * @Assert\Length(min=4, minMessage="votre titre est trop petit")
      * @Assert\NotBlank(message="le titre ne peut pas être null")
      * @Groups({"comment:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read" })
-     * @Groups({"order:read"})
+     * @Groups({"order:read", "product:write", "product:read"})
      * 
      */
     private $title;
@@ -68,14 +80,12 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"product:write", "product:read"})
-     * Assert\Url(message="l'url n'est pas valide")
-     * @Groups({"comment:read"})
+     * @ORM\ManyToOne(targetEntity=MediaObject::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @ApiProperty(iri="http://schema.org/image")
+     * @Groups({"product:write", "product:read", "comment:read", "order:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read"  })
-     * @Groups({"order:read"})
-     * 
+     * @Groups({ "all-cart:read", "order:read" })
      */
     private $picture;
 
@@ -85,11 +95,8 @@ class Product
      * @Assert\Type(type="string", message="le prix doit être valid")
      * @Assert\Length(min=3, minMessage="le prix est invalid")
      * @Assert\NotBlank(message="le prix ne peut pas être null")
-     * 
      * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read" })
-     * @Groups({"order:read"})
-     * 
+     * @Groups({ "all-cart:read", "order:read", "order:read"})
      */
     private $price;
 
@@ -107,8 +114,7 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="product",  orphanRemoval=true)
-     * @Groups({"product:read", "product:read"})
-     * @Groups({"product-comment:read"})
+     * @Groups({"product:read", "product-comment:read"})
      */
     private $likes;
 
@@ -162,12 +168,12 @@ class Product
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPicture() 
     {
         return $this->picture;
     }
 
-    public function setPicture(string $picture)
+    public function setPicture($picture)
     {
         $this->picture = $picture;
     }

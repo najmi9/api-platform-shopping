@@ -35,10 +35,19 @@ services:
 
                 # set the 'lazy' option to TRUE to only instantiate listeners when they are used
                 lazy: true
-    'App\Doctrine\CurrentUserExtension':
+    'App\Doctrine\CartExtension':
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection }
             - { name: api_platform.doctrine.orm.query_extension.item }
+    'App\Doctrine\OrderExtension':
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection }
+            - { name: api_platform.doctrine.orm.query_extension.item }
+            
     'App\Dto\ForgotPasswordRequest': ~
+    App\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: ['@App\Swagger\SwaggerDecorator.inner']
+        autoconfigure: false
             
     

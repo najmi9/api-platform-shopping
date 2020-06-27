@@ -28,7 +28,7 @@ final class NewPasswordRequest
      * @Assert\NotBlank(message="le password ne peut pas être vide")
      * @Assert\NotNull(message="le code ne peut pas être null")
      * @Assert\EqualTo(propertyPath="password", message="les passwords sont différentes")
-     * @Assert\Length(min=6, max=1444)
+     * @Assert\Length(min=6, max=1444, minMessage="le mot de passe est trop cort, doit êter > à 6 caractère!")
      */
     public $passwordConfirm;
 

@@ -28,15 +28,15 @@ class CancledOrderSubscriber implements EventSubscriberInterface
 
     public function setUserForOrder(ViewEvent $event)
     {
-        $comment = $event->getControllerResult();
+        $canclecdOrder = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if ($comment instanceof CancledOrder && $method === "POST") {
+        if ($canclecdOrder instanceof CancledOrder && $method === "POST") {
             // Choper l'utilisateur actuellement connecté
             $user = $this->security->getUser();
             // Assigner l'utilisateur au Customer qu'on est en train de créer
             if ($user) {
-                $comment->setUser($user)
+                $canclecdOrder->setUser($user)
                         ->setCreatedAt(new \DateTime())
                 ;
             }

@@ -11,16 +11,22 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Validator\ValidatorInterface;
+
 
 final class NewPasswordSubscriber implements EventSubscriberInterface
 {
     private $encoder, $em, $userRepo;
+    private $validator;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UserRepository $userRepo)
+
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UserRepository $userRepo, ValidatorInterface $validator)
     {
         $this->encoder = $encoder;
         $this->em = $em;
         $this->userRepo = $userRepo;
+        $this->validator = $validator;
+
     }
 
     public static function getSubscribedEvents()
@@ -36,8 +42,9 @@ final class NewPasswordSubscriber implements EventSubscriberInterface
         if ('api_new_password_requests_post_collection' !== $request->attributes->get('_route')) {
             return;
         }
-        
          $newPasswordRequest = $event->getControllerResult();// password
+         $this->validator->validate($newPasswordRequest);
+         
         $user = $this->userRepo->findOneByResetPasswordCode(
             (string)$newPasswordRequest->resetPasswordCode);
          if ($user) {

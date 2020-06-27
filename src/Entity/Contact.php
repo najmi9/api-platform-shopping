@@ -9,7 +9,26 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
- * @ApiResource(  
+ * @ApiResource( 
+ *  itemOperations={
+ *     "DELETE"={
+ *             "security"="is_granted('ROLE_ADMIN')" ,
+ *             "security_message"="vous avez pas le droit de supprimer ce contact"
+ *      },
+ *     
+ *     "PUT"={
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *           "security_message"="vous avez pas le droit de modifier ce contact"
+ *     }
+ *    },
+ *    collectionOperations={
+ *       "GET" = { 
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *           "security_message"="vous avez pas le droit de voir les contact"
+ *        }, 
+ *       "POST"={}
+ *    },
+ 
  *  )
  */
 class Contact
@@ -25,6 +44,7 @@ class Contact
      * @ORM\Column(type="string", length=255)
      * @Assert\Email(message="Votre email est invalid !")
      * @Assert\NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\NotNull(message="Ce champ ne peut pas être null !")
      */
     private $email;
 
@@ -32,6 +52,8 @@ class Contact
      * @ORM\Column(type="text")
      * @Assert\Length(min=3, max=2000, minMessage="Vous dit presque rien !")
      * @Assert\NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\NotNull(message="Ce champ ne peut pas être vide !")
+     * @Assert\Type(type="string", message="Ce champ ne peut pas être que une châine de caractère !")
      */
     private $message;
 

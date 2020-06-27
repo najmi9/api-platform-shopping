@@ -57,14 +57,14 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user:write", "user:read", "comment:read", "comment-write", "product-comment:read", "order:read"})
+     * @Groups({"user:write", "user:read", "comment:read", "comment-write", "product-comment:read", "order:read", "order:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:write", "user:read"})
-     * @Groups({"comment:read", "order:read", "product-comment:read", "order:read"})
+     * @Groups({"comment:read", "order:write", "order:read", "product-comment:read", "order:read"})
      * @Assert\NotBlank(message="username ne peut pas être vide !")
      * @Assert\Length(min=3, minMessage="le nombre de caractère de ce champ doit être superieur à 3!")
      */
@@ -120,7 +120,7 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @ORM\ManyToMany(targetEntity=CancledOrder::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=CancledOrder::class, mappedBy="user")
      */
     private $cancledOrders;
 

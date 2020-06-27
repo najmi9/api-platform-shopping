@@ -12,17 +12,15 @@ class UserChecker implements UserCheckerInterface
     public function checkPreAuth(UserInterface $user)
     {
          
-
         if (!$user instanceof AppUser) {
             return;
         }
-
-     
-          
-            throw new CustomUserMessageAccountStatusException("le compte n'est pas encore activé ");
-        
-          
-       
+        /**
+         * Assurer que le compte est activé !
+         */
+        if ($user->getActivationCode()!==null) {
+           throw new CustomUserMessageAccountStatusException("le compte n'est pas encore activé ");
+        }
     }
 
     public function checkPostAuth(UserInterface $user)
@@ -32,8 +30,5 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof AppUser) {
             return;
         }
-           throw new CustomUserMessageAccountStatusException();
-        
-             
     }
 }

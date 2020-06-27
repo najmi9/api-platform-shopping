@@ -11,18 +11,21 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class ForgetPasswordSubscriber extends AbstractController implements EventSubscriberInterface
 {
     private $userManager, $mailer, $normalizer, $em;
+     private $validator;
 
-    public function __construct(UserRepository $userManager, \Swift_Mailer $mailer, NormalizerInterface $normalizer,EntityManagerInterface $em )
+    public function __construct(UserRepository $userManager, \Swift_Mailer $mailer, NormalizerInterface $normalizer,EntityManagerInterface $em, ValidatorInterface $validator )
     {
         $this->userManager = $userManager;
         $this->mailer = $mailer;
         $this->normalizer = $normalizer;
         $this->em = $em;
+        $this->validator = $validator;
     }
 
     public static function getSubscribedEvents()
@@ -40,8 +43,10 @@ final class ForgetPasswordSubscriber extends AbstractController implements Event
         }
         
         $forgotPasswordRequest = $event->getControllerResult();
-        $user = $this->userManager->findOneByEmail($forgotPasswordRequest->email);
+          $this->validator->validate($forgotPasswordRequest);
         
+        $user = $this->userManager->findOneByEmail($forgotPasswordRequest->getEmail());
+         
         if (!$user) {
         $event->setResponse(new JsonResponse([
             "status"=>404,

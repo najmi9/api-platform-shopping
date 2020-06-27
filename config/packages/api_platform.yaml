@@ -3,10 +3,16 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/src/Dto']
     patch_formats:
         json: ['application/merge-patch+json']
+   
     swagger:
         versions: [3]
         api_keys:
              apiKey:
                 name: Authorization
                 type: header
-   
+
+
+    title: "SOUK SIDI EL MOKHTAR API"
+    description: "SOUK SIDI EL MOKHTAR API est
+     une petite APIRSET d'une application e-commerce qui permet de vender quelque produit techniques"
+    version: '0.1.0'

@@ -13,16 +13,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *    itemOperations={"GET", 
- *    
- *     "DELETE"={"security"="is_granted('ROLE_USER') and object.user == user",
- *     "security_message"="Sorry, but you are not the comment owner"},
+ *    itemOperations={
+ *     "DELETE"={
+ *             "security"="is_granted('ROLE_ADMIN') or
+ *             (is_granted('ROLE_USER') and object.user == user)",
+ *             "security_message"="Sorry, but you are not the comment owner"
+ *      },
  *     
- *     "PUT"={"security"="is_granted('ROLE_USER') and object.user == user",
- *     "security_message"="Sorry, but you are not the comment owner"}
+ *     "PUT"={
+ *           "security"="is_granted('ROLE_ADMIN')
+ *           or (is_granted('ROLE_USER') and object.user == user)",
+ *           "security_message"="Sorry, but you are not the comment owner"
+ *     }
  *    },
- *    collectionOperations={"GET", "POST"},
- *    normalizationContext={"groups"={"comment:read"}},
+ *    collectionOperations={
+ *       "GET" = { }, 
+ *       "POST"={
+ *              "security"="is_granted('ROLE_ADMIN')
+ *              or (is_granted('ROLE_USER'))",
+ *              "security_message"="tu peux pas ajouter un commenter si 
+ *              ne vous êtez pas connecté ou un admin"     
+ *       }
+ *    },
+ *     normalizationContext={"groups"={"comment:read"}},
  *     denormalizationContext={"groups"={"comment:write"}},
  * )
  * @ApiFilter(SearchFilter::class, properties={"product": "exact", "user":"exact"})
@@ -45,7 +58,12 @@ class Comment
      * @ORM\Column(type="text")
      * @Groups({"comment:read", "comment:write"})
      * @Groups({"product-comment:read"})
-     * 
+     * @Assert\NotNull(message="le contenu du commentaire est ne peut pas 
+     * être vide")
+     * @Assert\NotBlank(message="le contenu du commentaire est ne peut pas 
+     * être vide")
+     * @Assert\Length(min=3, minMessage="votre message est trop cort",
+     *  max=4000, maxMessage="votre message est trop long")
      */
     private $content;
 

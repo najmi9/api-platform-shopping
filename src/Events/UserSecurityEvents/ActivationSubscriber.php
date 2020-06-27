@@ -11,17 +11,20 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Validator\ValidatorInterface;
 
 
 final class ActivationSubscriber implements EventSubscriberInterface
 {
     
     private $userRepo, $em;
+    private $validator;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $userRepo)
+    public function __construct(EntityManagerInterface $em, UserRepository $userRepo, ValidatorInterface $validator)
     {
         $this->em = $em;
         $this->userRepo = $userRepo;
+        $this->validator = $validator;
     }
 
     public static function getSubscribedEvents()
@@ -40,9 +43,8 @@ final class ActivationSubscriber implements EventSubscriberInterface
            return null;
        }
         $activationRequest = $event->getControllerResult();
-        
-        $user = $this->userRepo->findOneByActivationCode($activationRequest->activationCode);
-       
+         $this->validator->validate($activationRequest);
+        $user = $this->userRepo->findOneByActivationCode($activationRequest->getActivationCode());
          if ($user) 
          {
                         $user

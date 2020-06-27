@@ -12,19 +12,23 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Validator\ValidatorInterface;
+
 
 
 
 final class CheckResetPasswordSubscriber implements EventSubscriberInterface
 {
     private $encoder, $em, $userRepo;
+     private $validator;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UserRepository $userRepo, NormalizerInterface $normalizer)
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UserRepository $userRepo, NormalizerInterface $normalizer, ValidatorInterface $validator)
     {
         $this->encoder = $encoder;
         $this->em = $em;
         $this->userRepo = $userRepo;
         $this->normalizer = $normalizer;
+         $this->validator = $validator;
     }
 
     public static function getSubscribedEvents()
@@ -41,10 +45,9 @@ final class CheckResetPasswordSubscriber implements EventSubscriberInterface
             return;
         }
          $codePasswordRequest = $event->getControllerResult();
-        
+          $this->validator->validate($codePasswordRequest);
          $user = $this->userRepo->findOneByResetPasswordCode(
-         	(string)$codePasswordRequest->resetPasswordCode);
-
+         	(string)$codePasswordRequest->getResetPasswordCode());
          if ($user) {
              $userNormaliser = $this->normalizer->normalize($user, null, ['groups'=>'user:read']);
             $data = json_encode($userNormaliser);

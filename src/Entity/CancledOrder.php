@@ -4,13 +4,33 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CancledOrderRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ * attributes={
+ *   "security"="is_granted('ROLE_USER')",
+ *  "security_message"="une authenfication est requise pour création  d'une cart"
+ *  },
+ *   itemOperations={
+ *       "GET"={},
+ *       "DELETE" = {
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *        "security_message"="juste l'admin peut supprimer cet order !"
+ *       
+ *       },
+ *       "PUT" = {
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="juste l'admin peut modifer cet order !"
+ *       }
+ *   },
+ *   collectionOperations={
+ *      "POST" = {},
+ *       "GET"= {}
+ *       },
+ * )
  * @ORM\Entity(repositoryClass=CancledOrderRepository::class)
  */
 class CancledOrder
@@ -24,21 +44,25 @@ class CancledOrder
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="le paymentID ne peut pas être null")
      */
     private $paymentID;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="le paymentID ne peut pas être null")
      */
     private $paymentToken;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="le paymentID ne peut pas être null")
      */
     private $intent;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="le paymentID ne peut pas être null")
      */
     private $billingID;
 
@@ -48,14 +72,9 @@ class CancledOrder
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="cancledOrders")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
      */
     private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -122,28 +141,14 @@ class CancledOrder
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
+        $this->user = $user;
 
         return $this;
     }

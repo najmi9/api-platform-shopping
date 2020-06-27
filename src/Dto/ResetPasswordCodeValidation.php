@@ -23,7 +23,17 @@ final class ResetPasswordCodeValidation
      * @Assert\Type(type="integer", message="le code doit être entier")
      * @Assert\Length(min=6, max=6)
      */
-    public $resetPasswordCode;
+    private $resetPasswordCode;
+
+    public function getResetPasswordCode(): int
+    {
+    	return (int) $this->resetPasswordCode;
+    }
+
+    public function setResetPasswordCode(int $resetPasswordCode): void
+    {
+    	$this->resetPasswordCode = $resetPasswordCode;
+    }
     
    
 }

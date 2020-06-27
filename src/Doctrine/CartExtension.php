@@ -8,29 +8,28 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Cart;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use App\Entity\User;
 
-class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+class CartExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
     private $security;
-    private $auth;
 
-    public function __construct(Security $security, AuthorizationCheckerInterface $checker)
+    public function __construct(Security $security)
     {
         $this->security = $security;
-        $this->auth = $checker;
     }
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {    
-   // dd($queryBuilder, $resourceClass); 
-      /* $user = $this->security->getUser();   
-        if ($user instanceof User && $resourceClass === User::class) {
-           $rootAlias = $queryBuilder->getRootAliases()[0];
-           $queryBuilder->andWhere("$rootAlias.activationCode = :value");
-           $queryBuilder->setParameter("value", null);        
-        }  */
+        $user = $this->security->getUser();  
+
+     if (null === $user || $resourceClass !== Cart::class || $this->security->isGranted('ROLE_ADMIN')) {
+          return;      
+        } 
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $queryBuilder->andWhere(sprintf("%s.user = :current_user",  $rootAlias));
+        $queryBuilder->setParameter("current_user", $user);
+            
     }
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)

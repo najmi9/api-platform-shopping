@@ -21,5 +21,15 @@ final class ForgotPasswordRequest
      * @Assert\NotBlank(message="email est obligatoire !")
      * @Assert\Email(message="email invalid")
      */
-    public $email;
+    private $email;
+
+    public function getEmail() : string
+    {
+    	return (string) $this->email;
+    }
+
+    public function setEmail(string $email) : void
+    {
+    	$this->email = $email;
+    }
 }
