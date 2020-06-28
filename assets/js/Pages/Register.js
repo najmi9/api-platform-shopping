@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import AuthAPI from '../Services/AuthAPI';
 import { toast } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
-import AuthContext from '../contexts/AuthContext'
 
 
 const Register = ({ history }) =>{
-  const { setCode } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
    const [errors, setErrors] = useState({
     username: "",
@@ -33,14 +31,11 @@ const Register = ({ history }) =>{
      setLoading(true);
    	e.preventDefault();
    	try {
-   		const data = await AuthAPI.register(user);
-      
-      console.log(await data)
-      setCode(await +data.activationCode)
+   		const data = await AuthAPI.register(user);      
        setErrors({});
    		 toast.success("Votre compte à été bien crée !, il reste juste que t'activer.")
        document.getElementById('js-action').style.display="none";
-       history.push("/user/activation/"+data.id);
+       history.push("/user/activation");
 
    	} catch(error) {
         setLoading(false);

@@ -25,12 +25,12 @@ final class ResetPasswordCodeValidation
      */
     private $resetPasswordCode;
 
-    public function getResetPasswordCode(): int
+    public function getResetPasswordCode()
     {
-    	return (int) $this->resetPasswordCode;
+    	return  $this->resetPasswordCode;
     }
 
-    public function setResetPasswordCode(int $resetPasswordCode): void
+    public function setResetPasswordCode($resetPasswordCode): void
     {
     	$this->resetPasswordCode = $resetPasswordCode;
     }

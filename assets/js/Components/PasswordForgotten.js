@@ -1,42 +1,46 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import AuthAPI from '../Services/AuthAPI';
-import AuthContext from '../contexts/AuthContext';
 import { toast } from "react-toastify";
 
 
 const PasswordForgotten = ({history}) => {
-  const {setResetPasswordCode} = useContext(AuthContext);
-	const [credentials, setCredentials] = useState({
-		'userEmail':''
-	});
+	const [email, setEmail] = useState("");
+   const [errors, setErrors] = useState({
+    email: ""
+  });
+  const apiErrors = {};
   const [loading, setLoding] = useState(true);
+
 	  const handleChange = ({ currentTarget })=>{
-    const {name, value } = currentTarget;
-    setCredentials({...credentials, [name]: value})
-  }
+       setEmail(currentTarget.value)
+    }
 
   const handleForgottenEmailSubmit = async e =>{
       setLoding(false);
-  	e.preventDefault();
+  	  e.preventDefault();
   	try {
-  		const resultat = await AuthAPI.sendEmailToUpdatePassword(credentials.userEmail);	  
-       if (resultat.data.status === 404) {
-          toast.error("utilisateur non trouvé !")
-          setLoding(true);
-          return;            
-       }
-        if (resultat.status === 400) {
-          toast.error("email invalid !")
-          setLoding(true);
-          return;           
-       }
-      const id = await resultat.data.id
-      localStorage.setItem("newPasswordCode", await resultat.data.resetPasswordCode);
-      setResetPasswordCode(await resultat.data.resetPasswordCode);
-      history.push("/user/new-password/"+id);
+  		const resultat = await AuthAPI.sendEmailToUpdatePassword({"email" :email});	  
+      setErrors({});
+      toast.info("un code de vérifaication a été envoyer à cet email, veuillez de le confirmer !")
+      history.push("/user/new-password");
+
   	} catch(e) {
       setLoding(true);
-  		toast.error("Email Invalid!")
+  		 if (e.response) {
+       const { violations } = e.response.data; 
+       if (violations) {
+            violations.forEach(violation => {
+       document.querySelector("input[name="+violation.propertyPath+"]").classList.add('is-invalid')
+          apiErrors[violation.propertyPath] = violation.message;
+       });
+        setErrors(apiErrors);
+      toast.error('Email Invalid ')
+        
+       }    
+       if (e.response.data.message) {
+         toast.error(e.response.data.message)
+       }
+    } 
   	}
   }
     return (
@@ -56,9 +60,10 @@ const PasswordForgotten = ({history}) => {
      { loading &&( <form onSubmit={handleForgottenEmailSubmit} >
                  <div className="form-group">
                  <label htmlFor="email"> Entrez votre email : </label>
-                  <input className="form-control" name="userEmail" id="email"
+                  <input className="form-control" name="email" id="email"
                   placeholder="Vous allez recevoir un email dans cet adrress !"
-                   value={credentials.userEmail} onChange={handleChange}  />
+                   value={email} onChange={handleChange}  />
+                  <div className="invalid-feedback"> {errors.email} </div>
                 </div>
                 <div className="form-group">
                    <button type="submit" className="btn btn-success w-100">send</button>

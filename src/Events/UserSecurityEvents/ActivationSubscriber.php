@@ -56,8 +56,8 @@ final class ActivationSubscriber implements EventSubscriberInterface
            }else{
                  $event->setResponse(new JsonResponse([
                     "status"=>400,
-                    "message"=>"Bad Request"
-                ], 200));           
+                    "message"=>"le code d'activation est incorrect"
+                ], 400));           
 
            }
     }

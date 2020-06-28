@@ -43,7 +43,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="juste les admins peuvent avoir les utilisateurs !."
  *      },
- *      "POST"={},
+ *      "POST"={
+ *       
+ *      },
  *     },
  *    normalizationContext={"groups"={"user:read"}},
  *    denormalizationContext={"groups"={"user:write"}}
@@ -66,13 +68,14 @@ class User implements UserInterface
      * @Groups({"user:write", "user:read"})
      * @Groups({"comment:read", "order:write", "order:read", "product-comment:read", "order:read"})
      * @Assert\NotBlank(message="username ne peut pas être vide !")
+     * @Assert\NotNull(message="username ne peut pas être null !")
      * @Assert\Length(min=3, minMessage="le nombre de caractère de ce champ doit être superieur à 3!")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"user:write", "user:read"})
+     * @Groups({"user:read"})
      */
     private $roles = [];
 
@@ -81,12 +84,15 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      * @Groups({"user:write"})
      * @Assert\NotBlank(message="password ne peut pas être vide !") 
+     * @Assert\NotNull(message="password ne peut pas être null !") 
      * @Assert\Length(min=6, minMessage="le nombre de caractère de ce champ doit  être superieur à 6!")
      */
     private $password;
     /**
      * @Groups({"user:write"})
      * @Assert\EqualTo(propertyPath="password", message="les password sont différentes !")
+     * @Assert\NotNull(message="confirmer votre mot de passe")
+     * @Assert\NotBlank(message="confirmer votre mot de passe")
      */
     public $passwordConfirm;
 

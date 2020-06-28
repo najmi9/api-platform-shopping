@@ -8,6 +8,7 @@ const Orders = () =>{
    
    const [orders, setOrders] = useState([]);
    const [loading, setLoading] = useState(false);
+   const [error, setError] = useState(false);
 
    const fetchOrders = async () =>{
    	const user = UserInfo.parseJwt();
@@ -16,6 +17,7 @@ const Orders = () =>{
        	setOrders(await OrderAPI.fetchOrdersForThisUser(user.userId));
        	setLoading(true);
        } catch(e) {
+        setError(true)
         toast.error("une error est servenue réysser plustard !")
        	console.log(e);
        }
@@ -28,6 +30,9 @@ useEffect(()=>{
 	return (
        <div className="comments">
         <h5 className="text-center"> Mes Orderes : </h5>
+        {error || orders.length ===0  && (<h1 className="bg-light text-info text-center">
+          Il n'a pas des orders encore !
+        </h1>)}
         <div className="orders">
         {loading && (orders.map(o=>(
           <div className="card" key={o.id} >
@@ -49,7 +54,9 @@ useEffect(()=>{
                <h4> Les produits </h4>
                { o.carts.map(cart=>(
                   <div className="prod-order" key={cart.id}>
-                    <img src={cart.product.picture} alt={cart.product.title} height = '100px' width="100px" style={{ "flaot":"left" }} /> 
+                    
+                    <img src={cart.product.picture ?(cart.product.picture.contentUrl):(null)} alt={cart.product.title} height = '100px' width="100px" style={{ "flaot":"left" }} /> 
+                    
                     <h5> 
                       le prix : 
                       <span className="badge badge-primay">

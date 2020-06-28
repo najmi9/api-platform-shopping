@@ -23,7 +23,7 @@ import Product from './Pages/Product';
 import Paypal from './Pages/Paypal';
 import Activation from './Pages/Activation';
 import Cart from './Pages/Cart';
-import LoginModal from './Pages/LoginModal';
+import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Test from './Pages/Test';
 import BuyProduct from './Pages/BuyProduct';
@@ -44,8 +44,6 @@ function App({cartItems}) {
    const [price, setPrice] = useState(0);
    const [carts, setCarts] = useState([]);
    const [product, setProduct] = useState(false);
-   const [code, setCode] = useState(parseInt(localStorage.getItem("Code")));
-   const [resetPasswordCode, setResetPasswordCode] = useState(parseInt(localStorage.getItem("newPasswordCode")));
 
    const NavbarWithRouter = withRouter(Navbar);
 
@@ -61,23 +59,19 @@ function App({cartItems}) {
         setCarts,
         product,
         setProduct,
-        code,
-        setCode,
-        resetPasswordCode,
-        setResetPasswordCode
       }}
     >
    <Router>
    <NavbarWithRouter />
    <Sidebar />
       <Switch>
-      <Route path="/login" component={ LoginModal } exact/>
+      <Route path="/login" component={ Login } exact/>
       <Route path="/register" component={ Register } exact/>
       <PrivateRoute path="/product/buy/end" component={ Paypal } exact/>
-      <Route path="/reset-password-request" component= { PasswordForgotten} exact />
-      <Route path="/user/new-password/:id" component= { ResetPassword} exact />
+      <Route path="/user/reset-password/request" component= { PasswordForgotten} exact />
+      <Route path="/user/new-password" component= { ResetPassword} exact />
       <Route path="/" component= { Home} exact />
-      <Route path="/user/activation/:id" component= { Activation} exact />
+      <Route path="/user/activation" component= { Activation} exact />
       <Route path="/test" component= { Test} exact />
       <Route path="/cart" component= { Cart } exact />
       <Route path="/contact/new" component= { Contact } exact />

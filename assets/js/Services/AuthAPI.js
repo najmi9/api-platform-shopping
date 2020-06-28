@@ -6,14 +6,14 @@ const LOGIN_API = API_URL+"/login_check";
 const REGISTER_URL = API_URL + "/users";
 
 
-const resetPassword =async (id, data) =>{
-  const response = await axios.post(REGISTER_URL+"/new-password/"+id, data);
+const resetPassword =async (data) =>{
+  const response = await axios.post(REGISTER_URL+"/new-password", data);
   return await response;
 }
 
 
-const activate = async (acode) => {
-   const response = await axios.post(REGISTER_URL+"/account/activation", {"activationCode":acode});
+const activate = async (code) => {
+   const response = await axios.post(REGISTER_URL+"/account/activation", code);
    return await response
 }
 
@@ -89,9 +89,16 @@ function isAuthenticated() {
 
 
 const sendEmailToUpdatePassword = async (data) => {
-   const response = await axios.post(REGISTER_URL+"/forgot-password-request", {"email":data});
-    console.log(await response);
+   const response = await axios.post(REGISTER_URL+"/forgot-password-request", data);
    return await response
+}
+
+const isCodeValid = async (code) => {
+  const response = await axios.post(
+    REGISTER_URL+"/reset-password/code/validation",
+    code
+  );
+  return await response;
 }
 
 export default {
@@ -102,5 +109,6 @@ export default {
   isAuthenticated,
   activate,
   resetPassword,
-  sendEmailToUpdatePassword
+  sendEmailToUpdatePassword,
+  isCodeValid
 };

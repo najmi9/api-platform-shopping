@@ -12,7 +12,6 @@ window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
 
 function saveState(state){
-    console.log('saveState..')
     localStorage.setItem('cart', JSON.stringify(state));
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext} from 'react';
 import AuthContext from "../contexts/AuthContext";
 import { Link } from 'react-router-dom';
-import LoginModal from '../Pages/LoginModal';
+import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import { connect } from 'react-redux';
 import PayNow from '../Components/PayNow'
@@ -18,7 +18,7 @@ const Paypal = () =>{
 		{!isAuthenticated && (
               <div>
             
-                       <LoginModal />
+                       <Login />
                       <h6>
                           Si vous n'avez pas un compte encore !
                            Essayer de crée un c'est très facile ! 

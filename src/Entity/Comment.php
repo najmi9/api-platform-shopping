@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *    itemOperations={
+ *    "GET"={},
  *     "DELETE"={
  *             "security"="is_granted('ROLE_ADMIN') or
  *             (is_granted('ROLE_USER') and object.user == user)",
@@ -50,7 +51,6 @@ class Comment
      * @ORM\Column(type="integer")
      * @Groups({"comment:read", "comment:write"})
      * @Groups({"product-comment:read"})
-     * 
      */
     private $id;
 

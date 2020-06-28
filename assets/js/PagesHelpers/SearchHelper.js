@@ -11,8 +11,14 @@ const SearchHelper = ({handleSearchChange, handleCategoryChange,}) =>{
  
 
 	const fetchCategories = async ()=>{
-		setCategories(await ProductAPI.fetchCategories());
-    setLoading(true);
+    try {
+      setCategories(await ProductAPI.fetchCategories());
+      setLoading(true);
+    } catch(e) {
+      setLoading(true)
+      console.log(e);
+    }
+		
 	}
   
 useEffect(()=>{

@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import LoginModal from '../Pages/LoginModal';
 import AuthAPI from "../Services/AuthAPI";
 import { NavLink, Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { connect } from 'react-redux';
 import CartAPI from '../Services/CartAPI'
-import {API_URL} from '../Services/Config'
+import Cache from '../Services/Cache'
 
 const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
   
@@ -18,7 +17,9 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
     clearCart();
     await AuthAPI.logout();
     setIsAuthenticated(false);
-
+    Cache.invalidate('souk-sidi-el-mokhtar-orders');
+    Cache.invalidate('products');
+    Cache.invalidate('likes');
     //toast.info("Vous êtes désormais déconnecté 😁");
     //history.push("/");
   };

@@ -20,7 +20,7 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                  </div>
                  <div className="card-body">   
                     <p className="card-img"> 
-                      <img alt={item.product.picture} src={ item.product.picture } className="card-img" /> 
+                      <img alt={item.product.picture? (item.product.picture.contentUrl):(null)} src={ item.product.picture } className="card-img" /> 
                     </p>
                    <p className="text-center"> { item.product.title } </p>
                    <p className="text-center"> 

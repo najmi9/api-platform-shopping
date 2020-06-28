@@ -1,82 +1,83 @@
-import React, { useState, useContext } from 'react';
-import AuthContext from '../contexts/AuthContext';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import AuthAPI from '../Services/AuthAPI';
+import NewPasswordForm from '../PagesHelpers/NewPasswordForm'; 
 
 
-const ResetPassword = ({match, history}) => {
-   const {resetPasswordCode } = useContext(AuthContext);
-   const {id} = match.params;
+const ResetPassword = ({history}) => {
    const [dispalyForm, setDisplayForm] = useState(false);
    const [loading, setLoading] = useState(false);
-   const [spinnerDisplay, setSpinnerDisplay] = useState(false)
-   const [credentials, setCredentials] = useState({
-   	"password":'',
-   	"passwordConfirm":''
+   const [spinnerDisplay, setSpinnerDisplay] = useState(false);
+   const [resetPasswordCode, setCode] = useState('');
+   const [errors, setErrors] = useState({
+    resetPasswordCode: ""
    });
-   const [code, setCode] = useState('');
+   const apiErrors = {};
+
+ 
 
    const handleChangeCode = ({ currentTarget }) =>{
    	setCode(currentTarget.value)
    }
    
-    const handleChange = ({ currentTarget })=>{
-    const {name, value } = currentTarget;
-    setCredentials({...credentials, [name]: value})
-    }
+  
 
-   const handleValidateCode = e =>{
-    e.preventDefault();
-   	if (resetPasswordCode === code) {
-        setLoading(true);
-        setDisplayForm(true);
-        toast.info("Voila, essayer de réintialiser votre mot de passe !");
-   	}else {
-   		toast.error("le code d'activation est incorrect, vérifier bien votre email!")
-   	}
+   const handleValidateCode =async (e) =>{
+       setLoading(true);
+       setDisplayForm(false);
+       setSpinnerDisplay(true);
+    try {
+      e.preventDefault();
+       const response = await AuthAPI.isCodeValid(
+        {"resetPasswordCode": parseInt(resetPasswordCode)})   
+      
+       toast.info("Voila, essayer de réintialiser votre mot de passe !"); 
+       setDisplayForm(true);
+       setSpinnerDisplay(false)
+    } catch(e) {
+      setLoading(false);
+       setSpinnerDisplay(false);
+        if (e.response) {
+            const { violations } = e.response.data; 
+            if (violations) {
+               violations.forEach(violation => {
+        document.querySelector("input[name="+violation.propertyPath+"]").classList.add('is-invalid')
+          apiErrors[violation.propertyPath] = violation.message;
+        });
+        setErrors(apiErrors);
+        console.log(apiErrors)
+            }   
+
+            if (e.response.data.message) {
+              toast.error(e.response.data.message);
+            }else {
+               toast.error("des erreurs dans votre formulaire !")
+            } 
+      
+        }
+    }    
    }
 
-   const handleResetPassword = async e =>{
-   e.preventDefault();
-   if (credentials.password !== credentials.passwordConfirm) {
-      toast.error("les mots de passes sont différentes!");
-      return;
-   }
-   if (credentials.password .length<6) {
-      toast.error("les mot de passe doit être superieur de 6 caractères !");
-      return;
-   }
 
-    setSpinnerDisplay(true);
-    setDisplayForm(false);
-   	const response = await AuthAPI.resetPassword(id, {
-   		"userId":id,
-   		"resetPasswordCode" : code,
-   		"password": credentials.password
-
-   	});
-   	if (response.status == 200) {
-      localStorage.clear('newPasswordCode');
-   		toast.success("votre mot de passe est bien modifié !");
-     history.push("/login");
-   	}else{
-   		toast.error("votre requête n'est pas bon !");
-      setSpinnerDisplay(true);
-      setDisplayForm(false);
-   	}
-   }
-
-    return (<div>
+    return (<div className="p-5 m-5">
          {!loading && (
         <div className="container p-4">
           <h3 className="border-bottom bg-light"> Entrez le code de réintialization de mot de passe </h3>
           <form onSubmit={handleValidateCode}>
            <div className="form-group">
-             <input className="form-control" placeholder="entrez votre code dans l'email qui vous avez reçu !"
-             name="code" value={code} onChange={handleChangeCode} required={true}/>
+
+             <input className="form-control" 
+             placeholder="entrez votre code dans l'email qui vous avez reçu !"
+             name="resetPasswordCode" 
+             value={resetPasswordCode}
+             onChange={handleChangeCode} 
+             required={true} />
+
+             <div className="invalid-feedback"> {errors.resetPasswordCode} </div>
+            
            </div>
            <div className="form-group">
-           <button className="btn btn-primary btn-xl">
+           <button className="btn btn-primary btn-xl" type="submit">
              vérifier on code !
            </button>
            </div>
@@ -84,27 +85,7 @@ const ResetPassword = ({match, history}) => {
         </div>)
          }
 
-        { dispalyForm && !spinnerDisplay && (<div  className="container p-4">
-          <h3 className="border-bottom bg-light text-center"> Entrez le nouveau mot de passe </h3>
-
-            <form onSubmit={handleResetPassword}>
-           <div className="form-group">
-             <input className="form-control" type="password"
-             placeholder="entrer le nouveau mot de pass"
-              name="password" value={credentials.password} onChange={handleChange} />
-           </div>
-           <div className="form-group">
-             <input className="form-control" type="password"
-             name="passwordConfirm" placeholder="confirmer le nouveau mot de pass"
-             value={credentials.passwordConfirm} onChange={handleChange} />
-           </div>
-           <div className="form-group">
-           <button className="btn btn-primary btn-xl">
-             modifier mon mot de passe !
-           </button>
-           </div>
-           </form>
-           </div>)
+        { dispalyForm && !spinnerDisplay && (<NewPasswordForm history={history} resetPasswordCode={resetPasswordCode} />)
         }
 
         { !dispalyForm && spinnerDisplay && (

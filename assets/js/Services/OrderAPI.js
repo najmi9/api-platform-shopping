@@ -6,7 +6,7 @@ import Cache from "./Cache";
 const ORDER_URL = API_URL+"/orders";
 
 const createOrder = async data =>{
- const res = await axios.pose(ORDER_URL, data);
+ const res = await axios.post(ORDER_URL, data);
  return await res.data;
 } 
 
@@ -15,7 +15,7 @@ const fetchOrdersForThisUser = async (id) =>{
 	if (cachedOrders) {
 		return await cachedOrders;
 	}
-	const res = await axios.get(ORDER_URL+"?user="+id);
+	const res = await axios.get(ORDER_URL);
 	Cache.set("souk-sidi-el-mokhtar-orders", await res.data["hydra:member"])
 	return await res.data["hydra:member"]; 
 }

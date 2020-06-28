@@ -5,6 +5,7 @@ import TableLoader from '../Components/Loaders/TableLoader';
 import Pagination from '../Components/Pagination'
 import Product from '../Components/Product';
 import SearchHelper from '../PagesHelpers/SearchHelper';
+import { toast } from 'react-toastify';
 
 const Home = () =>{
   const [data, setData] = useState([]);
@@ -12,7 +13,7 @@ const Home = () =>{
 	const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searched, setSearched] = useState([]);
-
+ const [error, setError] = useState(false);
 
   const handlePageChange = page => setCurrentPage(page);
   const itemsPerPage = 5;
@@ -41,8 +42,16 @@ const Home = () =>{
   }
    
   const fetchProducts = async () =>{
-       setData(await ProductAPI.fetchProducts());
+     try {
+      setData(await ProductAPI.fetchProducts());
        setLoading(false);
+     } catch(e) {
+       setLoading(false);
+
+      setError(true);
+     toast.info("Désolé, une erruer se produit réaysser plus tard ! ")
+     }
+       
   }
 
   
@@ -76,7 +85,9 @@ const Home = () =>{
             <SearchHelper handleSearchChange={handleSearchChange}
             handleCategoryChange={handleCategoryChange} data={data} />
         </div>
-  
+      {error && (<h1 className="bg-warning text-light text-center border-bottom">
+       Désole, Il n'y a pas des produits encore, shopper plustard ! </h1>)}
+        
         { loading && (<div className="text-center loader-child "><TableLoader /></div>) }
         
         { searched.length>0 && renderMe(searched) }

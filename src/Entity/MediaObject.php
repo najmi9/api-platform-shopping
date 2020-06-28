@@ -43,15 +43,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                 }
  *             }
  *         },
- *         "get"={
- *            "security"="is_granted('ROLE_ADMIN')",
- *            "security_message"="vous avez pas le droit de voir ces images"
- *         }
+ *         "get"={}
  *     },
  *     itemOperations={
- *         "get"={
- *          "security"="is_granted('ROLE_ADMIN')",
- *           "security_message"="vous avez pas le droit de voir cet image"}
+ *         "get"={}
  *     }
  * )
  * @Vich\Uploadable
@@ -71,7 +66,7 @@ class MediaObject
      * @var string|null
      *
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"media_object_read", "product:read", "all-cart:read"})
+     * @Groups({"media_object_read", "product:read",  "order:read", "all-cart:read"})
      */
     public $contentUrl;
 

@@ -11,10 +11,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
+ * 
  *  itemOperations={
  *     "DELETE"={
- *             "security"="is_granted('ROLE_ADMIN') or
- *             (is_granted('ROLE_USER') and object.user == user)",
+ *             "security"="is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object.getUser() == user)",
  *             "security_message"="vous avez pas le droit de supprimer ce like"
  *      },
  *      "GET"= { },
@@ -22,8 +22,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *    collectionOperations={
  *       "GET" = {}, 
  *       "POST"={
- *            "security"="is_granted('ROLE_ADMIN')or
- *             (is_granted('ROLE_USER'))",
+ *            "security"="is_granted('ROLE_USER')",
  *           "security_message"="vous avez pas le droit de créer une like !"
  *      }
  *    },

@@ -102,7 +102,7 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="product")
-     * @Groups({"product-comment:read", "order:read"})
+     * @Groups({"product-comment:read"})
      * 
      */
     private $comments;

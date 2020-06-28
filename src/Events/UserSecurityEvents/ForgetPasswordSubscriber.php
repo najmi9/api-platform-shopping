@@ -51,7 +51,7 @@ final class ForgetPasswordSubscriber extends AbstractController implements Event
         $event->setResponse(new JsonResponse([
             "status"=>404,
             "message"=>"l'utlisateur non trouvé !"
-        ], 200));
+        ], 404));
         }
 
         if ($user) {

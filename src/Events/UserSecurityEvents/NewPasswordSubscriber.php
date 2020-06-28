@@ -63,7 +63,7 @@ final class NewPasswordSubscriber implements EventSubscriberInterface
                  $event->setResponse(new JsonResponse([
                     "status"=>400,
                     "message"=>"Bad Request"
-                ], 200));           
+                ], 400));           
 
            }
     }

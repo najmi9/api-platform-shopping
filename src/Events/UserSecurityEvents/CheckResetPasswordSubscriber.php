@@ -56,7 +56,7 @@ final class CheckResetPasswordSubscriber implements EventSubscriberInterface
                  $event->setResponse(new JsonResponse([
                     "status"=>400,
                     "message"=>"le code est incorrect !"
-                ], 200));           
+                ], 400));           
 
            }
     }

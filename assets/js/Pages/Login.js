@@ -8,13 +8,12 @@ import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
 import { Link } from 'react-router-dom';
 
-const LoginModal = ({ history, cartItems, addToCart}) => {
+const Login = ({ history, cartItems, addToCart}) => {
   const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
  const [credentials, setCredentials] = useState({
   'email': '',
   'password': ''
  })
-   const [error, setError] = useState("");
 
  const [oldCarts, setOldCarts] = useState([]);
  const [loading, setLoading] =useState(false);
@@ -56,7 +55,6 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
     } catch(error) {
       setLoading(false);
        if (error.response) {
-        setError(error.response.data.message )
       toast.error(error.response.data.message )
        }
       
@@ -65,7 +63,6 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
 	return <div className="container p-5 mt-5">
       <h5 className="text-center"> Connexion au site</h5>
 
-     <div className="invalid-feedback is-invalid"> {error} </div>
 
       {loading && (<div className="d-flex justify-content-center text-success" 
            role="status" id="spinner">
@@ -75,7 +72,7 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
               </div>)
             }
 
-      {!loading && (<div className="bt-light text-center">
+      {!loading && (<div className="bt-light text-center ">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-group mb-2">
@@ -106,7 +103,7 @@ const LoginModal = ({ history, cartItems, addToCart}) => {
 
         </form>
          <div className="m-3">
-        <Link to="/reset-password-request" className="btn">
+        <Link to="/user/reset-password/request" className="btn">
          J'ai oublié le mot de passe ?
           </Link>
 
@@ -126,4 +123,4 @@ const mapDispatchToProps = dispatch =>{
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
