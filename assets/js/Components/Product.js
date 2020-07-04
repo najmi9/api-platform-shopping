@@ -10,7 +10,11 @@
   handleImage(item.id);
 
   return  <div className="card" key={item.id}>
-      <img src={item.picture?(item.picture.contentUrl):(null)} onClick={()=>handleImage(item.id)}
+      <img 
+
+      src={"http://lorempixel.com/400/200/business"} 
+
+      onClick={()=>handleImage(item.id)}
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
       <div className="card-body">
         <h3 className="card-title price" id="js-price"> 
