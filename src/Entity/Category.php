@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +45,7 @@ class Category
      * @ORM\Column(type="integer")
      * @Groups({"product:write", "product:read"}) 
      * @Groups({"category:read", "category:write"})
+     * @ApiProperty(iri="http://schema.org/id")
      */
     private $id;
 

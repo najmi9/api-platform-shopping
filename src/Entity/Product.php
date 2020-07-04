@@ -54,6 +54,7 @@ class Product
      * @Groups({"comment:read", "comment:write"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read" })
+     * @ApiProperty(iri="http://schema.org/id")
      */
     private $id;
 
