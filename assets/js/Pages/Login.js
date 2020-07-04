@@ -42,16 +42,16 @@ const Login = ({ history, cartItems, addToCart}) => {
       }        
     }
 
-  const handleSubmit =async  e =>{
+     const handleSubmit =async  e =>{
        setLoading(true);
-    e.preventDefault();
+       e.preventDefault();
     try {
-
-     const response = await AuthAPI.authenticate(credentials);
-     console.log(await response)
+      const response = await AuthAPI.authenticate(credentials);
+      console.log(await response)
       await fetchCarts();
       toast.success('Votre connexion a été bien fait');
-        setLoading(false);
+      setLoading(false);
+      history.push("/");
     } catch(error) {
       setLoading(false);
        if (error.response) {

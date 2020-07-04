@@ -1,6 +1,7 @@
 body{
 margin: 0px;
-padding: 0;;
+padding: 0;
+height: 100%;
 }
 
 
@@ -149,7 +150,7 @@ footer{
 	align-items: center;
 	width: 100%;
 	padding: 15px;
-	position: relative;
+	position: absolute;
 	bottom: 0;
 }
 .middle_footer{

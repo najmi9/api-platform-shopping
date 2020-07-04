@@ -14,16 +14,18 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * 
  *  itemOperations={
  *     "DELETE"={
- *             "security"="is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object.getUser() == user)",
- *             "security_message"="vous avez pas le droit de supprimer ce like"
+ *             "security"="(
+ is_granted('ROLE_ADMIN')) or
+  (is_granted('ROLE_USER') and object.getUser() == user)",
+            "security_message"="vous avez pas le droit de supprimer ce like"
  *      },
- *      "GET"= { },
+ *      "GET"= {},
  *    },
  *    collectionOperations={
  *       "GET" = {}, 
  *       "POST"={
  *            "security"="is_granted('ROLE_USER')",
- *           "security_message"="vous avez pas le droit de créer une like !"
+ *            "security_message"="vous avez pas le droit de créer une like !"
  *      }
  *    },
  * )
