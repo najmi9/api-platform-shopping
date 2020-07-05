@@ -9,22 +9,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
- * @ApiResource( 
+ * @ApiResource(  
  *  itemOperations={
+ *     "GET"={ "security"="is_granted('ROLE_ADMIN')",
+ *           "security_message"="vous avez pas le droit de voir les
+ *            contact"},
  *     "DELETE"={
- *             "security"="is_granted('ROLE_ADMIN')" ,
- *             "security_message"="vous avez pas le droit de supprimer ce contact"
- *      },
+              "security"="is_granted('ROLE_ADMIN')" ,
+              "security_message"="vous avez pas le droit de supprimer ce 
+              contact"
+        },
  *     
  *     "PUT"={
  *           "security"="is_granted('ROLE_ADMIN')",
- *           "security_message"="vous avez pas le droit de modifier ce contact"
- *     }
+ *           "security_message"="vous avez pas le droit de modifier
+ *            ceontact"
+ *      }
  *    },
  *    collectionOperations={
  *       "GET" = { 
  *           "security"="is_granted('ROLE_ADMIN')",
- *           "security_message"="vous avez pas le droit de voir les contact"
+ *           "security_message"="vous avez pas le droit de voir les
+ *            contact"
  *        }, 
  *       "POST"={}
  *    },
