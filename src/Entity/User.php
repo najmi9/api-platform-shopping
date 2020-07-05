@@ -132,11 +132,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * * @Groups({"user:write", "user:read"})
      */
     private $activationCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * * @Groups({"user:write", "user:read"})
      */
     private $resetPasswordCode;
     
