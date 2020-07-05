@@ -5,7 +5,6 @@ import axios from 'axios';
 const PRODUCT_URL = API_URL + "/products";
 
 const fetchProducts = async () => {
-  console.log(PRODUCT_URL, API_URL);
   const cachedProducts = await Cache.get("products");
 if (cachedProducts) {return cachedProducts}
    const res = await axios.get(PRODUCT_URL);

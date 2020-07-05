@@ -47,7 +47,6 @@ const Login = ({ history, cartItems, addToCart}) => {
        e.preventDefault();
     try {
       const response = await AuthAPI.authenticate(credentials);
-      console.log(await response)
       await fetchCarts();
       toast.success('Votre connexion a été bien fait');
       setLoading(false);
@@ -70,7 +69,7 @@ const Login = ({ history, cartItems, addToCart}) => {
               </div>)
             }
 
-      {!loading && (<div className="bt-light text-center ">
+      {!loading && (<div className="bt-light text-center container p-5 mt-5">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-group mb-2">
