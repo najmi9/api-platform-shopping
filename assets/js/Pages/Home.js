@@ -88,7 +88,6 @@ const Home = () =>{
       {error && (<h1 className="bg-warning text-light text-center border-bottom">
        Désole, Il n'y a pas des produits encore, shopper plustard ! </h1>)}
         
-        { loading && (<div className="text-center loader-child "><TableLoader /></div>) }
         
         { searched.length>0 && renderMe(searched) }
         { results.length>0  && renderMe(results) }
