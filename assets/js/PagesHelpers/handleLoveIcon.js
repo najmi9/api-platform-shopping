@@ -11,24 +11,27 @@ const LoveIcon = ({ item }) => {
   const { isAuthenticated } =useContext(AuthContext);
   const [isLiked, setIsLiked] = useState(false);
   const [product, setProduct] = useState(item)
-
-   const handleLove = async (id) =>{
+  const [likes, setLikes] = useState(product.likes.length)
+ 
+   const handleLove = async (product) =>{
+    const id = product.id
    if (isAuthenticated) {
           if(isLiked){
           setIsLiked(false)       
            try {
-           await LikeAPI.deleteLike(id);   
-           setProduct(await ProductAPI.fetchProduct(product.id));                        
+            setLikes(likes-1); 
+           const re = await LikeAPI.deleteLike(product);
            } catch(e) {
              console.log(e);
            }
        }else{
          setIsLiked(true)
            try {
-              await LikeAPI.createLike({
-          "product":API_URL+"/products/"+id
-           });
-          setProduct(await ProductAPI.fetchProduct(product.id));
+             setLikes(likes+1);
+             await LikeAPI.createLike({
+              "product":API_URL+"/products/"+id
+             });
+             
            } catch(e) {
             toast.error("Un problème de connexion, se connecter à nouveau !")
              console.log(e);
@@ -51,11 +54,11 @@ if (isAuthenticated) {
 
   return <>
      <span className="" id="js-likes">
-            { product.likes.length }
+            { likes }
           </span> 
 
   <button className="btn" id="btn-js-love" 
-          onClick={()=>handleLove(product.id)}>
+          onClick={()=>handleLove(product)}>
             <i 
             className={ isLiked 
             ? ("fas fa-heart btn-love") : ("far fa-heart")} 

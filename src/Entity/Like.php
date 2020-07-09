@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -15,9 +16,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *  itemOperations={
  *     "DELETE"={
  *             "security"="(
- is_granted('ROLE_ADMIN')) or
-  (is_granted('ROLE_USER') and object.getUser() == user)",
-            "security_message"="vous avez pas le droit de supprimer ce like"
+                  is_granted('ROLE_ADMIN')) or
+                  (is_granted('ROLE_USER') and object.getUser() == user)",
+                  "security_message"="vous avez pas le droit de supprimer ce like"
  *      },
  *      "GET"= {},
  *    },
@@ -28,6 +29,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *            "security_message"="vous avez pas le droit de créer une like !"
  *      }
  *    },
+ *    normalizationContext={"groups"={"like:read"}}
  * )
  * @ApiFilter(SearchFilter::class, properties={"user": "exact", "product": "exact"})
  * @ORM\Entity(repositoryClass=LikeRepository::class)
@@ -39,20 +41,23 @@ class Like
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"product-read"})
+     * @Groups({"product-read", "like:read", "products:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"like:read"})
+     * @Assert\NotNull
+     * @Assert\NotBlank
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
-     * * @Groups({"like-read"})
+     * * @Groups({"like:read", "product-read", "products:read"})
      */
     private $user;
 

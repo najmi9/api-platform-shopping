@@ -36,12 +36,12 @@ public function __construct(RequestStack $requestStack, Security $security)
  */
 public function onJWTCreated(JWTCreatedEvent $event)
 {
-	$user = $this->security->getUser();
     $request = $this->requestStack->getCurrentRequest();
-   
     $payload       = $event->getData();
     $payload['ip'] = $request->getClientIp();
-    $payload['userId'] = $user->getId();
+
+    $payload['userId'] = $event->getUser()->getId();
+   
     
     $event->setData($payload);
      

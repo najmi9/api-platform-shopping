@@ -32,6 +32,10 @@ use Doctrine\ORM\Mapping as ORM;
  *    },
  *    collectionOperations={
  *       "GET"={
+ *       "normalization_context"={ 
+ *          "groups" =  {"products:read"} },
+ *          "denormalization_context" = {
+ *          "groups" = {"products:write"}}
  *       },
  *       "POST"={
  *          "security"="is_granted('ROLE_ADMIN')",
@@ -52,8 +56,8 @@ class Product
      * @ORM\Column(type="integer")
      * @Groups({"product:write", "product:read"})
      * @Groups({"comment:read", "comment:write"})
-     * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read" })
+     * @Groups({"product-comment:read","products:read","products:read", "product-comment:write"})
+     * @Groups({ "all-cart:read", "order:read", "like:read"})
      * @ApiProperty(iri="http://schema.org/id")
      */
     private $id;
@@ -65,7 +69,7 @@ class Product
      * @Groups({"comment:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read" })
-     * @Groups({"order:read", "product:write", "product:read"})
+     * @Groups({"order:read", "product:write", "product:read", "products:read"})
      * 
      */
     private $title;
@@ -75,7 +79,7 @@ class Product
      * @Groups({"product:write", "product:read"})
      *  @Assert\Length(min=4, minMessage="votre description est trop petit")
      * @Assert\NotBlank(message="Description ne peut pas être null")
-     * @Groups({"product-comment:read", "product-comment:write"})
+     * @Groups({"product-comment:read", "product-comment:write", "products:read"})
      * 
      */
     private $description;
@@ -86,7 +90,7 @@ class Product
      * @ApiProperty(iri="http://schema.org/image")
      * @Groups({"product:write", "product:read", "comment:read", "order:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read" })
+     * @Groups({ "all-cart:read", "order:read", "products:read" })
      */
     private $picture;
 
@@ -97,7 +101,7 @@ class Product
      * @Assert\Length(min=3, minMessage="le prix est invalid")
      * @Assert\NotBlank(message="le prix ne peut pas être null")
      * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read", "order:read"})
+     * @Groups({ "all-cart:read", "order:read", "order:read", "products:read"})
      */
     private $price;
 
@@ -115,21 +119,21 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="product",  orphanRemoval=true)
-     * @Groups({"product:read", "product-comment:read"})
+     * @Groups({"product:read", "product-comment:read", "products:read"})
      */
     private $likes;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      * @Groups({"product:read"})
-     * @Groups({"product-comment:read"})
+     * @Groups({"product-comment:read", "products:read"})
      */
     private $category;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({"product:write", "product:read"})
+     * @Groups({"product:write", "product:read", "products:read"})
      */
     private $promo;
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import AuthAPI from '../Services/AuthAPI';
+import UserAPI from '../Services/UserAPI';
 import NewPasswordForm from '../PagesHelpers/NewPasswordForm'; 
 
 
@@ -28,7 +28,7 @@ const ResetPassword = ({history}) => {
        setSpinnerDisplay(true);
     try {
       e.preventDefault();
-       const response = await AuthAPI.isCodeValid(
+       const response = await UserAPI.isCodeValid(
         {"resetPasswordCode": parseInt(resetPasswordCode)})   
       
        toast.info("Voila, essayer de réintialiser votre mot de passe !"); 

@@ -1,114 +1,70 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { API_URL} from "./Config";
+import UserInfo from "../Components/UserInfo";
 
 const LOGIN_API = API_URL+"/login_check";
 const REGISTER_URL = API_URL + "/users";
 
 
-const resetPassword =async (data) =>{
-  const response = await axios.post(REGISTER_URL+"/new-password", data);
-  return await response;
-}
-
-
-const activate = async (code) => {
-   const response = await axios.post(REGISTER_URL+"/account/activation", code);
-   return await response
-}
-
-const register = async (user) => {
-  const res = await axios.post(REGISTER_URL, user);
-  return await res.data;
-}
-/**
- * Déconnexion (suppression du token du localStorage et sur Axios)
- */
 function logout() {
   window.localStorage.removeItem("authToken");
+  window.localStorage.removeItem("authRefreshToken");
   delete axios.defaults.headers["Authorization"];
 }
 
-/**
- * Requête HTTP d'authentification et stockage du token dans le storage et sur Axios
- * @param {object} credentials
- */
+
 function authenticate(credentials) {
   return axios
     .post(LOGIN_API, credentials)
-    .then(response => response.data.token)
-    .then(token => {
-      if (token) {
-         window.localStorage.setItem("authToken", token);
-         setAxiosToken(token);
+    .then(response => response.data)
+    .then(data => {
+      if (data) {
+         window.localStorage.setItem("authToken", data.token);
+         window.localStorage.setItem("authRefreshToken", data.refresh_token);
+         setAxiosToken(data.token);
       }
-      return token;
+      return data.token;
     });
 }
 
-/**
- * Positionne le token JWT sur Axios
- * @param {string} token Le token JWT
- */
+
 function setAxiosToken(token) {
   axios.defaults.headers["Authorization"] = "Bearer " + token;
 }
 
-/**
- * Mise en place lors du chargement de l'application
- */
-function setup() {
-  // 1. Voir si on a un token ?
-  const token = window.localStorage.getItem("authToken");
-  // 2. Si le token est encore valide
-  if (token) {
-    const { exp: expiration } = jwtDecode(token);
 
-    if (expiration * 1000 > new Date().getTime()) {
-      setAxiosToken(token);
-    }
+const setup = async () => {
+  let token = window.localStorage.getItem("authToken");
+  if (token) {
+      if (UserInfo.isTokenExpired(token)) {
+       await UserInfo.refreshToken();
+       const token = window.localStorage.getItem("authToken");
+      } 
+      if (token) {  
+         setAxiosToken(token);  
+      }
   }
 }
 
-/**
- * Permet de savoir si on est authentifié ou pas
- * @returns boolean
- */
-function isAuthenticated() {
-  // 1. Voir si on a un token ?
-  const token = window.localStorage.getItem("authToken");
+const isAuthenticated = () => {
+  let token = window.localStorage.getItem("authToken");
   if (token) {
-    const { exp: expiration } = jwtDecode(token);
-    if (expiration * 1000 > new Date().getTime()) {
-      return true;
-    }
-    return false;
+      if (UserInfo.isTokenExpired(token)) {
+          UserInfo.refreshToken();
+         const token = window.localStorage.getItem("authToken");
+      }
+      if (token) { 
+        return true;
+      }
   }
   return false;
 }
 
 
-const sendEmailToUpdatePassword = async (data) => {
-   const response = await axios.post(REGISTER_URL+"/forgot-password-request", data);
-   return await response
-}
-
-const isCodeValid = async (code) => {
-  const response = await axios.post(
-    REGISTER_URL+"/reset-password/code/validation",
-    code
-  );
-  return await response;
-}
-
 export default {
-  register,
   authenticate,
   logout,
   setup,
-  isAuthenticated,
-  activate,
-  resetPassword,
-  sendEmailToUpdatePassword,
-  isCodeValid
+  isAuthenticated
 };

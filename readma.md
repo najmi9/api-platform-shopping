@@ -1,33 +1,3 @@
-#coco les amis 
+to do list :
 ```php
-namespace App\Controller;
-
-use Symfony\Component\Najmi\Security;
-
-
-/**
- * kldfsklmkdfmg
- */
-class ClassName extends AnotherClass
-{
-	
-	function __construct(argument)
-	{
-		# code...
-	}
-}
-
-```
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-
-</body>
-</html>
-
-```py
-if x>0:
-	pass
+je suis obligé de faire une get du produit afin de le supprimer !

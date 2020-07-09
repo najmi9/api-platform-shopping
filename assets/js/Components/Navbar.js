@@ -20,8 +20,8 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
     Cache.invalidate('souk-sidi-el-mokhtar-orders');
     Cache.invalidate('products');
     Cache.invalidate('likes');
-    //toast.info("Vous êtes désormais déconnecté 😁");
-    //history.push("/");
+    toast.info("Vous êtes désormais déconnecté 😁");
+    history.push("/");
   };
 
 	return <nav className="navbar navbar-expand-md navbar-light bg-light navbar-prod w-100">

@@ -39,8 +39,11 @@ import Sidebar from './Components/Sidebar';
 
 
 
-function App({cartItems}) {
-   const [isAuthenticated, setIsAuthenticated] = useState(AuthAPI.isAuthenticated())
+const  App = ({ cartItems }) => {
+ 
+    const  isOk = AuthAPI.isAuthenticated()
+    const [isAuthenticated, setIsAuthenticated] = useState(isOk);
+ 
    const [price, setPrice] = useState(0);
    const [carts, setCarts] = useState([]);
    const [product, setProduct] = useState(false);

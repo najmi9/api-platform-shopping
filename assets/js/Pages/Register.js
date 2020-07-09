@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthAPI from '../Services/AuthAPI';
+import UserAPI from '../Services/UserAPI';
 import { toast } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ const Register = ({ history }) =>{
      setLoading(true);
    	e.preventDefault();
    	try {
-   		const data = await AuthAPI.register(user);      
+   		const data = await UserAPI.register(user);      
        setErrors({});
    		 toast.success("Votre compte à été bien crée !, il reste juste que t'activer.")
        document.getElementById('js-action').style.display="none";

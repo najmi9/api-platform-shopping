@@ -27,7 +27,6 @@ const Home = () =>{
         if (cancel) {
         setResults([]);   
         }   
-        console.log(results)     
   }
   const filteredItems = (data, value="") => data.filter(
        c =>

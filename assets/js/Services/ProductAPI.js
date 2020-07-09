@@ -18,7 +18,7 @@ const fetchProduct = async (id) =>{
     return cachedProduct
   }
       const res = await axios.get(PRODUCT_URL+"/"+id);
-      Cache.set("product"+id, res.data)
+      Cache.set("product"+id, await res.data)
      return res.data;
 }
 const deleteProduct = async (id) =>{
@@ -42,7 +42,7 @@ const fetchCategories = async () =>{
   if (cachedCategories) {
    return cachedCategories;
   }
-   const res = await axios .get(API_URL+"/categories")
+   const res = await axios.get(API_URL+"/categories")
    Cache.set('categoriesforproducts',await res.data['hydra:member'] );
      return res.data['hydra:member'];
 }
@@ -54,7 +54,7 @@ export default {
 	deleteProduct,
 	updateProduct,
 	createProduct,
-     fetchCategories
+  fetchCategories
 }
 
 

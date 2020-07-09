@@ -44,7 +44,7 @@ class Category
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"product:write", "product:read"}) 
-     * @Groups({"category:read", "category:write"})
+     * @Groups({"category:read", "category:write", "products:read"})
      * @ApiProperty(iri="http://schema.org/id")
      */
     private $id;
@@ -56,7 +56,7 @@ class Category
      * @Assert\Length(min=4, minMessage="le titre doit avoir 4 caractères au minimum .")
      * @Groups({"product:read"})
      * @Groups({"product-comment:read"}) 
-     * @Groups({"category:read", "category:write"})
+     * @Groups({"category:read", "category:write", "products:read"})
      */
     private $title;
 

@@ -1,56 +1,62 @@
+import { API_URL} from "../Services/Config";
 import LikeAPI from "../Services/LikeAPI";
 import jwtDecode from "jwt-decode";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-function parseJwt () {
-   const token = localStorage.getItem("authToken");
+const parseJwt = async () => {
+   let token = localStorage.getItem("authToken");
    if (token) {
-    const { exp: expiration } = jwtDecode(token);
-    if (expiration * 1000 > new Date().getTime()) {
-          var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-    }
-  }else{
-return null;
-
-  }
-  
+       if (isTokenExpired(token)) {
+         await refreshToken();
+         const token = localStorage.getItem("authToken");
+       }
+      if (token) {   
+        return jwtDecode(token);
+      }
+   }
+   return null;  
 };
 
+ const isTokenExpired = (token) =>{
+    const { exp: expiration } = jwtDecode(token);
+
+    if (expiration * 1000 > new Date().getTime()) {
+         return false;
+    }
+
+    return true;
+ } 
+
+ const refreshToken = async () =>{
+    const refresh_token =  localStorage.getItem("authRefreshToken");
+    if (!refresh_token) {
+      localStorage.setItem("authToken", '');
+      return;
+    }
+    try {
+        const response = await axios.post(API_URL+"/token/refresh", {
+          "refresh_token": refresh_token
+        });
+        localStorage.setItem("authToken", await response.data.token);
+    } catch(e) {
+        localStorage.setItem("authToken", '');
+        toast.error("un erreur est produit lors d'actualisation de token !")
+        console.log(e);
+    }
+ }
 
 
-    function isHasRoleAdmin (){
-        const userToken = localStorage.getItem('authToken');
-        let exist = false;
-        if (userToken) {
-            const userRoles = parseJwt().roles;
-            userRoles.forEach( function(role) {
-                if (role == "ROLE_ADMIN") {
-                exist = true
-                    }
-                });
-            }
-        if (exist) {
-            return true;
-        }else{
-            return false
-        }
-    } 
     const isLikedByUser = async (productId) =>{
+
         let isLiked = false;
 
-        if (parseJwt()) {
-            const userId = parseJwt().userId;
-            const likes = await LikeAPI.getLikesForUser(userId);
+        if (await parseJwt()) {
+            const user = await parseJwt();
+            const likes = await LikeAPI.getLikesForUser(user.userId);
             if (likes) {
             likes.map(like=>{
-            	const pro = like.product;
-            	const idOfPro = pro.substr(14);
-                 if (+idOfPro == productId) {
+                 if (like.product.id == productId) {
                     isLiked = true;
                 }
         });
@@ -64,5 +70,6 @@ return null;
 export default {
     isLikedByUser,
 	parseJwt,
-	isHasRoleAdmin
+    isTokenExpired,
+    refreshToken
 }

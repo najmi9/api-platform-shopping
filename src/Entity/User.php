@@ -59,7 +59,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user:write", "user:read", "comment:read", "comment-write", "product-comment:read", "order:read", "order:write"})
+     * @Groups({"user:write", "user:read", "comment:read", "comment-write", "product-comment:read", "order:read","like:read", "order:write", "product-read", "products:read"})
      */
     private $id;
 

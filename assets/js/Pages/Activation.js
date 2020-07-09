@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthAPI from '../Services/AuthAPI';
+import UserAPI from '../Services/UserAPI';
 import {toast} from 'react-toastify'
 
 const Activation = ( { history } ) => {
@@ -18,7 +18,7 @@ const Activation = ( { history } ) => {
       e.preventDefault();
       setLoading(false);
       try {
-          const response = await AuthAPI.activate({"activationCode": parseInt(activationCode)});
+          const response = await UserAPI.activate({"activationCode": parseInt(activationCode)});
           setErrors({});
           toast.success("votre compte est bien activé, se connecter maintenant !")
           history.push("/login")

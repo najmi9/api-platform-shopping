@@ -66,7 +66,7 @@ class MediaObject
      * @var string|null
      *
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"media_object_read", "product:read",  "order:read", "all-cart:read"})
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read"})
      */
     public $contentUrl;
 

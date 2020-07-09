@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthAPI from '../Services/AuthAPI';
+import UserAPI from '../Services/UserAPI';
 import { toast } from "react-toastify";
 
 
@@ -19,7 +19,7 @@ const PasswordForgotten = ({history}) => {
       setLoding(false);
   	  e.preventDefault();
   	try {
-  		const resultat = await AuthAPI.sendEmailToUpdatePassword({"email" :email});	  
+  		const resultat = await UserAPI.sendEmailToUpdatePassword({"email" :email});	  
       setErrors({});
       toast.info("un code de vérifaication a été envoyer à cet email, veuillez de le confirmer !")
       history.push("/user/new-password");

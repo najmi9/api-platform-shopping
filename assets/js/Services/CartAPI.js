@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {API_URL} from './Config';
-import UserInfo from '../Components/UserInfo';
 
 const CART_URL = API_URL + "/carts";
 const createCart = async (cart) =>{
@@ -19,7 +18,7 @@ const updateCart = async (id, cart) =>{
 	return await response.data;
 }
 const fetchCartsOfUser = async (id)=>{
-	const CARTS_OF_USER = CART_URL + "?user="+ id+"&&paid=0"; 
+	const CARTS_OF_USER = CART_URL + "?user="+ id+"&paid=0"; 
 	const response = await axios.get(CARTS_OF_USER);
 	return await response.data['hydra:member'];
 }
@@ -50,10 +49,6 @@ const updateCartsOfUser = async (cartsItems) =>{
   });
   }
  
-
-   //const cs = await fetchCartsOfUser(UserInfo.parseJwt().userId);
-  // localStorage.setItem('oldCarts', JSON.stringify(cs));
-     
 }
 
 export default {

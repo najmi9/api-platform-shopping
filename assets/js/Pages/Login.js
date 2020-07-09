@@ -26,8 +26,8 @@ const Login = ({ history, cartItems, addToCart}) => {
   }
     
      const fetchCarts = async () =>{
-      const user = UserInfo.parseJwt();    
-      if (user) {
+      const user = await UserInfo.parseJwt();    
+      if (user.userId) {
       setIsAuthenticated(true); 
       const carts = await CartAPI.fetchCartsOfUser(user.userId);
       if (carts.length>0) {
@@ -36,9 +36,13 @@ const Login = ({ history, cartItems, addToCart}) => {
       carts.map(c=>{
         addToCart(c.product);
       });
-       await  CartAPI.updateCartsOfUser(cartItems);
-       const cs = await CartAPI.fetchCartsOfUser(UserInfo.parseJwt().userId);
-       localStorage.setItem('oldCarts', JSON.stringify(cs)); 
+
+      if (cartItems.length>0) {
+          await  CartAPI.updateCartsOfUser(cartItems);
+          const user = await UserInfo.parseJwt();
+          const cs = await CartAPI.fetchCartsOfUser(user.userId);
+          localStorage.setItem('oldCarts', JSON.stringify(cs)); 
+      }
       }        
     }
 
