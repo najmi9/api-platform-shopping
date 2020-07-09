@@ -35,7 +35,7 @@ const Register = ({ history }) =>{
        setErrors({});
    		 toast.success("Votre compte à été bien crée !, il reste juste que t'activer.")
        document.getElementById('js-action').style.display="none";
-       history.push("/user/activation");
+       history.push("/email-confirmation");
 
    	} catch(error) {
         setLoading(false);

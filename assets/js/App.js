@@ -71,13 +71,13 @@ const  App = ({ cartItems }) => {
       <Route path="/login" component={ Login } exact/>
       <Route path="/register" component={ Register } exact/>
       <PrivateRoute path="/product/buy/end" component={ Paypal } exact/>
-      <Route path="/user/reset-password/request" component= { PasswordForgotten} exact />
-      <Route path="/user/new-password" component= { ResetPassword} exact />
+      <Route path="/reset-password" component= { PasswordForgotten} exact />
+      <Route path="/new-password" component= { ResetPassword} exact />
       <Route path="/" component= { Home} exact />
-      <Route path="/user/activation" component= { Activation} exact />
+      <Route path="/email-confirmation" component= { Activation} exact />
       <Route path="/test" component= { Test} exact />
       <Route path="/cart" component= { Cart } exact />
-      <Route path="/contact/new" component= { Contact } exact />
+      <Route path="/new-contact" component= { Contact } exact />
       <PrivateRoute path="/contact/:id" component= { Contact } exact />
       <PrivateRoute path="/contacts" component= { Contacts } exact />
       <PrivateRoute path="/orders" component= { Orders } exact />
