@@ -90,5 +90,8 @@ class MediaObject
         return $this->id;
     }
 
-    
+    public function setContentUrl(string $contentUrl){
+        $this->contentUrl = $contentUrl;
+        return $this;
+    }
 }

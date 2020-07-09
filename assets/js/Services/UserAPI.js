@@ -17,6 +17,7 @@ const activate = async (code) => {
 
 const register = async (user) => {
   const res = await axios.post(REGISTER_URL, user);
+  console.log(await res)
   return await res.data;
 }
 

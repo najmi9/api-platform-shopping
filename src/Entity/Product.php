@@ -181,6 +181,8 @@ class Product
     public function setPicture($picture)
     {
         $this->picture = $picture;
+
+        return $this;
     }
 
     public function getPrice(): ?string
@@ -191,6 +193,7 @@ class Product
     public function setPrice(string $price)
     {
         $this->price = $price;
+        return $this;
     }
 
     /**
