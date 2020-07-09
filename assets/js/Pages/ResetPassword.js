@@ -59,9 +59,9 @@ const ResetPassword = ({history}) => {
    }
 
 
-    return (<div className="p-5 m-5">
+    return (<div className="p-4">
          {!loading && (
-        <div className="container p-4">
+        <div className="container">
           <h3 className="border-bottom bg-light"> Entrez le code de réintialization de mot de passe </h3>
           <form onSubmit={handleValidateCode}>
            <div className="form-group">

@@ -53,8 +53,8 @@ const Home = () =>{
   }
 
 const style = {
-     "width": 6+"rem", 
-     "height": 6+"rem", 
+     "width": 4+"rem", 
+     "height": 4+"rem", 
      "margin": 150+"px",
      "padding":20+"px"
    }

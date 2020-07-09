@@ -85,7 +85,7 @@ import AuthContext from "../contexts/AuthContext";
 
         const style={
 
-          "margin": 70+"px",
+         
           "border": 2+"px solid orange",
           "borderRadius":5+"px",
           "textAlign":"center"

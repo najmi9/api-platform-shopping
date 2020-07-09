@@ -19,10 +19,12 @@ const Footer = () => {
     	  </div>
 
            <div className="footer text-center left_footer"> 
-            <i className="fab fa-facebook-f"></i>
-            <i className="fab fa-youtube"></i>
-            <i className="fab fa-github"></i>
-            <i className="fab fa-linkedin-in"></i>
+            <a href="https://web.facebook.com/imad.chemiema/">
+            <i className="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/channel/UCLN-GyaZh0079KY7uzqEoSw"><i className="fab fa-youtube"></i></a>
+            <a href="http://github.com/najmi9"><i className="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/mwlite/in/imad-najmi-83369019b"><i className="fab fa-linkedin-in"></i></a>
+
           </div>
 
     	  <div className="footer middle_footer text-center" >
