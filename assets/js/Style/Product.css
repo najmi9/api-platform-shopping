@@ -1,3 +1,7 @@
+.product-img{
+	height: 100%;
+	max-width: 100%;
+}
 .comments{
 	border-top: 1px solid gray;
 	margin: 10px

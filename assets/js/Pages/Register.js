@@ -38,6 +38,7 @@ const Register = ({ history }) =>{
        history.push("/email-confirmation");
 
    	} catch(error) {
+      toast.error('des erreurs dans votre formulaire ! ')
         setLoading(false);
         if (error.response) {
             const { violations } = error.response.data;     
@@ -46,10 +47,7 @@ const Register = ({ history }) =>{
           apiErrors[violation.propertyPath] = violation.message;
         });
         setErrors(apiErrors);
-        }
-     
-     
-      toast.error('des erreurs dans votre formulaire ! ')
+        }   
    	}
    }
   

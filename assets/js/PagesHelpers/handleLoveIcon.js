@@ -21,6 +21,7 @@ const LoveIcon = ({ item }) => {
            try {
             setLikes(likes-1); 
            const re = await LikeAPI.deleteLike(product);
+           setProduct(await ProductAPI.fetchProduct(id))
            } catch(e) {
              console.log(e);
            }
@@ -31,6 +32,8 @@ const LoveIcon = ({ item }) => {
              await LikeAPI.createLike({
               "product":API_URL+"/products/"+id
              });
+           setProduct(await ProductAPI.fetchProduct(id))
+             
              
            } catch(e) {
             toast.error("Un problème de connexion, se connecter à nouveau !")
@@ -54,7 +57,7 @@ if (isAuthenticated) {
 
   return <>
      <span className="" id="js-likes">
-            { likes }
+            { product.likes.length }
           </span> 
 
   <button className="btn" id="btn-js-love" 

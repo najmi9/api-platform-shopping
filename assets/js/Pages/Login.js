@@ -57,12 +57,13 @@ const Login = ({ history, cartItems, addToCart}) => {
       setLoading(false);
       history.push("/");
     } catch(error) {
-     if (error.response.data) {
+      setLoading(false);
+     if (error.response.data.message) {
         toast.error(error.response.data.message)
      }else {
        toast.error("une erreur est servenue réyasser plus tard !")
      }
-      setLoading(false);
+     
       
       
     }

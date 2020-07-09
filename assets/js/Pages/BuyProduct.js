@@ -53,8 +53,8 @@ useEffect(()=>{
     { loading && (
     <div className="product-content">
       <div className="product-body">
-        <div className="product-img ">
-          <img  src={"https://picsum.photos/id/"+id+"/600/300"} />
+        <div className="product-img text-center">
+          <img  src={"https://picsum.photos/id/"+id} />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>
@@ -69,7 +69,7 @@ useEffect(()=>{
           </span>
         </h4>
         <p>
-        <strong> La quantitié disponible : </strong> { product.available_quantity }
+        <strong> La quantitié disponible : </strong> { product.availableQuantity || 1 }
         </p>
         <p>
           <button className="btn btn-sm btn-q" onClick={handleAddQuantity} >+</button>

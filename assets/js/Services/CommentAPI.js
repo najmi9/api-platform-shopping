@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { API_URL } from './Config';
 
-const API_URL = "http://localhost:8000/api";
 const COMMENT_API = API_URL  + "/comments";
 
 const createComment = async (comment) =>{
