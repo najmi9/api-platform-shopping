@@ -104,7 +104,7 @@ const Login = ({ history, cartItems, addToCart}) => {
 
         </form>
          <div className="m-3">
-        <Link to="/user/reset-password/request" className="btn">
+        <Link to="/reset-password" className="btn">
          J'ai oublié le mot de passe ?
           </Link>
 
