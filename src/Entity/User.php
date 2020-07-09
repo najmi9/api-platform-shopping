@@ -141,6 +141,11 @@ class User implements UserInterface
      * * @Groups({"user:write", "user:read"})
      */
     private $resetPasswordCode;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
     
 
 
@@ -411,6 +416,18 @@ class User implements UserInterface
     public function setResetPasswordCode(?string $resetPasswordCode): self
     {
         $this->resetPasswordCode = $resetPasswordCode;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -22,7 +22,7 @@ const PasswordForgotten = ({history}) => {
   		const resultat = await UserAPI.sendEmailToUpdatePassword({"email" :email});	  
       setErrors({});
       toast.info("un code de vérifaication a été envoyer à cet email, veuillez de le confirmer !")
-      history.push("/user/new-password");
+      history.push("/new-password");
 
   	} catch(e) {
       setLoding(true);
