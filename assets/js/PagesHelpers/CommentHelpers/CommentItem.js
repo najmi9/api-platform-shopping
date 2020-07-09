@@ -37,7 +37,7 @@ const CommentItem = ({commentElement,productId, setState }) =>{
  
    const hasCommentOwner = async commentId =>{
  	 var itsHisComment = false;
-  	 const user = UserInfo.parseJwt();
+  	 const user = await  UserInfo.parseJwt();
      if (user) {
         const commts = await CommentAPI.fetchCommentsForThisUser(user.userId);
         if(!commts || commts.length == 0){
@@ -61,7 +61,7 @@ const CommentItem = ({commentElement,productId, setState }) =>{
  	});
  },[comment.id])
 
-return  <div className="container p-4 card" id="comment">
+return  <div className="container card" id="comment">
           
             <div className="card-title">               
                 <h6> 

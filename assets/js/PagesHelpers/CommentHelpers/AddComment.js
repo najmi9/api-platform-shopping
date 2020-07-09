@@ -43,7 +43,7 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
   }, [])
 
 
-	return <form onSubmit={handleSubmit} className="comment-form p-5 m-2">
+	return <form onSubmit={handleSubmit} className="comment-form ">
 	        <div className="form-group">
             <textarea className="form-control" name="content" 
             defaultValue={comment ? comment.content : " "}

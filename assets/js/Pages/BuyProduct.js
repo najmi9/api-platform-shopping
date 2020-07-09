@@ -54,7 +54,7 @@ useEffect(()=>{
     <div className="product-content">
       <div className="product-body">
         <div className="product-img text-center">
-          <img  src={"https://picsum.photos/id/"+id} />
+          <img  src={"https://picsum.photos/id/"+id+"/400/200"} />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>

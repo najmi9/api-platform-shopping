@@ -88,8 +88,7 @@ import AuthContext from "../contexts/AuthContext";
           "margin": 70+"px",
           "border": 2+"px solid orange",
           "borderRadius":5+"px",
-          "textAlign":"center",
-          "padding":50+"px"
+          "textAlign":"center"
         }
 
         return (<div style={style}>
