@@ -38,7 +38,7 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
         Home</NavLink>
       </li>
  <li className="nav-item">
-        <NavLink className="nav-link" to="/contact/new">
+        <NavLink className="nav-link" to="/new-contact">
   <i className="fas fa-envelope"></i>
         Message</NavLink>
       </li>

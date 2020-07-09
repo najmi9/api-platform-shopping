@@ -83,8 +83,21 @@ import AuthContext from "../contexts/AuthContext";
             production: ID,
         }
 
-        return (<div style={{"marginTop": 100+"px"}}>
-            <PaypalExpressBtn env={env} client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />
+        const style={
+
+          "margin": 70+"px",
+          "border": 2+"px solid orange",
+          "borderRadius":5+"px",
+          "textAlign":"center",
+          "padding":50+"px"
+        }
+
+        return (<div style={style}>
+            <PaypalExpressBtn env={env} 
+            client={client} currency={currency} 
+            total={total} onError={onError} onSuccess={onSuccess}
+             onCancel={onCancel}
+              />
         </div>
         );
     }

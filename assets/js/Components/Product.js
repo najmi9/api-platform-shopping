@@ -4,15 +4,17 @@
  import  LoveIcon  from '../PagesHelpers/handleLoveIcon';
  import {handleImage} from '../PagesHelpers/HomeHelper';
  import { Link } from 'react-router-dom';
-
+ 
  const Product = ({ product, addToCart }) =>{
   const [item, setItem] = useState(product);
+  const id = Math.floor((Math.random()*500));
   handleImage(item.id);
+
 
   return  <div className="card" key={item.id}>
       <img 
 
-      src="http://lorempixel.com/400/200/business"
+      src={"https://picsum.photos/id/"+id+"/200/200"}
 
       onClick={()=>handleImage(item.id)}
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>

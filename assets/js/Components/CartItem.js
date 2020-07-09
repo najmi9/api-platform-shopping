@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart, cartItems,handleChange }) =>{
 
-
+ const id = Math.floor((Math.random()*500));
 
 	return (    <div className="card">
                  <div className="card-title">
@@ -20,7 +20,11 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                  </div>
                  <div className="card-body">   
                     <p className="card-img"> 
-                      <img alt={item.product.picture? (item.product.picture.contentUrl):(null)} src={ item.product.picture } className="card-img" /> 
+                      <img 
+                      alt={"img"} 
+                          src={"https://picsum.photos/id/"+id+"/200/200"}
+                           className="card-img" /> 
+                   
                     </p>
                    <p className="text-center"> { item.product.title } </p>
                    <p className="text-center"> 

@@ -7,6 +7,7 @@ import CartAPI from '../Services/CartAPI';
 import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
 import { Link } from 'react-router-dom';
+import '../App.css';
 
 const Login = ({ history, cartItems, addToCart}) => {
   const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
@@ -56,13 +57,18 @@ const Login = ({ history, cartItems, addToCart}) => {
       setLoading(false);
       history.push("/");
     } catch(error) {
+     if (error.response.data) {
+        toast.error(error.response.data.message)
+     }else {
+       toast.error("une erreur est servenue réyasser plus tard !")
+     }
       setLoading(false);
-      toast.error("une erreur est servenue raysser plus tard !")
+      
       
     }
   }
-	return <div className="container p-5 mt-5">
-      <h5 className="text-center"> Connexion au site</h5>
+	return <div className="bg-light container p-4 mt-5" id="login-desktop">
+      <h5 className="text-center text-success m-3"> Connexion au site</h5>
 
 
       {loading && (<div className="d-flex justify-content-center text-success" 
@@ -73,7 +79,7 @@ const Login = ({ history, cartItems, addToCart}) => {
               </div>)
             }
 
-      {!loading && (<div className="bt-light text-center container p-5 mt-5">
+      {!loading && (<div className="bg-light text-center m-2">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-group mb-2">
@@ -83,7 +89,7 @@ const Login = ({ history, cartItems, addToCart}) => {
                </div>
                <input type="email" placeholder="Entrez votre email ..."
                 className="form-control" onChange={handleChange} 
-                  value={credentials.email} name="email" />
+                  value={credentials.email} name="email" required={true} />
             </div>
           </div>
 
@@ -95,7 +101,8 @@ const Login = ({ history, cartItems, addToCart}) => {
             </div>
             <input type="password" placeholder="Entrez votre mot de pass ..."
              className="form-control"  name="password"
-            onChange={handleChange}  value={credentials.password} />
+            onChange={handleChange}  value={credentials.password} 
+            required={true} />
           </div>
         </div>
          <button type="submit" 

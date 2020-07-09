@@ -16,24 +16,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *    itemOperations={
  *    "GET"={},
  *     "DELETE"={
- *             "security"="is_granted('ROLE_ADMIN') or
- *             (is_granted('ROLE_USER') and object.user == user)",
- *             "security_message"="Sorry, but you are not the comment owner"
- *      },
+ *             "security"="(is_granted('ROLE_ADMIN')) or
+             (is_granted('ROLE_USER') and object.getUser() == user)",
+              "security_message"="Sorry, but you are not the comment owner"
+       },
  *     
  *     "PUT"={
- *           "security"="is_granted('ROLE_ADMIN')
- *           or (is_granted('ROLE_USER') and object.user == user)",
+ *           "security"="(is_granted('ROLE_ADMIN'))
+             or (is_granted('ROLE_USER') and object.getUser() == user)",
  *           "security_message"="Sorry, but you are not the comment owner"
  *     }
  *    },
  *    collectionOperations={
  *       "GET" = { }, 
  *       "POST"={
- *              "security"="is_granted('ROLE_ADMIN')
- *              or (is_granted('ROLE_USER'))",
- *              "security_message"="tu peux pas ajouter un commenter si 
- *              ne vous êtez pas connecté ou un admin"     
+ *              "security"="(is_granted('ROLE_ADMIN')) or (is_granted('ROLE_USER'))",
+               "security_message"="tu peux pas ajouter un commenter si 
+               ne vous êtez pas connecté ou un admin"     
  *       }
  *    },
  *     normalizationContext={"groups"={"comment:read"}},

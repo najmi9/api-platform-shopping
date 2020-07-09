@@ -35,12 +35,15 @@ class ProductsFixtures extends Fixture
       
 
     	 for ($i=0; $i <10 ; $i++) { 
+             $nomber = mt_rand(5,20);
     	 	 $product = new Product();
     	 	 $product->setTitle($faker->sentence(3))
                      ->setDescription($faker->paragraph())   
                      ->setCategory($faker->randomElement($categories))
                      ->setPrice((string)mt_rand(100, 1000)) 
                      ->setPicture($faker->randomElement($medias))
+                     ->setPromo("-".$nomber."%")
+                     ->setAvailableQuantity(mt_rand(5,20))
     	 	 ;
              $manager->persist($product);
     	 }

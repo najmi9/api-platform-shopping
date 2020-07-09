@@ -46,9 +46,10 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
 
  const updateCartState = async () =>{
   if (isAuthenticated) {
-    if (UserInfo.parseJwt()) {
+    const user = await UserInfo.parseJwt();
+    if (user.userId) {
         await  CartAPI.updateCartsOfUser(cartItems);
-  const cs = await CartAPI.fetchCartsOfUser(UserInfo.parseJwt().userId);
+  const cs = await CartAPI.fetchCartsOfUser(user.userId);
    localStorage.setItem('oldCarts', JSON.stringify(cs));
   }
     }
@@ -101,7 +102,7 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
         <div className="payment-btn" >
             { selectionnedTotal>0 && (<div className="pay"> 
                 <Link className="text-center btn btn-warning" 
-                onClick={updateCartState} to="/product/buy/end" >
+                onClick={updateCartState} to="/pay-for-product" >
                   <i className="fas fa-dollar-sign"></i>
                   finaliser les paiement ! 
                 </Link>

@@ -42,13 +42,7 @@ useEffect(()=>{
           <form>
           <div className="text-left mb-4">
           <h6 className="text-muted text-italic bg-light mt-5"> Les categories : </h6>
-           {!loading && (<div className="d-flex justify-content-center text-success" 
-           role="status" id="spinner">
-           <div className="spinner-border" role="status" style={{"width": 3+"rem", "height": 3+"rem", "margin": 40+"px"}} >
-              <span className="sr-only">Loading...</span>
-           </div>
-              </div>)
-            }
+        
 
            {loading && (categories.map(c=>(
            <div className="form-group form-check" key={c.id} id="search-category">

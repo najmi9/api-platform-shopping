@@ -137,6 +137,13 @@ class Product
      */
     private $promo;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *  @Groups({"product-comment:read", "product-comment:write"})
+     * @Groups({"product:write", "product:read", "products:read"})
+     */
+    private $availableQuantity;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -309,6 +316,18 @@ class Product
     public function setPromo(?string $promo): self
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    public function getAvailableQuantity(): ?int
+    {
+        return $this->availableQuantity;
+    }
+
+    public function setAvailableQuantity(?int $availableQuantity): self
+    {
+        $this->availableQuantity = $availableQuantity;
 
         return $this;
     }

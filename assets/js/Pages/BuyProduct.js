@@ -16,7 +16,7 @@ const BuyProduct = ({ match, history }) =>{
   const [product, setProducte] = useState({});
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
-
+  const id = Math.ceil((Math.random()*30));
   const handleAddQuantity = () =>{
     setQuantity(quantity+1);
   }
@@ -49,12 +49,12 @@ useEffect(()=>{
   
      return  <div className="product">
 
-    { !loading && (<div className="loader"><TableLoader /></div>) }
+    { !loading && (<div className="loader text-center"><TableLoader /></div>) }
     { loading && (
     <div className="product-content">
       <div className="product-body">
         <div className="product-img ">
-          <img src={ product.picture } />
+          <img  src={"https://picsum.photos/id/"+id+"/600/300"} />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>
@@ -69,7 +69,7 @@ useEffect(()=>{
           </span>
         </h4>
         <p>
-        <strong> La quantitié disponible : </strong> {Math.floor(Math.random()*20) }
+        <strong> La quantitié disponible : </strong> { product.available_quantity }
         </p>
         <p>
           <button className="btn btn-sm btn-q" onClick={handleAddQuantity} >+</button>
@@ -83,7 +83,8 @@ useEffect(()=>{
         <p> 
           <Link to="/" className="btn btn-danger mr-5">Retour à la liste des produits </Link> 
           
-         <Link className="btn btn-warning" onClick={()=>handleBuyProduct(productId)} to="/product/buy/end" >
+         <Link className="btn btn-warning"
+          onClick={()=>handleBuyProduct(productId)} to="/pay-for-product" >
             <i className="fas fa-dollar"></i> Finaliser le paiement
          </Link>
         </p>

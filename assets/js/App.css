@@ -1,0 +1,10 @@
+@media (min-width:1200px) {
+#login-desktop{
+  max-width: 50%;
+  height: 100%;
+}
+#js-action{
+  max-width: 50%;
+  height: 100%;
+}
+}

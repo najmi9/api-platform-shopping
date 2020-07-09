@@ -19,7 +19,7 @@ max-width: 70%;
 }
 
 .loader{
-
+  min-height: 250px;
 }
 .product-content{
 

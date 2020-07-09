@@ -5,7 +5,7 @@ import TableLoader from '../Components/Loaders/TableLoader';
 import Pagination from '../Components/Pagination'
 import Product from '../Components/Product';
 import SearchHelper from '../PagesHelpers/SearchHelper';
-import { toast } from 'react-toastify';
+import Error from '../Components/Error';
 
 const Home = () =>{
   const [data, setData] = useState([]);
@@ -44,15 +44,20 @@ const Home = () =>{
      try {
       setData(await ProductAPI.fetchProducts());
        setLoading(false);
+
      } catch(e) {
        setLoading(false);
-
       setError(true);
-     toast.info("Désolé, une erruer se produit réaysser plus tard ! ")
      }
        
   }
 
+const style = {
+     "width": 6+"rem", 
+     "height": 6+"rem", 
+     "margin": 150+"px",
+     "padding":20+"px"
+   }
   
 
   useEffect(()=>{
@@ -78,20 +83,34 @@ const Home = () =>{
        </> );
   }
 
-	return  (
-  <section> 
-        <div className="search-component">
-            <SearchHelper handleSearchChange={handleSearchChange}
-            handleCategoryChange={handleCategoryChange} data={data} />
-        </div>
-      {error && (<h1 className="bg-warning text-light text-center border-bottom">
-       Désole, Il n'y a pas des produits encore, shopper plustard ! </h1>)}
+	return  (<>
+
+       {loading && (<div className="d-flex justify-content-center text-success" 
+           role="status" id="spinner">
+           <div className="spinner-border" role="status" style={style} >
+              <span className="sr-only">Loading...</span>
+           </div>
+              </div>)
+        }
+     
+       {error && ( <Error /> )}
+
+  {!error && (<section> 
+
+       {!loading && ( <div className="search-component">
+                          <SearchHelper handleSearchChange={handleSearchChange}
+                          handleCategoryChange={handleCategoryChange} data={data} />
+                      </div>)}
+
+     
         
         
         { searched.length>0 && renderMe(searched) }
         { results.length>0  && renderMe(results) }
         {!loading && results.length===0 && searched.length === 0&& renderMe(data) }
-      </section>)
+     
+  </section>)}
+</>)
     
 }
 export default Home;

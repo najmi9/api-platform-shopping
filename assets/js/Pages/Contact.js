@@ -53,7 +53,7 @@ const Contact = ( { history, match } ) => {
      }, [id])
 
   return <div className="container p-5 bg-light mt-5 w-60 text-center">
-           { !editing && (<h1> Me contacter </h1>) || (<h1>Modéfication de message !</h1>) } 
+           { !editing && (<h3 className="text-primary border-bottom mb-3"> Me contacter </h3>) || (<h1>Modéfication de message !</h1>) } 
             <form onSubmit={ handleSubmit } >
            <div className="form-group">
                <input type="email" value={contact.email} placeholder="votre email ..."

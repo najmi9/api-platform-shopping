@@ -137,7 +137,7 @@ footer .middle_footer{
 
 
 footer{
-	margin-top: 20px;
+	margin-top: 0px;
 	background-color: black;
 	color: white;
 	display: grid;
@@ -149,6 +149,8 @@ footer{
 	padding: 15px;
 	position: relative;
 	bottom: 0;
+	height: 100%;
+	min-height: 230px;
 }
 .middle_footer{
 	text-align: center;

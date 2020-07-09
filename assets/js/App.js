@@ -13,7 +13,6 @@ import {
 import './App.css';
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
-import ToTop from './Components/ToTop'
 import PasswordForgotten from './Components/PasswordForgotten'
 import Home from './Pages/Home';
 import Contact from './Pages/Contact';
@@ -30,8 +29,9 @@ import BuyProduct from './Pages/BuyProduct';
 import { ToastContainer, toast } from "react-toastify";
 import AuthAPI from "./Services/AuthAPI";
 import PrivateRoute from './Components/PrivateRoute';
+import UrlNotFound from './Components/UrlNotFound';
 import Orders from './Pages/Orders';
-import Sidebar from './Components/Sidebar';
+
 
 
 
@@ -66,11 +66,11 @@ const  App = ({ cartItems }) => {
     >
    <Router>
    <NavbarWithRouter />
-   <Sidebar />
+   
       <Switch>
       <Route path="/login" component={ Login } exact/>
       <Route path="/register" component={ Register } exact/>
-      <PrivateRoute path="/product/buy/end" component={ Paypal } exact/>
+      <PrivateRoute path="/pay-for-product" component={ Paypal } exact/>
       <Route path="/reset-password" component= { PasswordForgotten} exact />
       <Route path="/new-password" component= { ResetPassword} exact />
       <Route path="/" component= { Home} exact />
@@ -84,8 +84,9 @@ const  App = ({ cartItems }) => {
       <PrivateRoute path="/product/:id" component= { Product } exact />
       <PrivateRoute path="/product/new" component= { Product } exact />
       <Route path="/product/buy/:productId" component= { BuyProduct } exact />
+      <Route component={UrlNotFound} />
      </Switch>
-     <ToTop />
+    
      
      <Footer />
    </Router>
