@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import  AuthAPI from '../../Services/AuthAPI';
 import CommentAPI from '../../Services/CommentAPI';
 import ReactDOM from 'react-dom';
@@ -6,7 +6,6 @@ import { toast} from 'react-toastify';
 import EditComment from './EditComment';
 import moment from 'moment';
 import UserInfo from '../../Components/UserInfo';
-
 
 const CommentItem = ({commentElement,productId, setState }) =>{
   const [comment, setComment] = useState(commentElement)

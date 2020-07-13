@@ -1,13 +1,8 @@
 import React, {useStae} from 'react';
 import { connect } from 'react-redux';
 import CartAPI from '../Services/CartAPI';
-import moment from 'moment';
-
-
 
 const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart, cartItems,handleChange }) =>{
-
- const id = Math.floor((Math.random()*500));
 
 	return (    <div className="card">
                  <div className="card-title">

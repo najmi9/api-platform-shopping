@@ -14,13 +14,9 @@ const ResetPassword = ({history}) => {
    });
    const apiErrors = {};
 
- 
-
    const handleChangeCode = ({ currentTarget }) =>{
    	setCode(currentTarget.value)
    }
-   
-  
 
    const handleValidateCode =async (e) =>{
        setLoading(true);

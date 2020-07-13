@@ -16,8 +16,8 @@ const deleteLike = async (product) =>{
 
 }
 
-const createLike = async like =>{
-  const response = axios.post(LIKE_URL, like);
+const createLike = async id =>{
+  const response = axios.post(LIKE_URL, { "product":API_URL+"/products/"+id});
  return await response.data;
 }
  

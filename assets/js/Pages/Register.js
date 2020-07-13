@@ -3,7 +3,6 @@ import UserAPI from '../Services/UserAPI';
 import { toast } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
 
-
 const Register = ({ history }) =>{
   const [loading, setLoading] = useState(false);
    const [errors, setErrors] = useState({

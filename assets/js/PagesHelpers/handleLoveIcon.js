@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import LikeAPI from '../Services/LikeAPI';
 import AuthAPI from '../Services/AuthAPI';
-import { API_URL } from'../Services/Config';
 import { toast } from 'react-toastify';
 import UserInfo from '../Components/UserInfo';
 import ProductAPI from '../Services/ProductAPI';
@@ -25,7 +24,7 @@ const LoveIcon = ({ item }) => {
             setProduct(await ProductAPI.fetchProduct(product.id));    
         }else{
             setIsLiked(true);
-            await LikeAPI.createLike({ "product":API_URL+"/products/"+product.id});
+            await LikeAPI.createLike(product.id);
             setProduct(await ProductAPI.fetchProduct(product.id));
        }       
     }

@@ -6,7 +6,6 @@ import { API_URL } from "../../Services/Config";
 
 
 const AddComment = ({ productId, setStateAfterAddComment }) =>{
-
   const [comment, setComment] = useState({
   	content:''
   })
@@ -15,7 +14,6 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
     const comment = document.getElementById('js-add-comment');
       comment.classList.replace ('show-comment', 'hide-comment') ;
       document.getElementById('btn-comment').style.display='block';
-
   }
 
  const handleChange = ({ currentTarget }) =>{
@@ -27,10 +25,7 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
       handleCancel();
  	    e.preventDefault();
  	    try {
- 		 await CommentAPI.createComment({
- 			  "content": comment.content,
- 			  "product":API_URL+"/products/"+productId
- 		 })
+ 		 await CommentAPI.createComment(comment.content, productId);
  		 toast.success("Votre commentaire  à été bien ajouté ");
      setStateAfterAddComment();
  	  } catch(e) {
@@ -38,10 +33,8 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
  	  }	
  }
  
-
   useEffect(()=>{
   }, [])
-
 
 	return <form onSubmit={handleSubmit} className="comment-form ">
 	        <div className="form-group">
@@ -59,6 +52,5 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
 	          </a>
           </div>
         </form>
-
 }
 export default AddComment;

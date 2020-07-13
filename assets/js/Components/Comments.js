@@ -1,4 +1,4 @@
-import React , { useState, useEffect} from 'react';
+import React , { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CommentItem from '../PagesHelpers/CommentHelpers/CommentItem';
 import AddComment from '../PagesHelpers/CommentHelpers/AddComment';
@@ -21,7 +21,6 @@ const Comments = ({commentsPart, productId}) =>{
       comment.classList.replace ('hide-comment', 'show-comment') ;
       document.getElementById('btn-comment').style.display='none';
   }
-
 
      return (
       <>

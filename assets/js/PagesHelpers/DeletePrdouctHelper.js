@@ -1,7 +1,6 @@
  import React, { useState, useEffect, useContext} from 'react';
  import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
- 
   
   const { hasRoleAdmin } =useContext(AuthContext);
  import AuthContext from '../contexts/AuthContext';
@@ -12,8 +11,6 @@ import { toast } from 'react-toastify';
        setProducts(products.filter(prod=> prod.id !== id ));
        toast.success('Votre produit à été bien suprimé !')     
     }
-
-
               { hasRoleAdmin  &&  (
             <button className="btn btn-danger btn-pro" 
             onClick={()=>handleDelete(product.id)}> 

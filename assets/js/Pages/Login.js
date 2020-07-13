@@ -1,14 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import AuthAPI from '../Services/AuthAPI';
 import { toast } from 'react-toastify';
-import AuthContext from "../contexts/AuthContext";
 import CartAPI from '../Services/CartAPI';
 import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
 import { Link } from 'react-router-dom';
 
 const Login = ({ history, cartItems, addToCart}) => {
-  const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
  const [credentials, setCredentials] = useState({
   'email': '',
   'password': ''
@@ -27,7 +25,6 @@ const Login = ({ history, cartItems, addToCart}) => {
      const fetchCarts = async () =>{
       const user = await UserInfo.parseJwt();    
       if (user.userId) {
-      setIsAuthenticated(true); 
       const carts = await CartAPI.fetchCartsOfUser(user.userId);
       if (carts.length>0) {
         localStorage.setItem('oldCarts', JSON.stringify(carts))
@@ -38,7 +35,6 @@ const Login = ({ history, cartItems, addToCart}) => {
 
       if (cartItems.length>0) {
           await  CartAPI.updateCartsOfUser(cartItems);
-          const user = await UserInfo.parseJwt();
           const cs = await CartAPI.fetchCartsOfUser(user.userId);
           localStorage.setItem('oldCarts', JSON.stringify(cs)); 
       }
@@ -50,7 +46,6 @@ const Login = ({ history, cartItems, addToCart}) => {
        e.preventDefault();
     try {
       const response = await AuthAPI.authenticate(credentials);
-      //await fetchCarts();
       toast.success('Votre connexion a été bien fait');
       setLoading(false);
       history.push("/");
@@ -61,15 +56,10 @@ const Login = ({ history, cartItems, addToCart}) => {
      }else {
        toast.error("une erreur est servenue réyasser plustard !")
      }
-     
-      
-      
     }
   }
 	return <div className="bg-light container p-4" id="login-desktop">
       <h5 className="text-center text-success m-3"> Connexion au site</h5>
-
-
       {loading && (<div className="d-flex justify-content-center text-success" 
            role="status" id="spinner">
            <div className="spinner-border" role="status" style={{"width": 3+"rem", "height": 3+"rem", "margin": 40+"px"}} >

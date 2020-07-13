@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import UserInfo from '../Components/UserInfo';
 import OrderAPI from '../Services/OrderAPI';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 
 const Orders = () =>{
    

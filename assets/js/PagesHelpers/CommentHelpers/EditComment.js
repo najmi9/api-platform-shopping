@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import CommentAPI from '../../Services/CommentAPI';
-import { API_URL } from '../../Services/Config';
 import  { toast } from 'react-toastify';
 import '../../Style/home.css';
-import $ from 'jquery';
 import ReactDOM from 'react-dom';
-
 
 const EditComment = ({productId, commentId, setStateAfterEdit}) =>{
     const [comment, setComment] = useState({ content:"" });
@@ -19,17 +16,13 @@ const EditComment = ({productId, commentId, setStateAfterEdit}) =>{
     handleCancelEditComment();
     e.preventDefault();
     try {
-      CommentAPI.updateComment(commentId, {
-        "content": comment.content,
-        "product":API_URL+"/products/"+productId
-      });
+      CommentAPI.updateComment(commentId, comment.content, productId);
       toast.success("le commentaire est bien modifiée !")
       setStateAfterEdit(commentId);
     } catch(e) {
       toast.error("une erreur est servenue essayer plustard !");
       console.log(e);
     }
-
   }
   
   const handleCancelEditComment = ()=>{

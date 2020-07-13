@@ -4,8 +4,11 @@ import { API_URL } from './Config';
 
 const COMMENT_API = API_URL  + "/comments";
 
-const createComment = async (comment) =>{
-	const response = await axios.post(COMMENT_API, comment);
+const createComment = async (content, productId) =>{
+	const response = await axios.post(COMMENT_API, {
+ 			  "content": content,
+ 			  "product":API_URL+"/products/"+productId
+ 		 });
 	return await response.data['hydra:member'];
 }
 
@@ -14,8 +17,11 @@ const deleteComment = async (id) =>{
 	return await response.data['hydra:member'];
 }
 
-const updateComment = async (id, comment) =>{
-	const response = await axios.put(COMMENT_API + "/" +id, comment);
+const updateComment = async (id, content, productId) =>{
+	const response = await axios.put(COMMENT_API + "/" +id, {
+        "content": content,
+        "product":API_URL+"/products/"+productId
+      });
 	return await response.data['hydra:member'];
 }
 

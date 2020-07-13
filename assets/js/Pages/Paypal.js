@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import AuthContext from "../contexts/AuthContext";
 import AuthAPI from "../Services/AuthAPI";
-import { Link } from 'react-router-dom';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import { connect } from 'react-redux';

@@ -5,8 +5,6 @@ const SearchHelper = ({handleSearchChange, handleCategoryChange,}) =>{
 
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
- 
- 
 
 	const fetchCategories = async ()=>{
     try {

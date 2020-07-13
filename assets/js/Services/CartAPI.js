@@ -2,9 +2,12 @@ import axios from 'axios';
 import {API_URL} from './Config';
 
 const CART_URL = API_URL + "/carts";
-const createCart = async (cart) =>{
+const createCart = async (id, quantity) =>{
 	//console.log(cart.quantity)
-	const response = await axios.post(CART_URL, cart);
+	const response = await axios.post(CART_URL, {
+        'product':API_URL+"/products/"+id,
+        'quantity':quantity
+      });
 	return await response.data;
 }
 

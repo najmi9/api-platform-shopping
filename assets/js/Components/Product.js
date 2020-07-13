@@ -23,10 +23,7 @@
           </Link>
         </h5>
         <p className="card-text text-center">
-         
-          
           <LoveIcon item={item} />
-
           <button className="btn btn-warning btn-pro" 
           onClick={()=>addToCart(item)}>        
             <i className="fas fa-cart-plus">  </i>

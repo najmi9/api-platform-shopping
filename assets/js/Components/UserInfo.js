@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { API_URL} from "../Services/Config";
 import LikeAPI from "../Services/LikeAPI";
 import jwtDecode from "jwt-decode";

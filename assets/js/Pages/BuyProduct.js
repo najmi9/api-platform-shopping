@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { toast} from 'react-toastify';
 import { Link } from 'react-router-dom';
 import ProductAPI from '../Services/ProductAPI';
 import TableLoader from '../Components/Loaders/TableLoader';
 import Comments from '../Components/Comments';
 import AuthContext from '../contexts/AuthContext';
-import Paypal from './Paypal';
 import CartAPI from '../Services/CartAPI';
-import { API_URL } from '../Services/Config';
 import '../Style/Product.css'
 
 const BuyProduct = ({ match, history }) =>{
   const { productId } = match.params;
-  const { isAuthenticated, setPrice, setCarts, setProduct } = useContext(AuthContext);
+  const { setPrice, setCarts, setProduct } = useContext(AuthContext);
   const [product, setProducte] = useState({});
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -32,10 +29,7 @@ const BuyProduct = ({ match, history }) =>{
    }
 
    const handleBuyProduct = async (id) =>{
-      const res = await CartAPI.createCart({
-        'product':API_URL+"/products/"+id,
-        'quantity':quantity
-      })
+      const res = await CartAPI.createCart(id, quantity)
         const cart = await res.data;
         setPrice(parseInt(product.price)*quantity);
         setCarts([cart]);

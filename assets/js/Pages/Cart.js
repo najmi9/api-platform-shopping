@@ -6,8 +6,6 @@ import CartAPI from '../Services/CartAPI';
 import AuthAPI from '../Services/AuthAPI';
 import UserInfo from '../Components/UserInfo';
 import CartItem from '../Components/CartItem';
-import { toast } from 'react-toastify';
-import Paypal from './Paypal';
 import '../Style/Card.css'
 
 
@@ -126,13 +124,13 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
             </div>
         </div>
 
-        { cartItems.length=== 0 && (<div className="border mt-5 p-5 text-secondary">
+        { cartItems.length=== 0 && (<div className="border text-secondary">
           <div className="text-center">
           <i className="fas fa-shopping-cart fa-8x"></i>
           </div>
-          <h1 className="text-center"> 
+          <h3 className="text-center"> 
             Il n'y a pas ecncore des produits dans le panier ! 
-          </h1>
+          </h3>
           </div>)
         }
      </div>
