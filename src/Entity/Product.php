@@ -56,7 +56,7 @@ class Product
      * @ORM\Column(type="integer")
      * @Groups({"product:write", "product:read"})
      * @Groups({"comment:read", "comment:write"})
-     * @Groups({"product-comment:read","products:read","products:read", "product-comment:write"})
+     * @Groups({"product-comment:read","products:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read", "like:read"})
      * @ApiProperty(iri="http://schema.org/id")
      */

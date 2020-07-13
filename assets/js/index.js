@@ -6,7 +6,6 @@ import'bootstrap/dist/js/bootstrap.js';
 import "react-toastify/dist/ReactToastify.css";
 import '../css/app.css';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

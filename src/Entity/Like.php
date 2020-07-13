@@ -41,7 +41,7 @@ class Like
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"product-read", "like:read", "products:read"})
+     * @Groups({"product:read", "like:read", "products:read"})
      */
     private $id;
 

@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AuthAPI from "../Services/AuthAPI";
 import { NavLink, Link } from "react-router-dom";
-import AuthContext from "../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { connect } from 'react-redux';
 import CartAPI from '../Services/CartAPI'
@@ -9,14 +8,11 @@ import Cache from '../Services/Cache'
 
 const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
   
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-
     const handleLogout = async () => {
      await CartAPI.updateCartsOfUser(cartItems);
     localStorage.clear();
     clearCart();
     await AuthAPI.logout();
-    setIsAuthenticated(false);
     Cache.invalidate('souk-sidi-el-mokhtar-orders');
     Cache.invalidate('products');
     Cache.invalidate('likes');
@@ -24,7 +20,7 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
     history.push("/");
   };
 
-	return <nav className="navbar navbar-expand-md navbar-light bg-light navbar-prod w-100">
+	return <nav className="navbar navbar-expand-md navbar-light bg-light navbar-prod mb-3 w-100">
    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
   </button>
@@ -52,7 +48,7 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
     </ul>
   
   <ul className="navbar-nav ml-auto">
-          {(!isAuthenticated && (
+          {(!AuthAPI.isAuthenticated() && (
             <>
               <li className="nav-item">
                 <NavLink to="/register" className="nav-link">
@@ -68,7 +64,8 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
                 </NavLink>
               </li>
             </>
-          )) || (
+          ))}
+          {AuthAPI.isAuthenticated() && (
             <li className="nav-item">
               <button onClick={handleLogout} className="btn btn-danger">
                <i className="fas fa-lock"></i>  Déconnexion

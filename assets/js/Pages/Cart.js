@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AuthContext from "../contexts/AuthContext"; 
 import CartAPI from '../Services/CartAPI';
+import AuthAPI from '../Services/AuthAPI';
 import UserInfo from '../Components/UserInfo';
 import CartItem from '../Components/CartItem';
 import { toast } from 'react-toastify';
@@ -12,7 +13,7 @@ import '../Style/Card.css'
 
 const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity })=> {
 
- const { isAuthenticated, setPrice, setCarts } = useContext(AuthContext);
+ const { setPrice, setCarts } = useContext(AuthContext);
  const [selectionnedTotal, setSelectionnedTotal] = useState(0);
  const [selectionnedCarts, setSelectionnedCarts] = useState([]);
 
@@ -45,7 +46,7 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
  }
 
  const updateCartState = async () =>{
-  if (isAuthenticated) {
+  if (AuthAPI.isAuthenticated()) {
     const user = await UserInfo.parseJwt();
     if (user.userId) {
         await  CartAPI.updateCartsOfUser(cartItems);

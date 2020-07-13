@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import LikeAPI from '../Services/LikeAPI';
-import AuthContext from '../contexts/AuthContext';
+import AuthAPI from '../Services/AuthAPI';
 import { API_URL } from'../Services/Config';
 import { toast } from 'react-toastify';
 import UserInfo from '../Components/UserInfo';
@@ -8,50 +8,69 @@ import ProductAPI from '../Services/ProductAPI';
 
 
 const LoveIcon = ({ item }) => {
-  const { isAuthenticated } =useContext(AuthContext);
   const [isLiked, setIsLiked] = useState(false);
   const [product, setProduct] = useState(item)
-  const [likes, setLikes] = useState(product.likes.length)
- 
+  const [user, setUser] = useState({ });
+   
+
    const handleLove = async (product) =>{
-    const id = product.id
-   if (isAuthenticated) {
-          if(isLiked){
-          setIsLiked(false)       
-           try {
-            setLikes(likes-1); 
-           const re = await LikeAPI.deleteLike(product);
-           setProduct(await ProductAPI.fetchProduct(id))
-           } catch(e) {
-             console.log(e);
-           }
-       }else{
-         setIsLiked(true)
-           try {
-             setLikes(likes+1);
-             await LikeAPI.createLike({
-              "product":API_URL+"/products/"+id
-             });
-           setProduct(await ProductAPI.fetchProduct(id))
-             
-             
-           } catch(e) {
-            toast.error("Un problème de connexion, se connecter à nouveau !")
-             console.log(e);
-           }
-       } 
-       
-     }else{
-      toast.info("Vous pouvez pas aimer si vous êtes déconnecté !")
-     }
+        const isLogged =  AuthAPI.isAuthenticated();
+        if (!isLogged) {
+          toast.info("Vous pouvez pas aimer si vous êtes déconnecté !");
+          return;
+        }
+        if(isLiked){
+            setIsLiked(false);                 
+            await LikeAPI.deleteLike(product);   
+            setProduct(await ProductAPI.fetchProduct(product.id));    
+        }else{
+            setIsLiked(true);
+            await LikeAPI.createLike({ "product":API_URL+"/products/"+product.id});
+            setProduct(await ProductAPI.fetchProduct(product.id));
+       }       
     }
+    
+    const memorizedLikes = useCallback(async()=>{
+          let user = await UserInfo.parseJwt();
+          if (!user) {
+           return  isLiked;
+         }
+         return await  LikeAPI.getLikesForUser(user.userId);
+    }, [user.userId]);
+
+   const isLikedByUser = async (productId) =>{
+        let isLiked = false;
+        const likes = await memorizedLikes();       
+        if (likes) {
+            likes.map(like=>{
+                 if (like.product.id == productId) {
+                    isLiked = true;
+                }
+            });
+
+        }
+        return  isLiked;
+    }
+
 useEffect(()=>{
-if (isAuthenticated) {
-  UserInfo.isLikedByUser(product.id).then(response=>{
-    setIsLiked(response)
-  });
-}
-  
+
+  /**
+   *  AuthAPI.isAuthenticated().then(response=>{
+   *     if(!response){
+   *      return;
+   *     }
+   *     UserInfo.isLikedByUser(product.id).then(response=>{
+   *       setIsLiked(response);
+   *     });
+   *  })
+   */
+     if (AuthAPI.isAuthenticated()) {
+        UserInfo.parseJwt().then(response=>setUser(response))
+        
+         UserInfo.isLikedByUser(product.id).then(response=>{
+        setIsLiked(response)});
+     }
+   
 
 }, [product.id])
 

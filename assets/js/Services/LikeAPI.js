@@ -23,7 +23,6 @@ const createLike = async like =>{
  
 const getLikesForUser = async id =>{
    const cachedLikes = await Cache.get("likesForUser");
-
    if (cachedLikes) {return cachedLikes;}
 
   const res = await axios.get(LIKE_URL+"?user="+id);

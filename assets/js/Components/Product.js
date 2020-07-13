@@ -2,29 +2,20 @@
  import { connect } from "react-redux";
  import addToCart from '../redux/actions/actions';
  import  LoveIcon  from '../PagesHelpers/handleLoveIcon';
- import {handleImage} from '../PagesHelpers/HomeHelper';
  import { Link } from 'react-router-dom';
  
  const Product = ({ product, addToCart }) =>{
   const [item, setItem] = useState(product);
-  const id = Math.floor((Math.random()*500));
-  handleImage(item.id);
-
 
   return  <div className="card" key={item.id}>
       <img 
-
-      src={"https://picsum.photos/id/"+id+"/200/200"}
-
-      onClick={()=>handleImage(item.id)}
+      src={item.picture.contentUrl}
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
       <div className="card-body">
-        <h3 className="card-title price" id="js-price"> 
-          {item.price.toLocaleString('fr')} Dh 
-          <p className="ml-0 text-primary bg-light"> 
-           <span> Promotion :  {item.promo}</span>
-          </p>
-        </h3> 
+        <h5 className="card-title price text-primary bg-light" id="js-price"> 
+          {item.price.toLocaleString('fr')} Dhs 
+           <span> promotion :  {item.promo}</span>
+        </h5> 
         <h5 className="card-title">
           <Link to={"/product/buy/"+item.id} 
           className="text-center prod-title">

@@ -40,10 +40,10 @@ security:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
  
-
+#, methods: [GET]
    
     access_control:
-           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
+           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY}
            - { path: ^/api/likes, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
            - { path: ^/api/categories, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ GET] }
            - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST] }

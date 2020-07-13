@@ -13,8 +13,8 @@ const Home = () =>{
 	const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searched, setSearched] = useState([]);
- const [error, setError] = useState(false);
-
+  const [error, setError] = useState(false);
+  const MemoizedProduct = React.memo(Product);
   const handlePageChange = page => setCurrentPage(page);
   const itemsPerPage = 5;
  
@@ -42,7 +42,8 @@ const Home = () =>{
    
   const fetchProducts = async () =>{
      try {
-      setData(await ProductAPI.fetchProducts());
+      //setData([]);
+    setData(await ProductAPI.fetchProducts());
        setLoading(false);
 
      } catch(e) {
@@ -71,7 +72,7 @@ const style = {
          data,
          currentPage,
          itemsPerPage
-         ).map(product=>(<Product product={product} key={product.id} /> )) } 
+         ).map(product=>(<MemoizedProduct product={product} key={product.id} /> )) } 
       
        {itemsPerPage < data.length && (
         <Pagination
@@ -86,14 +87,14 @@ const style = {
 	return  (<>
 
        {loading && (<div className="d-flex justify-content-center text-success" 
-           role="status" id="spinner">
+           role="status" id="spinner" id="main-site">
            <div className="spinner-border" role="status" style={style} >
               <span className="sr-only">Loading...</span>
            </div>
               </div>)
         }
      
-       {error && ( <Error /> )}
+       {error && ( <Error id="main-site"/> )}
 
   {!error && (<section> 
 

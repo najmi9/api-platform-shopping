@@ -1,16 +1,14 @@
-import React , { useState, useEffect, useContext } from 'react';
+import React , { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import  AuthContext from '../contexts/AuthContext';
 import CommentItem from '../PagesHelpers/CommentHelpers/CommentItem';
 import AddComment from '../PagesHelpers/CommentHelpers/AddComment';
 import CommentAPI from '../Services/CommentAPI';
+import AuthAPI from '../Services/AuthAPI';
 
 const Comments = ({commentsPart, productId}) =>{
   const [comment, setComment] = useState([]);
   const [comments, setComments] = useState(commentsPart);
-  const { isAuthenticated } = useContext(AuthContext);
-
-     const setState = id =>{
+   const setState = id =>{
         setComments(comments.filter(c=>c.id!==id));
      }
 
@@ -27,7 +25,7 @@ const Comments = ({commentsPart, productId}) =>{
 
      return (
       <>
-       {!isAuthenticated && (
+       {!AuthAPI.isAuthenticated() && (
         <h5> 
           Se connecter pour commenter!!
           <Link to="/login" className="btn btn-warning">
@@ -36,7 +34,7 @@ const Comments = ({commentsPart, productId}) =>{
         </h5>) }
         {comments.length > 0 && (<h4> {comments.length} Commentaires.</h4>)} 
         {comments.length == 0 && (<h4 className="text-center" > Il  n'a pas encore des ommentaires sur ce produit.</h4>)} 
-        { isAuthenticated && (
+        { AuthAPI.isAuthenticated() && (
           <button
           className="btn btn-outline-primary btn-sm"
           onClick={handleAddComment} id="btn-comment">

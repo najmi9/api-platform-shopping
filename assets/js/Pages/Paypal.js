@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useContext } from 'react';
 import AuthContext from "../contexts/AuthContext";
+import AuthAPI from "../Services/AuthAPI";
 import { Link } from 'react-router-dom';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
@@ -7,16 +8,16 @@ import { connect } from 'react-redux';
 import PayNow from '../Components/PayNow'
 
 const Paypal = () =>{
- const { isAuthenticated, setIsAuthenticated, price} = useContext(AuthContext);
+ const { price} = useContext(AuthContext);
 
 	return <div className="container p-5" id="component">
 	   <h4 className="text-center text-warning border bg-light p-2">
      { price===0 ? (<>....</>):(<>{ price } Dhs à payer.</>) }
       
       </h4>
-             { isAuthenticated && (
+             { AuthAPI.isAuthenticated() && (
               <PayNow  />) }
-		{!isAuthenticated && (
+		{!AuthAPI.isAuthenticated() && (
               <div>
             
                        <Login />

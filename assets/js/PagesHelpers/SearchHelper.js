@@ -1,7 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import ProductAPI from "../Services/ProductAPI";
-import 'nouislider/distribute/nouislider.css';
-
 
 const SearchHelper = ({handleSearchChange, handleCategoryChange,}) =>{
 

@@ -22,7 +22,7 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                     <p className="card-img"> 
                       <img 
                       alt={"img"} 
-                          src={"https://picsum.photos/id/"+id+"/200/200"}
+                          src={item.product.picture.contentUrl}
                            className="card-img" /> 
                    
                     </p>

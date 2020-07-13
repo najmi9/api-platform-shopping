@@ -2,12 +2,10 @@ import React, { useState, useContext } from 'react';
 import AuthAPI from '../Services/AuthAPI';
 import { toast } from 'react-toastify';
 import AuthContext from "../contexts/AuthContext";
-import  ApiCart from '../Pages/ApiCarts';
 import CartAPI from '../Services/CartAPI';
 import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
 import { Link } from 'react-router-dom';
-import '../App.css';
 
 const Login = ({ history, cartItems, addToCart}) => {
   const { setIsAuthenticated, setHasRoleAdmin } = useContext(AuthContext);
@@ -52,13 +50,13 @@ const Login = ({ history, cartItems, addToCart}) => {
        e.preventDefault();
     try {
       const response = await AuthAPI.authenticate(credentials);
-      await fetchCarts();
+      //await fetchCarts();
       toast.success('Votre connexion a été bien fait');
       setLoading(false);
       history.push("/");
     } catch(error) {
       setLoading(false);
-     if (error.response.data.message) {
+     if (error.response &&error.response.data && error.response.data.message) {
         toast.error(error.response.data.message)
      }else {
        toast.error("une erreur est servenue réyasser plustard !")
@@ -68,7 +66,7 @@ const Login = ({ history, cartItems, addToCart}) => {
       
     }
   }
-	return <div className="bg-light container p-4 mt-5" id="login-desktop">
+	return <div className="bg-light container p-4" id="login-desktop">
       <h5 className="text-center text-success m-3"> Connexion au site</h5>
 
 

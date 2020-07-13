@@ -16,7 +16,6 @@ const BuyProduct = ({ match, history }) =>{
   const [product, setProducte] = useState({});
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const id = Math.ceil((Math.random()*30));
   const handleAddQuantity = () =>{
     setQuantity(quantity+1);
   }
@@ -54,7 +53,7 @@ useEffect(()=>{
     <div className="product-content">
       <div className="product-body">
         <div className="product-img text-center">
-          <img  src={"https://picsum.photos/id/"+id+"/400/200"} />
+          <img  src={product.picture.contentUrl} />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>

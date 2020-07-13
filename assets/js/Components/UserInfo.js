@@ -1,8 +1,11 @@
+import { useCallback } from 'react';
 import { API_URL} from "../Services/Config";
 import LikeAPI from "../Services/LikeAPI";
 import jwtDecode from "jwt-decode";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AuthAPI from '../Services/AuthAPI';
+
 
 const parseJwt = async () => {
    let token = localStorage.getItem("authToken");
@@ -19,8 +22,11 @@ const parseJwt = async () => {
 };
 
  const isTokenExpired = (token) =>{
+  if (!token) {
+    return true;
+  }
     const { exp: expiration } = jwtDecode(token);
-
+    
     if (expiration * 1000 > new Date().getTime()) {
          return false;
     }
@@ -30,38 +36,40 @@ const parseJwt = async () => {
 
  const refreshToken = async () =>{
     const refresh_token =  localStorage.getItem("authRefreshToken");
-    if (!refresh_token) {
-      localStorage.setItem("authToken", '');
+    const token =  localStorage.getItem("authToken");
+
+    if (!refresh_token || !token) {
+      AuthAPI.logout();
       return;
     }
+    
     try {
         const response = await axios.post(API_URL+"/token/refresh", {
           "refresh_token": refresh_token
         });
         localStorage.setItem("authToken", await response.data.token);
     } catch(e) {
-        localStorage.setItem("authToken", '');
-        toast.error("un erreur est produit lors d'actualisation de token !")
-        console.log(e);
+      console.log("I catch the error !")
+        AuthAPI.logout();
     }
  }
-
+ 
 
     const isLikedByUser = async (productId) =>{
 
         let isLiked = false;
-
-        if (await parseJwt()) {
-            const user = await parseJwt();
-            const likes = await LikeAPI.getLikesForUser(user.userId);
-            if (likes) {
+        let user = await parseJwt();
+        if (!user) {
+           return  isLiked;
+        }
+        const likes = await LikeAPI.getLikesForUser(user.userId);
+        if (likes) {
             likes.map(like=>{
                  if (like.product.id == productId) {
                     isLiked = true;
                 }
-        });
+            });
 
-        }
         }
         return  isLiked;
 

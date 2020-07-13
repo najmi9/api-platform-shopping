@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import  AuthContext from '../../contexts/AuthContext';
+import  AuthAPI from '../../Services/AuthAPI';
 import CommentAPI from '../../Services/CommentAPI';
 import ReactDOM from 'react-dom';
 import { toast} from 'react-toastify';
@@ -9,7 +9,6 @@ import UserInfo from '../../Components/UserInfo';
 
 
 const CommentItem = ({commentElement,productId, setState }) =>{
-  const { isAuthenticated } = useContext(AuthContext);
   const [comment, setComment] = useState(commentElement)
   const [commentOwner, setCommentOwner] = useState(false);
 
@@ -78,7 +77,7 @@ return  <div className="container card" id="comment">
                 </p>
                               
             </div>
-            { isAuthenticated && commentOwner && (
+            { AuthAPI.isAuthenticated() && commentOwner && (
                 <div>
                     <p id="edit-delete-btns" className="show"> 
                         <a className="text-muted btn-link btn" 

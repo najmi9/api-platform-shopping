@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserInfo from '../Components/UserInfo';
 import OrderAPI from '../Services/OrderAPI';
 import { toast } from 'react-toastify';
@@ -18,7 +18,7 @@ const Orders = () =>{
        	setLoading(true);
        } catch(e) {
         setError(true)
-        toast.error("une error est servenue réysser plustard !")
+        toast.error("une error est servenue essayer plustard !")
        	console.log(e);
        }
 	}
@@ -28,7 +28,7 @@ useEffect(()=>{
 }, [])
 
 	return (
-       <div className="comments">
+       <div>
         <h5 className="text-center"> Mes Orderes : </h5>
         {error || orders.length ===0  && (<h1 className="bg-light text-info text-center">
           Il n'a pas des orders encore !
