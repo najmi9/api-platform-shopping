@@ -49,5 +49,11 @@ services:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments: ['@App\Swagger\SwaggerDecorator.inner']
         autoconfigure: false
+
+    App\Swagger\RefreshTokenSwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: ['@App\Swagger\RefreshTokenSwaggerDecorator.inner']
+        autoconfigure: false
+       
             
     

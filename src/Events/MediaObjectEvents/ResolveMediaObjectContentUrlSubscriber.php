@@ -39,7 +39,7 @@ final class ResolveMediaObjectContentUrlSubscriber implements EventSubscriberInt
         if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) || !\is_a($attributes['resource_class'], MediaObject::class, true)) {
             return;
         }
-
+        
         $mediaObjects = $controllerResult;
 
         if (!is_iterable($mediaObjects)) {
@@ -51,7 +51,7 @@ final class ResolveMediaObjectContentUrlSubscriber implements EventSubscriberInt
                 continue;
             }
 
-            $mediaObject->contentUrl = $this->storage->resolveUri($mediaObject, 'file');
+            $mediaObject->setContentUrl($this->storage->resolveUri($mediaObject, 'file'));
         }
     }
 }

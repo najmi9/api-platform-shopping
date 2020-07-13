@@ -9,7 +9,7 @@
 
   return  <div className="card" key={item.id}>
       <img 
-      src={item.picture.contentUrl}
+      src={item.picture.filePath}
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
       <div className="card-body">
         <h5 className="card-title price text-primary bg-light" id="js-price"> 

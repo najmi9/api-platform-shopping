@@ -9,9 +9,12 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProductRepository;
+use App\Entity\MediaObject;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *  "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  *  @ApiResource(
  *    itemOperations={
@@ -38,8 +41,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          "groups" = {"products:write"}}
  *       },
  *       "POST"={
- *          "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
+ *         
  *        }
  *    },
  *    normalizationContext={"groups"={"product:read"}},
@@ -84,21 +86,14 @@ class Product
      */
     private $description;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=MediaObject::class)
-     * @ORM\JoinColumn(nullable=true)
-     * @ApiProperty(iri="http://schema.org/image")
-     * @Groups({"product:write", "product:read", "comment:read", "order:read"})
-     * @Groups({"product-comment:read", "product-comment:write"})
-     * @Groups({ "all-cart:read", "order:read", "products:read" })
-     */
-    private $picture;
+  
 
     /**
      * @ORM\Column(type="string")
      * @Groups({"product:write", "product:read"})
      * @Assert\Type(type="string", message="le prix doit être valid")
-     * @Assert\Length(min=3, minMessage="le prix est invalid")
+     * @Assert\Length(min=1, minMessage="le prix est invalid")
+     * @Assert\GreaterThan(value=0, message="le prix doît être suprieur à 0")
      * @Assert\NotBlank(message="le prix ne peut pas être null")
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read", "order:read", "products:read"})
@@ -125,7 +120,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
-     * @Groups({"product:read"})
+     * @Groups({"product:read", "product:write"})
      * @Groups({"product-comment:read", "products:read"})
      */
     private $category;
@@ -141,14 +136,28 @@ class Product
      * @ORM\Column(type="integer", nullable=true)
      *  @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({"product:write", "product:read", "products:read"})
+     * @Assert\GreaterThan(value=0, message="le quantité doît être suprieur à 0")
+     * 
      */
     private $availableQuantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MediaObject::class, inversedBy="products")
+     * @ApiProperty(iri="http://schema.org/image")
+     * @Groups({"product:write", "product:read", "comment:read", "order:read"})
+     * @Groups({"product-comment:read", "product-comment:write"})
+     * @Groups({ "all-cart:read", "order:read", "products:read" })
+     */
+    private $picture;
+
+   
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->carts = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->picture = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,18 +185,6 @@ class Product
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getPicture() 
-    {
-        return $this->picture;
-    }
-
-    public function setPicture($picture)
-    {
-        $this->picture = $picture;
 
         return $this;
     }
@@ -331,4 +328,17 @@ class Product
 
         return $this;
     }
-   }
+
+    public function getPicture(): ?MediaObject
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?MediaObject $picture): self
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+}

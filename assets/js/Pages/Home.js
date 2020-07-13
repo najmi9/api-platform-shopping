@@ -48,9 +48,9 @@ const Home = () => {
     }
   }
   const style = {
-    "width": 4 + "rem",
-    "height": 4 + "rem",
-    "margin": 150 + "px",
+    "width": 3+ "rem",
+    "height": 3 + "rem",
+    "margin": 50 + "px",
     "padding": 20 + "px"
   }
 

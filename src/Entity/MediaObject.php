@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateMediaObjectAction;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -12,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
+ *   "security"="is_granted('ROLE_ADMIN')",
+ *             "security_message"="vous avez pas le droit de créer cet image",
  * @ORM\Entity
  * @ApiResource(
  *     iri="http://schema.org/MediaObject",
@@ -22,8 +26,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *         "post"={
  *             "controller"=CreateMediaObjectAction::class,
  *             "deserialize"=false,
- *             "security"="is_granted('ROLE_ADMIN')",
- *             "security_message"="vous avez pas le droit de créer cet image",
+ *           
  *             "validation_groups"={"Default", "media_object_create"},
  *             "openapi_context"={
  *                 "requestBody"={
@@ -68,7 +71,7 @@ class MediaObject
      * @ApiProperty(iri="http://schema.org/contentUrl")
      * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read"})
      */
-    public $contentUrl;
+    private $contentUrl;
 
     /**
      * @var File|null
@@ -82,8 +85,21 @@ class MediaObject
      * @var string|null
      *
      * @ORM\Column(nullable=true)
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read"})
      */
     public $filePath;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="picture")
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+  
 
     public function getId(): ?int
     {
@@ -94,4 +110,36 @@ class MediaObject
         $this->contentUrl = $contentUrl;
         return $this;
     }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setPicture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getPicture() === $this) {
+                $product->setPicture(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
