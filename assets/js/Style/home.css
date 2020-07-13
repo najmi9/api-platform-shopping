@@ -7,11 +7,10 @@
 }
 }
 
-.card{
-	max-height: 320px;
-}
+
 section{
-	padding-bottom: 40px;
+	padding-bottom: 230px;
+	grid-row-gap: 20px;
 }
 
 #search-category{
@@ -31,8 +30,6 @@ section{
 	text-align: center;
 }
 
-section{
-}
 
 .search-category:hover{
 	cursor: pointer;
@@ -160,7 +157,7 @@ footer{
 	padding: 15px;
 	position: absolute;
 	bottom:0;
-	height: 300px;
+	
 	
 }
 .middle_footer{

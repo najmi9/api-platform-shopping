@@ -8,7 +8,7 @@
   const [item, setItem] = useState(product);
 
   return  <div className="card" key={item.id}>
-      <img   src={"/media/"+item.picture.filePath}
+      <img   src={"/media/"+item.picture.filePath} height="320px"
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
       <div className="card-body">
         <h5 className="card-title price text-primary bg-light" id="js-price"> 
