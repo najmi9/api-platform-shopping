@@ -17,7 +17,7 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                     <p className="card-img"> 
                       <img 
                       alt={"img"} 
-                          src={item.product.picture.contentUrl}
+                         src={"/media/"+item.picture.filePath}
                            className="card-img" /> 
                    
                     </p>

@@ -50,7 +50,7 @@ const Home = () => {
   const style = {
     "width": 3+ "rem",
     "height": 3 + "rem",
-    "margin": 50 + "px",
+    "margin": 80 + "px",
     "padding": 20 + "px"
   }
 

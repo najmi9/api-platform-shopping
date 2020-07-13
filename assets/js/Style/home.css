@@ -7,6 +7,13 @@
 }
 }
 
+.card{
+	max-height: 320px;
+}
+section{
+	padding-bottom: 40px;
+}
+
 #search-category{
   margin:20px;
 }
@@ -153,6 +160,7 @@ footer{
 	padding: 15px;
 	position: absolute;
 	bottom:0;
+	height: 300px;
 	
 }
 .middle_footer{

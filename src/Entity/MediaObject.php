@@ -81,6 +81,7 @@ class MediaObject
 
     /**
      * @ORM\Column(nullable=true)
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create"})
      */
     public $filePath;
 
@@ -101,7 +102,7 @@ class MediaObject
         return $this->id;
     }
 
-    public function setContentUrl( $contentUrl){
+    public function setContentUrl($contentUrl){
         $this->contentUrl = $contentUrl;
         return $this;
     }
