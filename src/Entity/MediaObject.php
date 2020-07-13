@@ -106,7 +106,7 @@ class MediaObject
         return $this->id;
     }
 
-    public function setContentUrl(string $contentUrl){
+    public function setContentUrl($contentUrl){
         $this->contentUrl = $contentUrl;
         return $this;
     }

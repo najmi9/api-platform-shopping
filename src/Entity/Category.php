@@ -16,8 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *    itemOperations={
  *      "GET" = {},
  *      "DELETE" = {
- *          "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas supprimer cette catégorie si vous êtez pas un admin."
+ *        
  *        },
  *      "PUT" = {
  *          "security"="is_granted('ROLE_ADMIN')",
@@ -27,8 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  *    collectionOperations={
  *       "GET"={},
  *       "POST"={
- *          "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas ajouter une nouveau produit si vous êtez pas un admin."
+ *          
  *        }
  *    },
  *    normalizationContext={"groups"={"category:read"}},
