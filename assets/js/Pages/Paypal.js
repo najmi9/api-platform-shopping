@@ -9,7 +9,7 @@ import PayNow from '../Components/PayNow'
 const Paypal = () =>{
  const { price} = useContext(AuthContext);
 
-	return <div className="container p-5" id="component">
+	return <div className="container p-5" id="component" style={{"paddingBottom":40+"px"}}>
 	   <h4 className="text-center text-warning border bg-light p-2">
      { price===0 ? (<>....</>):(<>{ price } Dhs à payer.</>) }
       

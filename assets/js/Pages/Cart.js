@@ -72,7 +72,7 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
 
    }
 
-  return (<div>
+  return (<div className="main-cart">
  
         <table className="table price-table">
           <thead>

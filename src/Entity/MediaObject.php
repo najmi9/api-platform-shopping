@@ -69,7 +69,7 @@ class MediaObject
     /**
      * @ORM\Column(nullable=true)
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create"})
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create", "product-comment:read"})
      */
     private $contentUrl;
 
@@ -81,7 +81,7 @@ class MediaObject
 
     /**
      * @ORM\Column(nullable=true)
-     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create"})
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create","product-comment:read"})
      */
     public $filePath;
 

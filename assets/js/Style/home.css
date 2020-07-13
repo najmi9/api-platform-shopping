@@ -42,6 +42,7 @@ section{
 section{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+	padding-bottom: 180px;
 }
 
 .card{
@@ -54,6 +55,7 @@ section{
   section{
   	display: grid;
 	grid-template-columns: 1fr 1fr;
+	padding-bottom: 210px;
 }
 footer{
 	grid-template-columns: 1fr 1fr;
@@ -67,6 +69,9 @@ footer .middle_footer{
 	footer{
 		grid-template-columns: 1fr;
 	}
+	section{
+	padding-bottom: 230px;
+}
 }
 
 

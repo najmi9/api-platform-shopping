@@ -41,13 +41,13 @@ useEffect(()=>{
 }, [productId])
   
      return  <div className="product">
-
+   
     { !loading && (<div className="loader text-center"><TableLoader /></div>) }
     { loading && (
     <div className="product-content">
       <div className="product-body">
         <div className="product-img text-center">
-          <img  src={"/media/"+item.picture.filePath} alt="produit" />
+          <img  src={"/media/"+product.picture.filePath} alt="produit" />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>
