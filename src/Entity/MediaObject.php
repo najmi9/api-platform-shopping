@@ -21,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     iri="http://schema.org/MediaObject",
  *     normalizationContext={
  *         "groups"={"media_object_read"}
- *     },
+ *     }, 
  *     collectionOperations={
  *         "post"={
  *             "controller"=CreateMediaObjectAction::class,
@@ -49,7 +49,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *         "get"={}
  *     },
  *     itemOperations={
- *         "get"={}
+ *         "get"={},
+ *         "delete"={},
  *     }
  * )
  * @Vich\Uploadable
@@ -66,26 +67,20 @@ class MediaObject
     protected $id;
 
     /**
-     * @var string|null
-     *
+     * @ORM\Column(nullable=true)
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read"})
+     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read", "media_object_create"})
      */
     private $contentUrl;
 
     /**
-     * @var File|null
-     *
      * @Assert\NotNull(groups={"media_object_create"})
      * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
      */
     public $file;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(nullable=true)
-     * @Groups({"media_object_read", "product:read",  "order:read", "products:read", "all-cart:read"})
      */
     public $filePath;
 
@@ -106,9 +101,15 @@ class MediaObject
         return $this->id;
     }
 
-    public function setContentUrl($contentUrl){
+    public function setContentUrl( $contentUrl){
         $this->contentUrl = $contentUrl;
         return $this;
+    }
+
+    public function getContentUrl(): ?string
+    {
+          return  $this->contentUrl;
+      
     }
 
     /**

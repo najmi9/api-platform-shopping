@@ -8,20 +8,21 @@
   const [item, setItem] = useState(product);
 
   return  <div className="card" key={item.id}>
-      <img 
-      src={item.picture.filePath}
+  {console.log(item.picture.contentUrl)}
+      <img   src={item.picture.contentUrl}
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
       <div className="card-body">
         <h5 className="card-title price text-primary bg-light" id="js-price"> 
           {item.price.toLocaleString('fr')} Dhs 
-           <span> promotion :  {item.promo}</span>
         </h5> 
+       
         <h5 className="card-title">
           <Link to={"/product/buy/"+item.id} 
           className="text-center prod-title">
             {item.title}
           </Link>
         </h5>
+         <h6> <span> promotion :  {item.promo}</span> </h6>
         <p className="card-text text-center">
           <LoveIcon item={item} />
           <button className="btn btn-warning btn-pro" 

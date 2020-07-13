@@ -12,8 +12,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 final class ResolveMediaObjectContentUrlSubscriber implements EventSubscriberInterface
-{
-    private $storage;
+{ 
+    private $storage, $em;
 
     public function __construct(StorageInterface $storage)
     {
@@ -50,9 +50,11 @@ final class ResolveMediaObjectContentUrlSubscriber implements EventSubscriberInt
             if (!$mediaObject instanceof MediaObject) {
                 continue;
             }
+        
 
             $mediaObject->setContentUrl($this->storage->resolveUri(
                 $mediaObject, 'file'));
+
         }
     }
 }
