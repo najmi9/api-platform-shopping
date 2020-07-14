@@ -27,7 +27,7 @@ const Comments = ({commentsPart, productId}) =>{
        {!AuthAPI.isAuthenticated() && (
         <h5> 
           Se connecter pour commenter!!
-          <Link to="/login" className="btn btn-warning">
+          <Link to="/login" className="btn btn-outline-primary btn-sm text-center">
             se connecter
           </Link>
         </h5>) }

@@ -56,12 +56,12 @@ const isAuthenticated = () => {
           if (!UserInfo.isTokenExpired(token)) {
              return true;
           }
-          UserInfo.refreshToken();
-          const token = window.localStorage.getItem("authToken");
+         // UserInfo.refreshToken();
+        //  const token = window.localStorage.getItem("authToken");
 
-          if (token) { 
-            return true;
-          }
+        //  if (token) { 
+       //     return true;
+        //  }
 
          return false;
     }

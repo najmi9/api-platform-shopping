@@ -52,7 +52,7 @@ const Contact = ( { history, match } ) => {
      	}
      }, [id])
 
-  return <div className="container p-5 bg-light mt-5 w-60 text-center">
+  return <div className="container p-5 bg-light mt-3 w-60 text-center">
            { !editing && (<h3 className="text-primary border-bottom mb-3"> Me contacter </h3>) || (<h1>Modéfication de message !</h1>) } 
             <form onSubmit={ handleSubmit } >
            <div className="form-group">

@@ -51,7 +51,7 @@ const Register = ({ history }) =>{
    }
   
 
- return <div className="container bg-light border text-center" id="js-action">
+ return <div className="p-2 mt-2 container bg-light border text-center" id="js-action">
           <h4 className="text-center text-info m-3"> Création de compte : </h4>
           { loading && (<div className="d-flex justify-content-center text-success" 
             role="status" id="spinner">

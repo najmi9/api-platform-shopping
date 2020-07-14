@@ -8,29 +8,31 @@
   const [item, setItem] = useState(product);
 
   return  <div className="card" key={item.id}>
-      <img   src={"/media/"+item.picture.filePath} height="320px"
+  
+      <img   src={"/media/"+item.picture.filePath} 
       className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
+
       <div className="card-body">
         <h5 className="card-title price text-primary bg-light" id="js-price"> 
           {item.price.toLocaleString('fr')} Dhs 
         </h5> 
        
-        <h5 className="card-title">
-          <Link to={"/product/buy/"+item.id} 
+        <p className="card-title">
+          <Link to={"/product-"+item.id} 
           className="text-center prod-title">
             {item.title}
           </Link>
-        </h5>
+        </p>
          <h6> <span> promotion :  {item.promo}</span> </h6>
         <p className="card-text text-center">
           <LoveIcon item={item} />
-          <button className="btn btn-warning btn-pro" 
+          <button className="btn btn-warning btn-pro btn-sm" 
           onClick={()=>addToCart(item)}>        
             <i className="fas fa-cart-plus">  </i>
           </button>
 
           <Link to={"/product/buy/"+item.id}
-          className="btn btn-success">
+          className="btn btn-success btn-sm">
             <i className="fas fa-cart-arrow-down"></i>
           </Link>
         </p>

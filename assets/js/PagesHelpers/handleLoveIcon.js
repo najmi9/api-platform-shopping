@@ -78,11 +78,11 @@ useEffect(()=>{
             { product.likes.length }
           </span> 
 
-  <button className="btn" id="btn-js-love" 
+  <button className="btn btn-sm" id="btn-js-love" 
           onClick={()=>handleLove(product)}>
             <i 
             className={ isLiked 
-            ? ("fas fa-heart btn-love") : ("far fa-heart")} 
+            ? ("fas fa-heart btn-love btn-sm") : ("far fa-heart")} 
             id={"js-love-"+product.id}>
             </i>
           </button>

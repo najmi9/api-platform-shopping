@@ -15,15 +15,12 @@ const Home = () => {
   const [error, setError] = useState(false);
   const MemoizedProduct = React.memo(Product);
   const handlePageChange = page => setCurrentPage(page);
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
 
-  const handleCategoryChange = (value, cancel = false) => {
+  const handleCategoryChange = (value) => {
     var prods = [];
     prods.push(...data.filter(product => product.category.id == value))
     setResults(prods);
-    if (cancel) {
-      setResults([]);
-    }
   }
 
   const filteredItems = (data, value = "") => data.filter(
@@ -91,12 +88,14 @@ const Home = () => {
 
       {error && (<Error id="main-site" />)}
 
-      {!error && (<section>
-
-        {!loading && (<div className="search-component">
+         {!error && !loading && (<div className="search-component">
           <SearchHelper handleSearchChange={handleSearchChange}
             handleCategoryChange={handleCategoryChange} data={data} />
         </div>)}
+
+      {!error && (<section>
+
+       
         {searched.length > 0 && renderMe(searched)}
         {results.length > 0 && renderMe(results)}
         {!loading && results.length === 0 && searched.length === 0 && renderMe(data)}

@@ -46,6 +46,7 @@ const Login = ({ history, cartItems, addToCart}) => {
        e.preventDefault();
     try {
       const response = await AuthAPI.authenticate(credentials);
+      await fetchCarts();
       toast.success('Votre connexion a été bien fait');
       setLoading(false);
       history.push("/");
@@ -58,7 +59,7 @@ const Login = ({ history, cartItems, addToCart}) => {
      }
     }
   }
-	return <div className="bg-light container p-4" id="login-desktop">
+	return <div className="bg-light container p-4 mt-4" id="login-desktop">
       <h5 className="text-center text-success m-3"> Connexion au site</h5>
       {loading && (<div className="d-flex justify-content-center text-success" 
            role="status" id="spinner">

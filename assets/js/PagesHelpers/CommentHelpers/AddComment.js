@@ -9,6 +9,7 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
   const [comment, setComment] = useState({
   	content:''
   })
+  const [loading, setLoading] = useState(false);
  
   const handleCancel = () =>{
     const comment = document.getElementById('js-add-comment');
@@ -27,8 +28,10 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
  	    try {
  		 await CommentAPI.createComment(comment.content, productId);
  		 toast.success("Votre commentaire  à été bien ajouté ");
+   
      setStateAfterAddComment();
  	  } catch(e) {
+     
  		 toast.error("Une erreur est servenue essayer plustard !");
  	  }	
  }
@@ -36,7 +39,8 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
   useEffect(()=>{
   }, [])
 
-	return <form onSubmit={handleSubmit} className="comment-form ">
+	return <>
+       <form onSubmit={handleSubmit} className="comment-form ">
 	        <div className="form-group">
             <textarea className="form-control" name="content" 
             defaultValue={comment ? comment.content : " "}
@@ -52,5 +56,6 @@ const AddComment = ({ productId, setStateAfterAddComment }) =>{
 	          </a>
           </div>
         </form>
+        </>
 }
 export default AddComment;

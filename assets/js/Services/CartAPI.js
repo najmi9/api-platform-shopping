@@ -28,7 +28,8 @@ const fetchCartsOfUser = async (id)=>{
 
 const updateCartsOfUser = async (cartsItems) =>{
 
-  const oldCarts =JSON.parse(localStorage.getItem('oldCarts')) ;
+  const oldCarts =JSON.parse(localStorage.getItem('oldCarts'));
+  console.log(oldCarts)
   if (oldCarts) {
   	 cartsItems.forEach(async(cart)=>{
   	const card = oldCarts.filter(o=>o.product.id === cart.product.id);

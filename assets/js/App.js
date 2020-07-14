@@ -23,6 +23,7 @@ import BuyProduct from './Pages/BuyProduct';
 import { ToastContainer, toast } from "react-toastify";
 import AuthAPI from "./Services/AuthAPI";
 import PrivateRoute from './Components/PrivateRoute';
+import PublicRoute from './Components/PublicRoute';
 import UrlNotFound from './Components/UrlNotFound';
 import Orders from './Pages/Orders';
 
@@ -52,7 +53,7 @@ const  App = ({ cartItems }) => {
    <NavbarWithRouter />
    
       <Switch>
-      <Route path="/login" component={ Login } exact/>
+      <PublicRoute path="/login" component={ Login } exact/>
       <Route path="/register" component={ Register } exact/>
       <PrivateRoute path="/pay-for-product" component={ Paypal } exact/>
       <Route path="/reset-password" component= { PasswordForgotten} exact />
@@ -62,7 +63,7 @@ const  App = ({ cartItems }) => {
       <Route path="/cart" component= { Cart } exact />
       <Route path="/new-contact" component= { Contact } exact />
       <PrivateRoute path="/orders" component= { Orders } exact />
-      <Route path="/product/buy/:productId" component= { BuyProduct } exact />
+      <Route path="/product-:productId" component= { BuyProduct } exact />
       <Route component={UrlNotFound} />
      </Switch>
     

@@ -65,6 +65,7 @@ const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
               </li>
             </>
           ))}
+          {console.log(AuthAPI.isAuthenticated())}
           {AuthAPI.isAuthenticated() && (
             <li className="nav-item">
               <button onClick={handleLogout} className="btn btn-danger">

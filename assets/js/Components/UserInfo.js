@@ -36,7 +36,8 @@ const parseJwt = async () => {
  const refreshToken = async () =>{
     const refresh_token =  localStorage.getItem("authRefreshToken");
     const token =  localStorage.getItem("authToken");
-
+      AuthAPI.logout();
+      return;
     if (!refresh_token || !token) {
       AuthAPI.logout();
       return;

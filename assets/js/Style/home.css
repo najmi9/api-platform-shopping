@@ -1,61 +1,78 @@
-@media (min-width:1200px) {
-#login-desktop{
-  max-width: 50%;
-}
-#js-action{
-  max-width: 50%;
-}
+html, body{
+	height: 100%;
 }
 
+#categories{
+	display: grid;
+	justify-content: space-between;
+	align-items: center;
+	grid-row-gap: 5px;
+	text-align: center;
+	margin:5px;
+	width: 100%;
+}
 
 section{
-	padding-bottom: 230px;
 	grid-row-gap: 20px;
 }
 
 #search-category{
-  margin:20px;
+  border: 1px solid darkorange;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
 }
-.search-category{
-	background-color: blue;
-	color: white;
-	padding: 5px;
-	margin-top:10px;
-	margin-right:5px;
-	border-radius: 5px;
-	width: 100%;
-	font-weight: bold;
-	text-align: center;
-	transition: transform .5s;
-	text-align: center;
+#search-category:hover{
+  cursor: pointer;
+}
+
+#carousel{
+   margin-top: 10px;
+   margin-bottom: 10px;
+   width: 100%;
+}
+
+#pic-carousel{
+	height:400px;
 }
 
 
-.search-category:hover{
-	cursor: pointer;
-	transform:scale(1.1);
+#header-view{
+	display: grid;
 }
+
 @media (min-width:1200px) {
+ #login-desktop{
+   max-width: 50%;
+ }
+ #js-action{
+  max-width: 50%;
+ }
 	footer{
 	grid-template-columns: 1fr 1fr 1fr;
 	}
 section{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	padding-bottom: 180px;
 }
 
 .card{
  	max-width: 390px;
  }
-
-  
+#header-view{
+	display: grid;
+	grid-template-columns: 2fr 1fr;
 }
+
+#categories{
+	grid-template-rows: 1fr 1fr 1fr;
+} 
+}
+
 @media (min-width: 750px) and (max-width:1199px){
   section{
   	display: grid;
 	grid-template-columns: 1fr 1fr;
-	padding-bottom: 210px;
 }
 footer{
 	grid-template-columns: 1fr 1fr;
@@ -63,20 +80,35 @@ footer{
 footer .middle_footer{
 	grid-column-start: span 2;
 }
+
+#pic-carousel{
+	height: 220px;
+}
+#categories{
+	grid-template-columns: 1fr 1fr 1fr;
+}
 }
 
 @media (max-width:740px){
 	footer{
 		grid-template-columns: 1fr;
 	}
-	section{
-	padding-bottom: 230px;
+	#pic-carousel{
+	height:300px;
+	max-width: 700px;
+}
+#categories{	
+	grid-template-columns: 1fr 1fr;
 }
 }
 
+.prod-pic{
+	max-height: 00px;
+	max-height: 400px;
+}
 
 #component{
-	margin-top:90px;
+	
 }
 
 .form-check-input, input[type=radio]{
@@ -133,22 +165,16 @@ footer .middle_footer{
 }
 
 #main{
-	margin-top: 80px;
-	text-align: center;
-	margin-bottom: 80px;
+
 }
 .form-search{
-	margin:20px;
+	margin:0px;
     
    
 }
 .form-search input{
 	height: 50px;
 }
-.pagination{
-
-}
-
 
 footer{
 	background-color: black;
@@ -160,8 +186,7 @@ footer{
 	align-items: center;
 	width: 100%;
 	padding: 15px;
-	position: absolute;
-	bottom:0;
+	margin-top: auto;
 	
 	
 }

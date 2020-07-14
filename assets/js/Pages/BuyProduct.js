@@ -42,7 +42,7 @@ useEffect(()=>{
   
      return  <div className="product">
    
-    { !loading && (<div className="loader text-center"><TableLoader /></div>) }
+    { !loading && (<div className="loader text-center" style={{"margin":"auto"}}><TableLoader /></div>) }
     { loading && (
     <div className="product-content">
       <div className="product-body">
@@ -74,11 +74,13 @@ useEffect(()=>{
         <i className="fas fa-truck"></i> : free shipping in Morrocco.
         </p>
         <p> 
-          <Link to="/" className="btn btn-danger mr-5">Retour à la liste des produits </Link> 
+          <Link to="/" className="btn btn-danger mr-5">
+          <i className="fas fa-arrow-left"></i> Retour 
+          </Link> 
           
-         <Link className="btn btn-warning"
+         <Link className="btn btn-outline-warning"
           onClick={()=>handleBuyProduct(productId)} to="/pay-for-product" >
-            <i className="fas fa-dollar"></i> Finaliser le paiement
+            <i className="fas fa-arrow-right"></i> pay now
          </Link>
         </p>
       </div>
