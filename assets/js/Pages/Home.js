@@ -15,7 +15,7 @@ const Home = () => {
   const [error, setError] = useState(false);
   const MemoizedProduct = React.memo(Product);
   const handlePageChange = page => setCurrentPage(page);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
 
   const handleCategoryChange = (value) => {
     var prods = [];

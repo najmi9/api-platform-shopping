@@ -7,9 +7,11 @@ import CartAPI from '../Services/CartAPI'
 import Cache from '../Services/Cache'
 
 const Navbar = ({ history, totalQuantity, cartItems, clearCart }) =>{
-  
+   
     const handleLogout = async () => {
+      
      await CartAPI.updateCartsOfUser(cartItems);
+
     localStorage.clear();
     clearCart();
     await AuthAPI.logout();

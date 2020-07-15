@@ -102,10 +102,7 @@ footer .middle_footer{
 }
 }
 
-.prod-pic{
-	max-height: 00px;
-	max-height: 400px;
-}
+
 
 #component{
 	
@@ -203,3 +200,12 @@ footer{
 	font-weight: bold;
 	color: magenta;
 }
+#carousel-details{
+	font-weight: bold;
+	font-size: 20px;
+	color: darkorange;
+	text-indent: all;
+	text-decoration: underline;
+	
+}
+

@@ -1,17 +1,31 @@
-import React, {useStae} from 'react';
+import React, {useStae, useRef} from 'react';
 import { connect } from 'react-redux';
 import CartAPI from '../Services/CartAPI';
 
 const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart, cartItems,handleChange }) =>{
+  const input = useRef(null);
+   const isChecked  = () =>{
+   const element = document.querySelector("input#js-selectionned-item.check-"+item.product.id)
+    
+    if (element) {
+      return element.checked 
+    }
+   }
 
 	return (    <div className="card">
                  <div className="card-title">
-                    <p> 
-                      <span className="text-left text-primary" style={{"fontSize":25+"px"}} > { item.product.price } Dhs</span>
+                    
+                      <span className="text-left text-primary" 
+                         style={{"fontSize":25+"px"}} > 
+                         { item.product.price } Dhs
+                      </span>
                       <input type="checkbox" onChange={()=>handleChange(item) }
-                      value={item.product.price * item.quantity} id="js-selectionned-item" 
+                      value={item.product.price * item.quantity} 
+                      id="js-selectionned-item" 
+                      className={"check-"+item.product.id}
+                      ref={input}
                      /> 
-                    </p>  
+                    
                  </div>
                  <div className="card-body">   
                     <p className="card-img"> 
@@ -23,21 +37,29 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                     </p>
                    <p className="text-center"> { item.product.title } </p>
                    <p className="text-center"> 
+
                      <button className="btn btn-sm btn-primary mr-2"
-                     onClick={()=>addToCart(item.product)}>+</button>
+                     onClick={()=>addToCart(item.product)} 
+                    disabled={isChecked()?(true):(false)}
+                     >+
+                     </button>
 
                       <span id="js-qts">
                         { item.quantity } 
                       </span>
 
                       <button className="btn btn-sm btn-primary ml-2" 
-                      onClick={()=>removeFromCart(index)}>-</button>
+                      onClick={()=>removeFromCart(index)} 
+                      disabled={isChecked()?(true):(false)}
+                      >-</button>
                       {"  "}
                       <button className="btn btn-success m-3">
                         { item.product.price *  item.quantity} Dhs
                       </button>
                       <button onClick={()=>handleDeleteProduct(index, item)} 
-                      className="btn btn-danger btn-small m-2">
+                      className="btn btn-danger btn-small m-2" 
+                      disabled={isChecked()?(true):(false)}
+                      >
                         <i className="fas fa-trash"></i>
                       </button>
                    </p>

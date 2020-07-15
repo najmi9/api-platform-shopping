@@ -6,8 +6,9 @@ import Comments from '../Components/Comments';
 import AuthContext from '../contexts/AuthContext';
 import CartAPI from '../Services/CartAPI';
 import '../Style/Product.css'
+import { connect } from 'react-redux';
 
-const BuyProduct = ({ match, history }) =>{
+const BuyProduct = ({ match, history, cartItems }) =>{
   const { productId } = match.params;
   const { setPrice, setCarts, setProduct } = useContext(AuthContext);
   const [product, setProducte] = useState({});
@@ -29,7 +30,30 @@ const BuyProduct = ({ match, history }) =>{
    }
 
    const handleBuyProduct = async (id) =>{
-      const res = await CartAPI.createCart(id, quantity)
+    if ((cartItems.length ===0) || (cartItems.length !==0 && !cartItems.filter(c=>c.product.id === id)[0])) {
+        const res = await CartAPI.createCart(id, quantity);
+        const cart = await res.data;
+        setPrice(parseInt(product.price)*quantity);
+        setCarts([cart]);
+        setProduct(true);
+    }else {
+        const user = await UserInfo.parseJwt();
+        if (user) {
+            await CartAPI.updateCartsOfUser(cartItems);
+            const cs = await CartAPI.fetchCartsOfUser(user.userId);
+            localStorage.setItem('oldCarts', JSON.stringify(cs));
+            const cart = cs.filetr(c=>c.product.id === id)[0];
+            if (cart) {
+               setPrice(parseInt(cart.product.price)*quantity);
+               setCarts([cart]);
+               setProduct(true); 
+            }
+        }
+      }
+
+
+
+      const res = await CartAPI.createCart(id, quantity);
         const cart = await res.data;
         setPrice(parseInt(product.price)*quantity);
         setCarts([cart]);
@@ -47,7 +71,9 @@ useEffect(()=>{
     <div className="product-content">
       <div className="product-body">
         <div className="product-img text-center">
-          <img  src={"/media/"+product.picture.filePath} alt="produit" />
+          <img  src={"/media/"+product.picture.filePath} alt="produit" 
+            className="product-img"
+          />
         </div>
         <div className="right-side" >
         <h6> { product.title } </h6>
@@ -94,4 +120,10 @@ useEffect(()=>{
   </div>
 }
 
-export default BuyProduct;
+const mapStateToProps = (state) =>{
+  return {
+    cartItems: state.cart
+  }
+}
+
+export default connect(mapStateToProps)(BuyProduct);

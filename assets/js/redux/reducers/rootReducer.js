@@ -23,17 +23,26 @@ const reducer = (state=initialState, action) => {
 
 
 	switch(action.type){
+
+
+
 		case 'ADD_TO_CART' : {
+
 			const new_state = {...state};
 			const productInfo = action.productInfo;
 			let isAlreadyExist = false;
+
 		    state.cart.map((item)=>{
+
 		   	if (item.product.id == productInfo.id) {
 		   	 	item.quantity ++;
 		   	 	isAlreadyExist = true;
 		   	 }
+
 		   });
-		    	if (! isAlreadyExist) {
+
+		    	if (!isAlreadyExist) {
+           
 		    		return  {
                    cart: [ 
                        ...state.cart,
@@ -48,6 +57,9 @@ const reducer = (state=initialState, action) => {
 		    		return new_state;
 		    	}
 		}
+
+
+
 		case 'REMOVE_FROM_CART' :{
 
             const new_state = {...state};
@@ -73,6 +85,40 @@ const reducer = (state=initialState, action) => {
 		case 'CLEAR_CART' :{
 			return { cart:[]};
 		}
+
+    case 'ADD_TO_CART_WHEN_LOGIN': {
+       const new_state = {...state};
+       const cart = action.cart;
+
+       let isAlreadyExist = false;
+
+        state.cart.map((item)=>{
+
+        if (item.product.id == cart.product.id) {
+          item.quantity =  item.quantity + cart.quantity;
+          isAlreadyExist = true;
+         }
+
+       });
+
+          if (!isAlreadyExist) {
+           
+            return  {
+                   cart: [ 
+                       ...state.cart,
+                      {
+                        product: cart.product,
+                        quantity: cart.quantity,
+                        createdAt: new Date()
+                      }                
+                   ]
+            }
+          }else{
+            return new_state;
+          }
+    }
+
+
 		default : return state;
 		}	
 }

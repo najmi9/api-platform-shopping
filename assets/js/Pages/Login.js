@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import UserInfo from '../Components/UserInfo';
 import { Link } from 'react-router-dom';
 
-const Login = ({ history, cartItems, addToCart}) => {
+const Login = ({ history, cartItems, addToCartWhenLogin}) => {
  const [credentials, setCredentials] = useState({
   'email': '',
   'password': ''
@@ -26,18 +26,20 @@ const Login = ({ history, cartItems, addToCart}) => {
       const user = await UserInfo.parseJwt();    
       if (user.userId) {
       const carts = await CartAPI.fetchCartsOfUser(user.userId);
+      
       if (carts.length>0) {
         localStorage.setItem('oldCarts', JSON.stringify(carts))
       }
-      carts.map(c=>{
-        addToCart(c.product);
+
+      carts.forEach(cart=>{
+        addToCartWhenLogin(cart);
       });
 
       if (cartItems.length>0) {
           await  CartAPI.updateCartsOfUser(cartItems);
-          const cs = await CartAPI.fetchCartsOfUser(user.userId);
-          localStorage.setItem('oldCarts', JSON.stringify(cs)); 
       }
+      const cs = await CartAPI.fetchCartsOfUser(user.userId);
+      localStorage.setItem("oldCarts", JSON.stringify(cs));
       }        
     }
 
@@ -49,7 +51,7 @@ const Login = ({ history, cartItems, addToCart}) => {
       await fetchCarts();
       toast.success('Votre connexion a été bien fait');
       setLoading(false);
-      history.push("/");
+      //history.push("/");
     } catch(error) {
       setLoading(false);
      if (error.response &&error.response.data && error.response.data.message) {
@@ -117,7 +119,7 @@ const mapStateToProps = state=>{
 }
 const mapDispatchToProps = dispatch =>{
   return {
-    addToCart : (productInfo)=>dispatch({type:'ADD_TO_CART', productInfo})
+    addToCartWhenLogin : (cart)=>dispatch({type:'ADD_TO_CART_WHEN_LOGIN', cart})
   }
 }
 

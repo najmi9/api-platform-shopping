@@ -31,7 +31,7 @@
             <i className="fas fa-cart-plus">  </i>
           </button>
 
-          <Link to={"/product/buy/"+item.id}
+          <Link to={"/product-"+item.id}
           className="btn btn-success btn-sm">
             <i className="fas fa-cart-arrow-down"></i>
           </Link>

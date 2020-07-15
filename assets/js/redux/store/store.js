@@ -17,6 +17,7 @@ function saveState(state){
 
 store.subscribe(throttle(() => {
     saveState(store.getState());
+    console.log("save", store)
 }, 0.01));
 
 //store.subscribe(saveState(store.getState()));

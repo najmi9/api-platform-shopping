@@ -20,7 +20,9 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
   var selectionnedCarts = [];
   document.querySelectorAll("input#js-selectionned-item").forEach(e=>{
     if (e.checked) {
+
         selectionnedTotal = selectionnedTotal + parseInt(e.value);
+        console.log(e)
         selectionnedCarts.push(item);
     }
   });
@@ -31,7 +33,7 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
 
  const handleCheckAll = ({currentTarget}) =>{
     if (currentTarget.checked) {
-      document.querySelectorAll("input#js-selectionned-item").forEach(e=>{e.checked=true})
+      document.querySelectorAll("input#js-selectionned-item").forEach(e=>e.checked=true)
         setSelectionnedTotal(total);
         setPrice(total);
         setCarts(cartItems); 
@@ -47,11 +49,16 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
   if (AuthAPI.isAuthenticated()) {
     const user = await UserInfo.parseJwt();
     if (user.userId) {
-        await  CartAPI.updateCartsOfUser(cartItems);
-  const cs = await CartAPI.fetchCartsOfUser(user.userId);
-   localStorage.setItem('oldCarts', JSON.stringify(cs));
+      try {
+         await  CartAPI.updateCartsOfUser(cartItems);
+         const cs = await CartAPI.fetchCartsOfUser(user.userId);
+         localStorage.setItem('allCartsWithId', JSON.stringify(cs));
+      } catch(e) {
+        console.log(e);
+      }
+     
+    }  
   }
-    }
    
  }
 
@@ -111,17 +118,24 @@ const Cart = ({ total, cartItems, removeFromCart, addToCart, removeAllQuantity }
               </div>)
             }
 
-            <div className="payment-btn" >
+            {cartItems.length>0 && (
+              <div className="text-center" >
+
               <label htmlFor="checkAll">
                  <input type="checkbox" id="checkAll" onChange={handleCheckAll} />
                  Tout Couché 
               </label>
 
-              {selectionnedCarts.length ===0 && (<div className="select-me"> 
-                                           <i className="fas fa-check"></i>
-                                           Séléctionner les produits qui tu veux acheter maintenant !
-                                          </div>)}
-            </div>
+              {selectionnedCarts.length ===0 && 
+                (<div className="select-me"> 
+                  <i className="fas fa-check"></i>
+                   Séléctionner les produits qui tu veux acheter maintenant !
+                </div>)
+              }
+
+              </div>)
+            }
+
         </div>
 
         { cartItems.length=== 0 && (<div className="border text-secondary">
