@@ -23,11 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "post"={},
  * },
  * itemOperations={
- *     "put"={},
-
- *     "delete"={},
-
- *     "get"={},
+ *       "DELETE"={ },
+ *      "GET"= {},
  * },
  * normalizationContext={"groups"={"all-cart:read"}},
  * )

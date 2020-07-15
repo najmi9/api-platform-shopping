@@ -27,7 +27,8 @@ use Doctrine\ORM\Mapping as ORM;
  *          "groups" = {"product-comment:write"}}
  *       },
  *      "DELETE" = {
- *        
+ *        "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas supprimer ce produit si vous êtez pas un admin."
  *        },
  *      "PUT" = {
  *          "security"="is_granted('ROLE_ADMIN')",
@@ -42,7 +43,8 @@ use Doctrine\ORM\Mapping as ORM;
  *          "groups" = {"products:write"}}
  *       },
  *       "POST"={
- *         
+ *         "security"="is_granted('ROLE_ADMIN')",
+            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
  *        }
  *    },
  *    normalizationContext={"groups"={"product:read"}},

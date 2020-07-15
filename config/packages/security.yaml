@@ -43,15 +43,15 @@ security:
 #, methods: [GET]
    
     access_control:
-           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-           - { path: ^/api/media_objects, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+           - { path: ^/api/products, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
+           - { path: ^/api/media_objects, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
            - { path: ^/api/likes, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
-           - { path: ^/api/categories, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           - { path: ^/api/categories, roles: IS_AUTHENTICATED_ANONYMOUSLY , methods: [GET]}
            - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST] }
            - { path: ^/api/contacts, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST] }
            - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST]}
            - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-           - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+           - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY , methods: [POST]}
            - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 

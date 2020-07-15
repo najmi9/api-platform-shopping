@@ -14,8 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- *   "security"="is_granted('ROLE_ADMIN')",
- *             "security_message"="vous avez pas le droit de créer cet image",
+ *  
  * @ORM\Entity
  * @ApiResource(
  *     iri="http://schema.org/MediaObject",
@@ -26,7 +25,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *         "post"={
  *             "controller"=CreateMediaObjectAction::class,
  *             "deserialize"=false,
- *           
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *             "security_message"="vous avez pas le droit de créer cet image",
  *             "validation_groups"={"Default", "media_object_create"},
  *             "openapi_context"={
  *                 "requestBody"={
@@ -50,7 +50,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     },
  *     itemOperations={
  *         "get"={},
- *         "delete"={},
+ *         "delete"={ "security"="is_granted('ROLE_ADMIN')",
+ *             "security_message"="vous avez pas le droit de supprimer cet image",},
  *     }
  * )
  * @Vich\Uploadable

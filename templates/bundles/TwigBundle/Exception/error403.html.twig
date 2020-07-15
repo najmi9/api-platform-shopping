@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SID EL MOKHTAR| Access denied{% endblock %}
+
+{% block body %}
+<div class="container w-100 bg-light">
+<div class="card p-5 m-5 w-100">
+	<h3 class="text-center text-info border-bottom">
+		Access Denied!
+	</h3>
+
+	<h2 class="text-danger">
+		{{ status_code }}
+		{{ status_text }}
+	</h2>
+
+	<h1  class="text-center text-primary border p-5">
+		<a href="{{path('home')}}" class="btn btn-outline-secondary"> 
+			Retour à la page d'accueil !
+		</a>
+	</h1>
+	
+</div>
+</div>  
+{% endblock %}
+
+
+
+

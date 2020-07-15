@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SID EL MOKHTAR| Not Found{% endblock %}
+
+{% block body %}
+
+<div class="card p-5 m-5">
+	<h3 class="text-center text-info border-bottom">
+		La page n'est pas trouvé !
+	</h3>
+
+	<h2>
+		{{ status_code }}
+		{{ status_text }}
+	</h2>
+
+	<h1  class="text-center text-primary border">
+		<a href="{{path('home')}}" class="btn btn-outline-secondary"> 
+			Retour à la page d'accueil !
+		</a>
+	</h1>
+	
+</div>
+  
+{% endblock %}
+
+
+
+
