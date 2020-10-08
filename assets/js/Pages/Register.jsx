@@ -65,7 +65,7 @@ const Register = ({ history }) =>{
            <input type="text" name="username" onChange={handleChange} 
            value={user.username}
             placeholder="entrer votre username..." 
-             className="form-control" />
+             className="form-control" required/>
             <div className="invalid-feedback"> {errors.username} </div>
           </div>
            
@@ -74,6 +74,7 @@ const Register = ({ history }) =>{
            value={user.email}
             placeholder="entrer votre email..." 
              className="form-control"
+             required
             />
              <div className="invalid-feedback"> {errors.email} </div>
           </div>
@@ -82,7 +83,7 @@ const Register = ({ history }) =>{
               <input type="password" name="password" onChange={handleChange} 
            value={user.password}
             placeholder="entrer votre password..."
-             className="form-control"
+             className="form-control" required
             />
              <div className="invalid-feedback"> {errors.password} </div>
           </div>
@@ -91,7 +92,7 @@ const Register = ({ history }) =>{
               <input type="password" name="passwordConfirm" onChange={handleChange} 
            value={user.passwordConfirm}
             placeholder="confirmer votre password..." 
-             className="form-control"
+             className="form-control" required
             />
              <div className="invalid-feedback"> {errors.passwordConfirm} </div>
           </div>

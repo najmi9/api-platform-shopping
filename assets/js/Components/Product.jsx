@@ -7,11 +7,14 @@
  const Product = ({ product, addToCart }) =>{
   const [item, setItem] = useState(product);
 
-  return  <div className="card" key={item.id}>
-  
-      <img   src={"/media/"+item.picture.filePath} 
-      className="card-img-top prod-pic" id={"prod-pic-"+item.id}/>
+  return (<div className="card card-product" key={item.id}>
 
+      <div className="text-center"> 
+        <img src={"/media/"+item.picture.filePath} 
+             className="card-img-top prod-pic" 
+             id={"prod-pic-"+item.id}
+        />
+      </div>
       <div className="card-body">
         <h5 className="card-title price text-primary bg-light" id="js-price"> 
           {item.price.toLocaleString('fr')} Dhs 
@@ -40,8 +43,7 @@
         #{item.category.title}
         </p>
       </div>
-    </div>
-
+    </div>);
   }
 
   const mapDipatchToProps = (dispatch) =>{

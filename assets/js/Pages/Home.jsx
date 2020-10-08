@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../Style/home.css';
+import '../Style/cards.css';
 import ProductAPI from '../Services/ProductAPI';
 import Pagination from '../Components/Pagination'
 import Product from '../Components/Product';
 import SearchHelper from '../PagesHelpers/SearchHelper';
 import Error from '../Components/Error';
-
+import Loader from '../Components/Loaders/Loader';
 const Home = () => {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
@@ -44,12 +45,6 @@ const Home = () => {
       setError(true);
     }
   }
-  const style = {
-    "width": 3+ "rem",
-    "height": 3 + "rem",
-    "margin": 80 + "px",
-    "padding": 20 + "px"
-  }
 
   useEffect(() => {
     fetchProducts();
@@ -76,32 +71,23 @@ const Home = () => {
   }
 
   return (
-    <>
-      {
-        loading && (<div className="d-flex justify-content-center text-success"
-          role="status" id="spinner" id="main-site">
-          <div className="spinner-border" role="status" style={style} >
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>)
-      }
+    <div>
+      {loading && (<div className="loader"><Loader /></div>)}
 
       {error && (<Error id="main-site" />)}
 
-         {!error && !loading && (<div className="search-component">
+      {!error && !loading && (<div className="search-component">
           <SearchHelper handleSearchChange={handleSearchChange}
             handleCategoryChange={handleCategoryChange} data={data} />
-        </div>)}
+        </div>)
+      }
 
-      {!error && (<section>
-
-       
+      {!error && (<section className="main">
         {searched.length > 0 && renderMe(searched)}
         {results.length > 0 && renderMe(results)}
         {!loading && results.length === 0 && searched.length === 0 && renderMe(data)}
-
       </section>)}
-    </>)
+    </div>)
 
 }
 export default Home;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import  store  from './redux/store/store';
 import AuthContext from "./contexts/AuthContext";
@@ -26,6 +26,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import PublicRoute from './Components/PublicRoute';
 import UrlNotFound from './Components/UrlNotFound';
 import Orders from './Pages/Orders';
+import SpinningDots from '@grafikart/spinning-dots-element'
 
  AuthAPI.setup();
 
@@ -34,8 +35,11 @@ const  App = ({ cartItems }) => {
    const [price, setPrice] = useState(0);
    const [carts, setCarts] = useState([]);
    const [product, setProduct] = useState(false);
-
    const NavbarWithRouter = withRouter(Navbar);
+
+useEffect(()=>{
+  customElements.define('spinning-dots', SpinningDots)
+}, [])
 
   return (
   <Provider store={store}>
