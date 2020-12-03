@@ -8,15 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\ProductRepository;
 use App\Entity\MediaObject;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *   "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas supprimer ce produit si vous êtez pas un admin."
- *  "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  *  @ApiResource(
  *    itemOperations={

@@ -1,7 +1,6 @@
 <?php
 namespace App\Security;
 
-use App\Exception\AccountDeletedException;
 use App\Entity\User as AppUser;
 use Symfony\Component\Security\Core\Exception\{CustomUserMessageAccountStatusException};
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -16,7 +15,7 @@ class UserChecker implements UserCheckerInterface
             return;
         }
        
-        if ( $user->getActivationCode()!==null ) {
+        if ( $user->getActivationCode() !== null ) {
 
            throw new CustomUserMessageAccountStatusException("Désolé, mais le compte n'est pas encore activé, verifié votre email et confirmer le code d'activation");
         }
