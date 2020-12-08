@@ -12,7 +12,7 @@ class AppController extends AbstractController
     /**
      * @Route("/{reactRouting}", name="home", defaults={"reactRouting": null})
      */
-    public function index(string $reactRouting): Response
+    public function index($reactRouting): Response
     {
         return $this->render('app/index.html.twig');
     }
