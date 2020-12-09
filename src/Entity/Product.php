@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\MediaObject;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
