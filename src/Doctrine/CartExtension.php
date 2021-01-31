@@ -8,7 +8,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Cart;
-use App\Entity\User;
 
 class CartExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {

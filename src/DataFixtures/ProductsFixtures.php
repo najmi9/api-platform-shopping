@@ -8,7 +8,6 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\MediaObject;
-use App\Entity\Like;
 use App\Entity\User;
 
 
