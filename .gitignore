@@ -27,4 +27,3 @@ yarn-error.log
 /public/build/*
 /public/bundles
 ###< lexik/jwt-authentication-bundle ###
-/Makefile
