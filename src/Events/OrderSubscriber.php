@@ -32,12 +32,10 @@ class OrderSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
 
         if ($comment instanceof Order && $method === "POST") {
-            // Choper l'utilisateur actuellement connecté
             $user = $this->security->getUser();
-            // Assigner l'utilisateur au Customer qu'on est en train de créer
             if ($user) {
                 $comment->setUser($user)
-                        ->setCreatedAt(new \DateTime())
+                    ->setCreatedAt(new \DateTime())
                 ;
             }
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doctrine;
 
 use Doctrine\ORM\QueryBuilder;
@@ -8,7 +10,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Order;
-use App\Entity\User;
 
 class OrderExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
@@ -24,12 +25,11 @@ class OrderExtension implements QueryCollectionExtensionInterface, QueryItemExte
         $user = $this->security->getUser();  
 
      if (null === $user || $resourceClass !== Order::class || $this->security->isGranted('ROLE_ADMIN')) {
-          return;      
+          return;
         } 
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->andWhere(sprintf("%s.user = :current_user",  $rootAlias));
         $queryBuilder->setParameter("current_user", $user);
-            
     }
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)

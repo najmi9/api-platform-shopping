@@ -37,7 +37,7 @@ class SetCartToPaidSubscriber implements EventSubscriberInterface
             $carts = $order->getCarts();
             $user = $this->security->getUser();
             if ($user) {
-                for ($i=0; $i <count($carts) ; $i++) { 
+                for ($i=0; $i < count($carts) ; $i++) { 
                    $carts[$i]->setPaid(true);
                    $this->em->persist($carts[$i]);  
                 }

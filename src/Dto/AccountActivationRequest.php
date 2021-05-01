@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Dto;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -27,12 +29,12 @@ final class AccountActivationRequest
      */
     private $activationCode;
 
-    public function getActivationCode() : int
+    public function getActivationCode(): int
     {
     	return (int) $this->activationCode;
     }
 
-      public function setActivationCode(int $activationCode) : void
+      public function setActivationCode(int $activationCode): void
     {
     	  $this->activationCode = $activationCode;
     }

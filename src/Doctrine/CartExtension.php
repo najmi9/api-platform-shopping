@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doctrine;
 
 use Doctrine\ORM\QueryBuilder;
@@ -23,7 +25,7 @@ class CartExtension implements QueryCollectionExtensionInterface, QueryItemExten
         $user = $this->security->getUser();  
 
      if (null === $user || $resourceClass !== Cart::class || $this->security->isGranted('ROLE_ADMIN')) {
-          return;      
+          return;
         } 
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->andWhere(sprintf("%s.user = :current_user",  $rootAlias));

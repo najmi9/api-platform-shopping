@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\UserSecurityEvents;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
@@ -13,9 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-
-
-
 
 final class CheckResetPasswordSubscriber implements EventSubscriberInterface
 {
@@ -56,8 +54,7 @@ final class CheckResetPasswordSubscriber implements EventSubscriberInterface
                  $event->setResponse(new JsonResponse([
                     "status"=>400,
                     "message"=>"le code est incorrect !"
-                ], 400));           
-
+                ], 400));
            }
     }
 }
