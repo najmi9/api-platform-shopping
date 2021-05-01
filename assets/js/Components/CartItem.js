@@ -31,7 +31,7 @@ const CartItem = ({ handleDeleteProduct, item, index, removeFromCart,  addToCart
                     <p className="card-img"> 
                       <img 
                       alt={"img"} 
-                         src={"/media/"+item.product.picture.filePath}
+                         src="https://picsum.photos/id/32/200/300"
                            className="card-img" /> 
                    
                     </p>

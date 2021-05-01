@@ -62,7 +62,7 @@ useEffect(()=>{
                   }          
               </form>
               <div className="anounce text-center">
-                 <img src="/media/5f0cbe548e817_bycecle.png" width="100%" height="245px" />
+                 <img src="https://picsum.photos/id/99/200/300" width="100%" height="245px" />
               </div>
           </div>
        </>);

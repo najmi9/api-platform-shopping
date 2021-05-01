@@ -71,7 +71,7 @@ useEffect(()=>{
     <div className="product-content">
       <div className="product-body">
         <div className="product-img text-center">
-          <img  src={"/media/"+product.picture.filePath} alt="produit" 
+          <img  src="https://picsum.photos/id/55/200/300" alt="produit" 
             className="product-img"
           />
         </div>

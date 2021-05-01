@@ -45,24 +45,15 @@ class ProductsFixtures extends Fixture
          	$manager->persist($category);
          	$categories[]=$category;
          }
-         
-         $medias = [];
-         for ($i=0; $i <1 ; $i++) { 
-            $media = new MediaObject();
-            $media->setContentUrl($faker->imageUrl());
-            $manager->persist($media);
-            $medias[]=$media;
-         }
-      
 
-    	 for ($i=0; $i <1 ; $i++) { 
+    	 for ($i=0; $i < 20 ; $i++) { 
              $nomber = mt_rand(5,20);
     	 	 $product = new Product();
     	 	 $product->setTitle($faker->sentence(3))
                      ->setDescription($faker->paragraph())   
                      ->setCategory($faker->randomElement($categories))
                      ->setPrice((string)mt_rand(100, 1000)) 
-                     ->setPicture($faker->randomElement($medias))
+                     ->setPicture("https://picsum.photos/id/{$nomber}/200/300")
                      ->setPromo("-".$nomber."%")
                      ->setAvailableQuantity(mt_rand(5,20))
     	 	 ;

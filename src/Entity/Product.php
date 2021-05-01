@@ -22,14 +22,8 @@ use App\Repository\ProductRepository;
  *          "denormalization_context" = {
  *          "groups" = {"product-comment:write"}}
  *       },
- *      "DELETE" = {
- *        "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas supprimer ce produit si vous êtez pas un admin."
- *        },
- *      "PUT" = {
- *          "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas modifier ce produit si vous êtez pas un admin."
- *        }
+ *      "DELETE" = {},
+ *      "PUT" = {}
  *    },
  *    collectionOperations={
  *       "GET"={
@@ -38,10 +32,7 @@ use App\Repository\ProductRepository;
  *          "denormalization_context" = {
  *          "groups" = {"products:write"}}
  *       },
- *       "POST"={
- *         "security"="is_granted('ROLE_ADMIN')",
-            "security_message"="Vous ne pouvez pas ajouter un nouveau produit si vous êtez pas un admin."
- *        }
+ *       "POST"={}
  *    },
  *    normalizationContext={"groups"={"product:read"}},
  *    denormalizationContext={"groups"={"product:write"}},
@@ -141,22 +132,18 @@ class Product
     private $availableQuantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MediaObject::class, inversedBy="products")
-     * @ApiProperty(iri="http://schema.org/image")
+     * @ORM\Column(type="string", nullable=true)
      * @Groups({"product:write", "product:read", "comment:read", "order:read"})
      * @Groups({"product-comment:read", "product-comment:write"})
      * @Groups({ "all-cart:read", "order:read", "products:read" })
      */
     private $picture;
 
-   
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->carts = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        $this->picture = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -328,12 +315,12 @@ class Product
         return $this;
     }
 
-    public function getPicture(): ?MediaObject
+    public function getPicture(): string
     {
         return $this->picture;
     }
 
-    public function setPicture(?MediaObject $picture): self
+    public function setPicture(string $picture): self
     {
         $this->picture = $picture;
 

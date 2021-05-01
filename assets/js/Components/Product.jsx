@@ -10,7 +10,7 @@
   return (<div className="card card-product" key={item.id}>
 
       <div className="text-center"> 
-        <img src={"/media/"+item.picture.filePath} 
+        <img src={item.picture} 
              className="card-img-top prod-pic" 
              id={"prod-pic-"+item.id}
         />

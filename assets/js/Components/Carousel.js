@@ -7,7 +7,7 @@ const Carousel = () => {
   <div className="carousel-inner">
      <div className="carousel-item text-center active" data-interval="1000">
       <img   id="pic-carousel"
-      src="/media/5f0cbe6a9687e_camera.jpeg" 
+      src="https://picsum.photos/id/58/200/300" 
       className="d-block  w-100" alt="Camera"/>
        <span id="carousel-details">
           4000 Dhs <br/>
@@ -15,7 +15,7 @@ const Carousel = () => {
     </div>
     <div className="carousel-item  text-center" data-interval="1000">
       <img id="pic-carousel"
-      src="/media/5f0cbe548e817_bycecle.png" 
+      src="https://picsum.photos/id/24/200/300" 
       className="d-block w-100" alt="Bycicle"/>
       <span id="carousel-details">
           1100 Dhs <br/>
@@ -24,7 +24,7 @@ const Carousel = () => {
    
     <div className="carousel-item text-center" data-interval="1000">
       <img id="pic-carousel"
-      src="/media/5f0cbea30566d_glases.jpeg" 
+      src="https://picsum.photos/id/31/200/300" 
       className="d-block  w-100" alt="Glasses"/>
        <span id="carousel-details">
           50 Dhs <br/>

@@ -8,10 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserConfurmationEmailListener extends AbstractController
 {
-    // the entity listener methods receive two arguments:
-    // the entity instance and the lifecycle event
-     
-
      private $mailer;
 
     function __construct(\Swift_Mailer $mailer)
@@ -20,21 +16,21 @@ class UserConfurmationEmailListener extends AbstractController
     }
 
     public function postPersist(User $user, LifecycleEventArgs $event)
-    {       
-           $code =$user->getActivationCode();
-          
-           $message =( new \Swift_Message("Confirmation de l'émail"))
-                    ->setFrom('noreplynajmi@gmail.com')
-                    ->setTo($user->getEmail())
-                    ->setBody(
-                            $this->renderView(                   
-                            'emails/user_email.html.twig',
-                            [
-                              'user' => $user,
-                              'code'=>$code
-                            ]
-                            )
-                     , 'text/html');
-            $this->mailer->send($message);
+    {
+        $code =$user->getActivationCode();
+
+        $message =( new \Swift_Message("Confirmation de l'émail"))
+        ->setFrom('noreplynajmi@gmail.com')
+        ->setTo($user->getEmail())
+        ->setBody(
+            $this->renderView(  
+            'emails/user_email.html.twig',
+            [
+                'user' => $user,
+                'code'=>$code
+            ]
+            )
+        , 'text/html');
+        // $this->mailer->send($message);
     }
 }
